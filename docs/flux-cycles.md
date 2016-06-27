@@ -100,7 +100,7 @@ what you'll need to do.
   0. invoked from an API callback.
   0. `Comment` store updates `_comments[id]` and emits change.
 
-* `removeNotebook`
+* `removeComment`
   0. invoked from an API callback.
   0. `Comments` store removes `_comments[id]` and emits change.
 
