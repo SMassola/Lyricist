@@ -1,9 +1,9 @@
-# Phase 1: User Authentication, Note Model and JSON API
+# Phase 1: User Authentication, Song Model and JSON API
 
 ## Rails
 ### Models
 * User
-* Note
+* Song
 
 ### Controllers
 * UsersController (create, new)

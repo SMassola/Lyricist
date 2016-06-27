@@ -1,4 +1,4 @@
-# Phase 2: Flux Architecture and Note CRUD (2 days)
+# Phase 2: Flux Architecture and Song CRUD (2 days)
 
 ## Rails
 ### Models
@@ -9,29 +9,29 @@
 
 ## Flux
 ### Views (React Components)
-* NotesIndex
-  - NotesIndexItem
-* NoteForm
+* SongsIndex
+  - SongsIndexItem
+* SongForm
 
 ### Stores
-* Note
+* Song
 
 ### Actions
-* ApiActions.receiveAllNotes -> triggered by ApiUtil
-* ApiActions.receiveSingleNote
-* ApiActions.deleteNote
-* NoteActions.fetchAllNotes -> triggers ApiUtil
-* NoteActions.fetchSingleNote 
-* NoteActions.createNote
-* NoteActions.editNote 
-* NoteActions.destroyNote
+* ApiActions.receiveAllSongs -> triggered by ApiUtil
+* ApiActions.receiveSingleSong
+* ApiActions.deleteSong
+* SongActions.fetchAllSongs -> triggers ApiUtil
+* SongActions.fetchSingleSong
+* SongActions.createSong
+* SongActions.editSong
+* SongActions.destroySong
 
 ### ApiUtil
-* ApiUtil.fetchAllNotes
-* ApiUtil.fetchSingleNote
-* ApiUtil.createNote
-* ApiUtil.editNote
-* ApiUtil.destroyNote
+* ApiUtil.fetchAllSongs
+* ApiUtil.fetchSingleSong
+* ApiUtil.createSong
+* ApiUtil.editSong
+* ApiUtil.destroySong
 
 ## Gems/Libraries
 * Flux Dispatcher (npm)

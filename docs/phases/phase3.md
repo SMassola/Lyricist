@@ -1,44 +1,41 @@
-# Phase 3: Notebooks and Tags (2 days)
+# Phase 3: Comments (2 days)
 
 ## Rails
 ### Models
-* Notebook
-* Tag
-* Tagging
+* Songs
 
 ### Controllers
-* Api::NotebooksController (create, destroy, index, show, update)
+* Api::SongsController (create, index, show, destroy, update)
 
 ### Views
-* notebooks/index.json.jbuilder
-* notebooks/show.json.jbuilder
-* tags/show.json.jbuilder
+* songs/index.json.jbuilder
+* songs/show.json.jbuilder
 
 ## Flux
 ### Views (React Components)
-* NotebooksIndex
-  - NotebookIndexItem
-* NotebookForm
+* SongsIndex
+  - SongIndexItem
+* SongForm
 * SearchIndex
 
 ### Stores
-* Notebook
+* Comment
 
 ### Actions
-* ApiActions.receiveAllNotebooks -> triggered by ApiUtil
-* ApiActions.receiveSingleNotebook
-* ApiActions.deleteNotebook
-* NotebookActions.fetchAllNotebooks -> triggers ApiUtil
-* NotebookActions.fetchSingleNotebook
-* NotebookActions.createNotebook
-* NotebookActions.editNotebook
-* NotebookActions.destroyNotebook
+* ApiActions.receiveAllSongs -> triggered by ApiUtil
+* ApiActions.receiveSingleSong
+* ApiActions.deleteSong
+* SongActions.fetchAllSongs -> triggers ApiUtil
+* SongActions.fetchSingleSong
+* SongActions.createSong
+* SongActions.editSong
+* SongActions.destroySong
 
 ### ApiUtil
-* ApiUtil.fetchAllNotebooks
-* ApiUtil.fetchSingleNotebook
-* ApiUtil.createNotebook
-* ApiUtil.editNotebook
-* ApiUtil.destroyNotebook
+* ApiUtil.fetchAllSongs
+* ApiUtil.fetchSingleSong
+* ApiUtil.createSong
+* ApiUtil.editSong
+* ApiUtil.destroySong
 
 ## Gems/Libraries

@@ -1,40 +1,40 @@
-# Phase 5: Reminders and Garbage Collection
+# Phase 5: Annotations and Garbage Collection
 
 ## Rails
 ### Models
-* Reminder
+* Annotations
 
 ### Controllers
-* Api::RemindersController (create, destroy, index, show, update)
+* Api::AnnotationsController (create, destroy, index, show, update)
 
 ### Views
 * reminders/index.json.jbuilder
 
 ## Flux
 ### Views (React Components)
-* RemindersIndex
-  - ReminderIndexItem
-* ReminderShow
-* ReminderForm
+* AnnotationIndex
+  - AnnotationIndexItem
+* AnnotationShow
+* AnnotationForm
 
 ### Stores
-* Reminder
+* Annotation
 
 ### Actions
-* ApiActions.receiveAllReminders -> triggered by ApiUtil
-* ApiActions.receiveSingleReminder
-* ApiActions.deleteReminder
-* ReminderActions.fetchAllReminders -> triggers ApiUtil
-* ReminderActions.fetchSingleReminder
-* ReminderActions.createReminder
-* ReminderActions.updateReminder
-* ReminderActions.destroyReminder
+* ApiActions.receiveAllAnnotations -> triggered by ApiUtil
+* ApiActions.receiveSingleAnnotation
+* ApiActions.deleteAnnotation
+* AnnotationActions.fetchAllAnnotations -> triggers ApiUtil
+* AnnotationActions.fetchSingleAnnotation
+* AnnotationActions.createAnnotation
+* AnnotationActions.updateAnnotation
+* AnnotationActions.destroyAnnotation
 
 ### ApiUtil
-* ApiUtil.fetchAllReminders
-* ApiUtil.fetchSingleReminder
-* ApiUtil.createReminder
-* ApiUtil.updateReminder
-* ApiUtil.destroyReminder
+* ApiUtil.fetchAllAnnotations
+* ApiUtil.fetchSingleAnnotation
+* ApiUtil.createAnnotation
+* ApiUtil.updateAnnotation
+* ApiUtil.destroyAnnotation
 
 ## Gems/Libraries
