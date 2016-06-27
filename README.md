@@ -1,4 +1,4 @@
-# FresherNote
+# Lyricist
 
 [Heroku link][heroku] **Note:** This should be a link to your production site
 
@@ -12,7 +12,7 @@ week 9, this app will at minimum satisfy the following criteria:
 - [ ] Hosting on Heroku
 - [ ] New account creation, login, and guest/demo login
 - [ ] A production README, replacing this README (**NB**: check out the [sample production README](docs/production_readme.md) -- you'll write this later)
-- [ ] Tracks
+- [ ] Songs
   - [ ] Smooth, bug-free navigation
   - [ ] Adequate seed data to demonstrate the site's features
   - [ ] Adequate CSS styling
@@ -74,11 +74,14 @@ user interface.
 
 - [ ] setup the flux loop with skeleton files
 - [ ] setup React Router
-- implement each song component, building out the flux loop as needed.
+- implement each song and comment component, building out the flux loop as needed.
   - [ ] `SongssIndex`
   - [ ] `SongIndexItem`
   - [ ] `SongForm`
-- [ ] save Song to the DB when the form loses focus or is left idle
+  - [ ] `CommentsIndex`
+  - [ ] `CommentIndexItem`
+  - [ ] `CommentForm`
+- [ ] save Song or Comment to the DB when the form loses focus or is left idle
   after editing.
 
 ### Phase 4: Start Styling (0.5 days, W2 M 12pm)
