@@ -37,7 +37,7 @@ what you'll need to do.
   0. `receiveSingleSong` is set as the callback.
 
 * `destroySong`
-  0. invoked from delete note button `onClick`
+  0. invoked from delete song button `onClick`
   0. `DELETE /api/songs/:id` is called.
   0. `removeSong` is set as the callback.
 
@@ -86,11 +86,11 @@ what you'll need to do.
   0. `receiveSingleComment` is set as the callback.
 
 * `destroyComment`
-  0. invoked from delete notebook button `onClick`
+  0. invoked from delete comment button `onClick`
   0. `DELETE /api/songs/:id/comments/:id` is called.
   0. `removeComment` is set as the callback.
 
-### Notebooks API Response Actions
+### Comments API Response Actions
 
 * `receiveAllComments`
   0. invoked from an API callback.
