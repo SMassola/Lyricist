@@ -19,6 +19,7 @@ _**exactly**_ match the nesting of your routes.)
     * SongLyrics
     * SongDetails
     * **Annotation**
+      * AnnotationForm
       * AnnotationBody
       * AnnotationUpvotes
       * CommentsIndex

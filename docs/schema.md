@@ -46,7 +46,7 @@ start_idx   | integer   | not null
 end_idx     | integer   | not null
 
 ## upvotes
-(uniqueness constraints on user_id, votable_id, votable_type combinations)
+### (uniqueness constraints on user_id, votable_id, votable_type combinations)
 column name   | data type | details
 --------------|-----------|-----------------------
 id            | integer   | not null, primary key
