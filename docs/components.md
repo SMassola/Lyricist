@@ -7,28 +7,32 @@ associated routes, so the nesting of your bolded components must
 _**exactly**_ match the nesting of your routes.)
 
 * **App**
-  * SongsIndex
+  * **Home**
     * Search
-    * SongForm
+    * About
+    * SongIndex
+  * **SongsIndex**
+    * SongIndexItem
+    * Search
+  * **SongForm**
   * **SongItem**
     * SongLyrics
     * SongDetails
-    * SongAnnotations
-    * Upvotes
-    * SongCommentsIndex
-    * SongComments
+    * **Annotation**
+      * AnnotationBody
+      * AnnotationUpvotes
+      * CommentsIndex
+        * CommentsIndexItem
+        * CommentForm
+
+
 
 
 ## Routes
 
 * **component:** `App` **path:** `/`
-  * **component:** `SongsIndex` **path:** index
+  * **component:** `Home` **path:** index
+  * **component:** `SongsIndex` **path:** `songs`
+  * **component:** `SongForm` **path:** `songs/new`
   * **component:** `SongItem` **path:** `songs/:songId`
-    * **component:** `SongLyrics` **path:** `songs/:songId`
-    * **component:** `SongDetails` **path:** `songs/:songId`
-    * **component:** `SongAnnotations` **path:** `songs/:songId`
-    * **component:** `SongCommentsIndex` **path:** `songs/:songId`
-    * **component:** `SongCommentItem` **path:** `songs/:songId`
-
-For Routes that have no `songId`, `SongsIndex` will render all
-songs.
+    * **component:** `Annotations` **path:** `:annotationId`
