@@ -6,7 +6,7 @@
 * Song
 
 ### Controllers
-* UsersController (create, new)
+* UsersController (create, new, show)
 * SessionsController (create, new, destroy)
 * Api::SongsController (create, index, show, update, destroy)
 

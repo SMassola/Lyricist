@@ -18,13 +18,14 @@ _**exactly**_ match the nesting of your routes.)
   * **SongItem**
     * SongLyrics
     * SongDetails
-    * **Annotation**
+    * SongCommentForm
+    * **AnnotationIndex**
       * AnnotationForm
       * AnnotationBody
       * AnnotationUpvotes
       * CommentsIndex
         * CommentsIndexItem
-        * CommentForm
+        * AnnotationCommentForm
 
 
 

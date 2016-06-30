@@ -1,0 +1,141 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,900);
+
+html {
+  background-color: black;
+}
+
+.navbar {
+  height: 50px;
+  background-color: #222;
+}
+
+.splash-container {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),
+  url(Astronaut.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+  height: 90vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.splash {
+  font-family: 'Roboto', sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+}
+.splash h2 {
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 0;
+  font-size: 8rem;
+  white-space: nowrap;
+}
+
+.splash p {
+  font-weight: 900;
+  color: white;
+  margin: 0;
+  font-size: 4rem;
+}
+
+.main-page {
+  max-width: 500px;
+  margin: 20px auto;
+  color: white;
+}
+
+.main-page h2 {
+  font-size: 2rem;
+}
+
+.main-page p {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+button {
+   border-top: 1px solid #96d1f8;
+   background: #65a9d7;
+   background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#65a9d7));
+   background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+   background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+   background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+   background: -o-linear-gradient(top, #3e779d, #65a9d7);
+   padding: 7.5px 15px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 15px;
+   font-family: Georgia, serif;
+   text-decoration: none;
+   vertical-align: middle;
+
+   margin: 10px;
+   }
+button:hover {
+   border-top-color: #28597a;
+   background: #28597a;
+   color: #ccc;
+   }
+button:active {
+   border-top-color: #1b435e;
+   background: #1b435e;
+ }
+
+//Search Bar
+
+.splash-container > .search-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 20px 10px;
+  background: inherit;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+.splash-container > .search-bar::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: inherit;
+  background-attachment: fixed;
+  -webkit-filter: blur(4px);
+  filter: blur(4px);
+}
+.splash-container > .search-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25)
+}
+.splash-container > .search-bar > h1 {
+  margin: 0;
+  color: white;
+  position: relative;
+  z-index: 1;
+}

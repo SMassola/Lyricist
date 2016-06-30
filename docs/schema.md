@@ -15,16 +15,16 @@ image_url   | string    |
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
-name        | text      | not null
-description | string    |
+name        | string    | not null
+description | text      |
 
 ## albums
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
-artist_id   | integer   | not null, primary key (references artists), indexed
-name        | text      | not null
-description | string    |
+artist_id   | integer   | not null, foreign key (references artists), indexed
+name        | string    | not null
+description | text      |
 
 ## comments
 column name      | data type | details

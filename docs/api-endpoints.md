@@ -28,22 +28,18 @@
 - `GET /api/songs/:id`
 - `PATCH /api/songs/:id`
 - `DELETE /api/songs/:id`
-
-### Annotations
-
-- `GET /api/annotations`
-- `POST /api/annotations/:id`
-- `GET /api/annotations/:id`
-- `PATCH /api/annotations:id`
-- `POST /api/annotations/:id`
-- `DELETE /api/annotations/:id`
-
-### Comments
-
-- `POST /api/comments`
-- `DELETE /api/comments/:id`
-
-### Upvotes
-
-- `POST /api/comments/:id/upvote`
-- `POST /api/annotations/:id/upvote`
+- `POST /api/songs/:id/comments`
+- `GET /api/songs/:id/comments`
+- `GET /api/songs/:id/comments/:id`
+- `DELETE /api/songs/:id/comments/:id`
+- `GET /api/songs/:id/annotations/:id`
+- `GET /api/songs/:id/annotations`
+- `POST /api/songs/:id/annotations/:id`
+- `GET /api/songs/:id/annotations/:id`
+- `PATCH /api/songs/:id/annotations:id`
+- `POST /api/songs/:id/annotations/:id`
+- `GET /api/songs/:id/annotations/:id/comments`
+- `GET /api/songs/:id/annotations/:id/comments/:id`
+- `DELETE /api/songs/:id/annotations/:id/comments/:id`
+- `PUT /api/songs/:id/annotations/:id/upvote`
+- `PUT /api/songs/:id/comments/:id/upvote`
