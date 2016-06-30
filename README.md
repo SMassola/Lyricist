@@ -48,24 +48,24 @@ week 9, this app will at minimum satisfy the following criteria:
 
 **Objective:** Functioning rails project with Authentication
 
-- [ ] create new project
-- [ ] create `User` model
-- [ ] authentication
-- [ ] user signup/signin pages
-- [ ] blank landing page after signin
+- [x] create new project
+- [x] create `User` model
+- [x] authentication
+- [x] user signup/signin pages
+- [x] blank landing page after signin
 
 ### Phase 2: Songs and Comments Model, API, and basic APIUtil (1.5 days, W1 Th 12pm)
 
 **Objective:** Songs can be created, read, edited and destroyed through
 the API.
 
-- [ ] create `Song` model and `Comment` model
-- [ ] seed the database with a small amount of test data
-- [ ] CRUD API for songs (`SongsController`)
-- [ ] jBuilder views for notes
-- [ ] setup Webpack & Flux scaffold
-- [ ] setup `APIUtil` to interact with the API
-- [ ] test out API interaction in the console.
+- [x] create `Song` model and `Comment` model
+- [x] seed the database with a small amount of test data
+- [x] CRUD API for songs (`SongsController`)
+- [x] jBuilder views for songs
+- [x] setup Webpack & Flux scaffold
+- [x] setup `APIUtil` to interact with the API
+- [x] test out API interaction in the console.
 
 ### Phase 3: Flux Architecture and Router (1.5 days, W1 F 6pm)
 
