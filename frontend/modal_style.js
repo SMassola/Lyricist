@@ -8,22 +8,24 @@ module.exports = {
     backgroundColor   : 'rgba(255, 255, 255, 0.75)'
   },
   content : {
-    color                      : 'white',
+    color                      : 'black',
     position                   : 'absolute',
-    top                        : '100px',
+    top                        : '200px',
     left                       : '500px',
     right                      : '500px',
-    bottom                     : '100px',
-    backgroundColor            : 'black',
-    border                     : '1px solid #ccc',
+    bottom                     : '200px',
+    backgroundColor            : '#2F2F2F',
+    border                     : '0.5px solid black',
     background                 : '#fff',
     overflow                   : 'auto',
     WebkitOverflowScrolling    : 'touch',
-    borderRadius               : '30px',
+    borderRadius               : '5px',
     outline                    : 'none',
-    padding                    : '20px',
+    padding                    : '0px',
     opacity                    : '0',
-    transition                 : 'opacity 1s'
+    transition                 : 'opacity 1s',
+    display                    : 'flex',
+    flexDirection              : 'column'
   }
 
 };

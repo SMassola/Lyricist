@@ -32878,9 +32878,9 @@
 	  displayName: 'LoginForm',
 	  getInitialState: function getInitialState() {
 	    return {
-	      username: "",
-	      password: "",
-	      email: ""
+	      username: null,
+	      password: null,
+	      email: null
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
@@ -32913,6 +32913,9 @@
 	      password: e.target.value
 	    });
 	  },
+	
+	
+	  // <input name="searchbox" onfocus="if (this.value=='search') this.value = ''" type="text" value="search">
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -32920,29 +32923,34 @@
 	      React.createElement(
 	        'form',
 	        { onSubmit: this.handleSubmit, className: 'login-form-box' },
-	        'Log in to Lyricist!',
+	        React.createElement(
+	          'div',
+	          { className: 'form-text' },
+	          'Please Sign In'
+	        ),
 	        React.createElement('br', null),
 	        React.createElement(
 	          'div',
 	          { className: 'login-form' },
 	          React.createElement('br', null),
 	          React.createElement('br', null),
-	          React.createElement(
-	            'label',
-	            null,
-	            'Username:',
-	            React.createElement('input', { type: 'text', value: this.state.username, onChange: this._usernameChange, className: 'login-input' })
-	          ),
+	          React.createElement('input', {
+	            type: 'text',
+	            placeholder: 'Username',
+	            value: this.state.username,
+	            onChange: this._usernameChange,
+	            className: 'login-input' }),
 	          React.createElement('br', null),
 	          React.createElement('br', null),
-	          React.createElement(
-	            'label',
-	            null,
-	            ' Password:',
-	            React.createElement('input', { type: 'password', value: this.state.password, onChange: this._passwordChange, className: 'login-input' })
-	          ),
+	          React.createElement('input', {
+	            type: 'password',
+	            placeholder: 'Password',
+	            value: this.state.password,
+	            onChange: this._passwordChange,
+	            className: 'login-input' }),
 	          React.createElement('br', null),
-	          React.createElement('input', { type: 'submit', value: 'Log In' })
+	          React.createElement('br', null),
+	          React.createElement('input', { className: 'login-button', type: 'submit', value: 'Log In' })
 	        )
 	      )
 	    );
@@ -33000,6 +33008,7 @@
 	      React.createElement(
 	        'button',
 	        {
+	          className: 'nav-links',
 	          id: 'log-in-button',
 	          onClick: this._handleClick.bind(this, true) },
 	        'Log In'
@@ -33007,6 +33016,7 @@
 	      React.createElement(
 	        'button',
 	        {
+	          'class': 'nav-links',
 	          id: 'sign-up-button',
 	          onClick: this._handleClick.bind(this, false) },
 	        'Sign Up'
@@ -33042,9 +33052,18 @@
 	          style: ModalStyle,
 	          onAfterOpen: this.onModalOpen },
 	        React.createElement(
-	          'button',
-	          { onClick: this.onModalClose },
-	          'Close'
+	          'div',
+	          { className: 'modal-header' },
+	          React.createElement(
+	            'div',
+	            null,
+	            'Login'
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'exit', onClick: this.onModalClose },
+	            'x'
+	          )
 	        ),
 	        component
 	      ),
@@ -35023,22 +35042,24 @@
 	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
 	  },
 	  content: {
-	    color: 'white',
+	    color: 'black',
 	    position: 'absolute',
-	    top: '100px',
+	    top: '200px',
 	    left: '500px',
 	    right: '500px',
-	    bottom: '100px',
-	    backgroundColor: 'black',
-	    border: '1px solid #ccc',
+	    bottom: '200px',
+	    backgroundColor: '#2F2F2F',
+	    border: '0.5px solid black',
 	    background: '#fff',
 	    overflow: 'auto',
 	    WebkitOverflowScrolling: 'touch',
-	    borderRadius: '30px',
+	    borderRadius: '5px',
 	    outline: 'none',
-	    padding: '20px',
+	    padding: '0px',
 	    opacity: '0',
-	    transition: 'opacity 1s'
+	    transition: 'opacity 1s',
+	    display: 'flex',
+	    flexDirection: 'column'
 	  }
 	
 	};
@@ -35282,7 +35303,7 @@
 	          { className: "search-bar" },
 	          React.createElement(
 	            "h1",
-	            null,
+	            { className: "search-area" },
 	            "Search Bar"
 	          )
 	        )

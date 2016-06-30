@@ -65,7 +65,7 @@ html {
   font-size: 1.3rem;
 }
 
-button {
+button.nav-links {
    border-top: 1px solid #96d1f8;
    background: #65a9d7;
    background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#65a9d7));
@@ -133,9 +133,32 @@ button:active {
   height: 100%;
   background: rgba(0, 0, 0, 0.25)
 }
-.splash-container > .search-bar > h1 {
+.splash-container > .search-bar > .search-area {
   margin: 0;
   color: white;
   position: relative;
   z-index: 1;
+}
+
+.login-form-container {
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+}
+
+.login-form-box {
+  width: 50%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form {
+  width: 50%;
+  justify-content: center;
+}
+
+.form-text {
+  color: white;
+  font-family: 'Roboto';
 }

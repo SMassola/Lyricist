@@ -11,7 +11,7 @@ const Search = React.createClass({
             <p>Annotate Your Songs</p>
           </div>
           <div className="search-bar">
-            <h1>Search Bar</h1>
+            <h1 className="search-area">Search Bar</h1>
           </div>
         </header>
         <main className="main-page">

@@ -45,11 +45,13 @@ const Header = React.createClass({
     return (
       <div>
         <button
+        className="nav-links"
         id="log-in-button"
         onClick={this._handleClick.bind(this, true)}>
         Log In
       </button>
       <button
+        class="nav-links"
         id="sign-up-button"
         onClick={this._handleClick.bind(this, false)}>
         Sign Up
@@ -81,7 +83,10 @@ const Header = React.createClass({
           onRequestClose={this.onModalClose}
           style={ModalStyle}
           onAfterOpen={this.onModalOpen}>
-          <button onClick={this.onModalClose}>Close</button>
+          <div className="modal-header">
+            <div>Login</div>
+            <button className="exit" onClick={this.onModalClose}>x</button>
+          </div>
           {component}
         </Modal>
 

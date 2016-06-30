@@ -8,9 +8,9 @@ const LoginForm = React.createClass({
 
   getInitialState() {
     return {
-      username: "",
-      password: "",
-			email: ""
+      username: null,
+      password: null,
+			email: null
     };
   },
 
@@ -50,25 +50,33 @@ const LoginForm = React.createClass({
     });
   },
 
+  // <input name="searchbox" onfocus="if (this.value=='search') this.value = ''" type="text" value="search">
 	render() {
   	return (
 			<div className="login-form-container">
 				<form onSubmit={this.handleSubmit} className="login-form-box">
-	        Log in to Lyricist!
+	        <div className="form-text">Please Sign In</div>
 					<br/>
 					<div className="login-form">
 		        <br />
 		        <br />
-						<label>Username:
-						  <input type="text" value={this.state.username} onChange={this._usernameChange} className="login-input" />
-            </label>
+					  <input
+              type="text"
+              placeholder="Username"
+              value={this.state.username}
+              onChange={this._usernameChange}
+              className="login-input" />
 		        <br />
 		        <br />
-						<label> Password:
-		          <input type="password" value={this.state.password} onChange={this._passwordChange} className="login-input" />
-						</label>
+		          <input
+                type="password"
+                placeholder="Password"
+                value={this.state.password}
+                onChange={this._passwordChange}
+                className="login-input" />
 		        <br />
-						<input type="submit" value="Log In" />
+            <br />
+						<input className="login-button" type="submit" value="Log In" />
 					</div>
 				</form>
 			</div>

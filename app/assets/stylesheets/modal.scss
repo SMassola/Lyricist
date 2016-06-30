@@ -1,0 +1,58 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,900);
+
+.ReactModal__Overlay {
+  z-index: 2;
+}
+
+.modal-header {
+  display: flex;
+
+  padding: 15px;
+  justify-content: space-between;
+  background-color: white;
+}
+
+.modal-header > div {
+  font-family: 'Roboto';
+}
+
+.exit {
+  margin-top: -2px;
+  opacity: .2;
+  padding: 0;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  -webkit-appearance: none;
+  float: right;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .2;
+}
+
+.login-button {
+  justify-content: center;
+  background-color: #1990DB;
+  color: #FFFFFF;
+  width: 300px;
+  height: 50px;
+}
+
+.login-input {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 0px;
+  border: 1px #1D1D1D solid;
+}
+
+.login-form-box {
+  width: 100%;
+  justify-content: center;
+}
