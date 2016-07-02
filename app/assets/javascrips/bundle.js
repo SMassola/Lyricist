@@ -65,6 +65,9 @@
 	var SongActions = __webpack_require__(281);
 	var SongStore = __webpack_require__(280);
 	
+	var SongShow = __webpack_require__(285);
+	var SongIndex = __webpack_require__(286);
+	
 	var App = React.createClass({
 	  displayName: 'App',
 	  render: function render() {
@@ -76,14 +79,13 @@
 	    );
 	  }
 	});
-	// <IndexRoute component={LoginForm} />
-	// <Route path="/songs" component={SongsIndex} />
-	// <Route path="/songs/new" component={SongForm} />
 	
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
-	  React.createElement(IndexRoute, { component: Search })
+	  React.createElement(IndexRoute, { component: Search }),
+	  React.createElement(Route, { path: 'songs', component: SongIndex }),
+	  React.createElement(Route, { path: 'songs/:id', component: SongShow })
 	);
 	
 	document.addEventListener('DOMContentLoaded', function () {
@@ -94,6 +96,7 @@
 	
 	window.SongStore = SongStore;
 	window.SongActions = SongActions;
+	window.SongShow = SongShow;
 
 /***/ },
 /* 1 */
@@ -32913,9 +32916,6 @@
 	      password: e.target.value
 	    });
 	  },
-	
-	
-	  // <input name="searchbox" onfocus="if (this.value=='search') this.value = ''" type="text" value="search">
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -32932,24 +32932,18 @@
 	        React.createElement(
 	          'div',
 	          { className: 'login-form' },
-	          React.createElement('br', null),
-	          React.createElement('br', null),
 	          React.createElement('input', {
 	            type: 'text',
 	            placeholder: 'Username',
 	            value: this.state.username,
 	            onChange: this._usernameChange,
 	            className: 'login-input' }),
-	          React.createElement('br', null),
-	          React.createElement('br', null),
 	          React.createElement('input', {
 	            type: 'password',
 	            placeholder: 'Password',
 	            value: this.state.password,
 	            onChange: this._passwordChange,
 	            className: 'login-input' }),
-	          React.createElement('br', null),
-	          React.createElement('br', null),
 	          React.createElement('input', { className: 'login-button', type: 'submit', value: 'Log In' })
 	        )
 	      )
@@ -35044,10 +35038,11 @@
 	  content: {
 	    color: 'black',
 	    position: 'absolute',
-	    top: '200px',
-	    left: '500px',
-	    right: '500px',
-	    bottom: '200px',
+	    transform: 'translate(-150px,-250px)',
+	    width: '300px',
+	    height: '500px',
+	    top: '50%',
+	    left: '50%',
 	    backgroundColor: '#2F2F2F',
 	    border: '0.5px solid black',
 	    background: '#fff',
@@ -35175,11 +35170,12 @@
 	
 	var AppDispatcher = __webpack_require__(232);
 	var Store = __webpack_require__(239).Store;
-	var SongConstants = __webpack_require__(236);
+	var SongConstants = __webpack_require__(283);
 	
 	var SongStore = new Store(AppDispatcher);
 	
 	var _songs = {};
+	var _annotations = {};
 	
 	SongStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
@@ -35187,10 +35183,28 @@
 	      resetAllSongs(payload.songs);
 	      SongStore.__emitChange();
 	      break;
+	    case SongConstants.SONG_RECEIVED:
+	      setSong(payload.song);
+	      SongStore.__emitChange();
+	      break;
+	    case SongConstants.ANNOTATIONS_RECEIVED:
+	      resetAllAnnotations(payload.annotations);
+	      SongStore.__emitChange();
+	      break;
 	  }
 	};
 	
-	SongStore.all = function () {
+	SongStore.allAnnotations = function () {
+	  var annotations = [];
+	
+	  Object.keys(_annotations).forEach(function (key) {
+	    annotations.push(_annotations[key]);
+	  });
+	
+	  return annotations;
+	};
+	
+	SongStore.allSongs = function () {
 	  var songs = [];
 	
 	  Object.keys(_songs).forEach(function (key) {
@@ -35200,12 +35214,32 @@
 	  return songs;
 	};
 	
+	SongStore.findSong = function (id) {
+	  return _songs[id];
+	};
+	
+	SongStore.findAnnotation = function (id) {
+	  return _annotations[id];
+	};
+	
 	function resetAllSongs(songs) {
 	  _songs = {};
 	
 	  songs.forEach(function (song) {
 	    _songs[song.id] = song;
 	  });
+	}
+	
+	function resetAllAnnotations(annotations) {
+	  _annotations = {};
+	
+	  annotations.forEach(function (annotation) {
+	    _annotations[annotation.id] = annotation;
+	  });
+	}
+	
+	function setSong(song) {
+	  _songs[song.id] = song;
 	}
 	
 	module.exports = SongStore;
@@ -35224,10 +35258,28 @@
 	  fetchAllSongs: function fetchAllSongs() {
 	    SongApiUtil.fetchAllSongs(this.receiveAllSongs);
 	  },
+	  fetchSong: function fetchSong(id) {
+	    SongApiUtil.fetchSong(id, this.receiveSong);
+	  },
 	  receiveAllSongs: function receiveAllSongs(songs) {
 	    AppDispatcher.dispatch({
-	      actionType: SongConstants.RECEIVED_SONGS,
+	      actionType: SongConstants.SONGS_RECEIVED,
 	      songs: songs
+	    });
+	  },
+	  receiveSong: function receiveSong(song) {
+	    AppDispatcher.dispatch({
+	      actionType: SongConstants.SONG_RECEIVED,
+	      song: song
+	    });
+	  },
+	  fetchAllSongAnnotations: function fetchAllSongAnnotations(songId) {
+	    SongApiUtil.fetchAllSongAnnotations(songId, this.receiveAllAnnotations);
+	  },
+	  receiveAllAnnotations: function receiveAllAnnotations(annotations) {
+	    AppDispatcher.dispatch({
+	      actionType: SongConstants.RECEIVED_ANNOTATIONS,
+	      annotations: annotations
 	    });
 	  }
 	};
@@ -35249,6 +35301,24 @@
 	        callback(resp);
 	      }
 	    });
+	  },
+	  fetchSong: function fetchSong(id, callback) {
+	    $.ajax({
+	      url: "api/songs/" + id,
+	      method: "GET",
+	      success: function success(resp) {
+	        callback(resp);
+	      }
+	    });
+	  },
+	  fetchAllSongAnnotations: function fetchAllSongAnnotations(id, callback) {
+	    $.ajax({
+	      url: "api/songs/" + id,
+	      type: "GET",
+	      success: function success(resp) {
+	        callback(resp.annotations);
+	      }
+	    });
 	  }
 	};
 	
@@ -35262,7 +35332,8 @@
 	
 	var SongConstants = {
 		SONGS_RECEIVED: "SONGS_RECEIVED",
-		SONG_RECEIVED: "SONG_RECEIVED"
+		SONG_RECEIVED: "SONG_RECEIVED",
+		ANNOTATIONS_RECEIVED: "ANNOTATIONS_RECEIVED"
 	};
 	
 	module.exports = SongConstants;
@@ -35340,6 +35411,175 @@
 	});
 	
 	module.exports = Search;
+
+/***/ },
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var SongStore = __webpack_require__(280);
+	var SongActions = __webpack_require__(281);
+	var SongLyricHighlights = __webpack_require__(287);
+	
+	var SongShow = React.createClass({
+	  displayName: 'SongShow',
+	  getInitialState: function getInitialState() {
+	    var potentialSong = SongStore.findSong(this.props.params.id);
+	    return { song: potentialSong ? potentialSong : {} };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.songListener = SongStore.addListener(this.handleChange);
+	    SongActions.fetchSong(parseInt(this.props.params.id));
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.songListener.remove();
+	  },
+	  handleChange: function handleChange() {
+	    var potentialSong = SongStore.findSong(this.props.params.id);
+	    this.setState({ song: potentialSong ? potentialSong : {} });
+	  },
+	  createAnnotations: function createAnnotations() {
+	    var _this = this;
+	
+	    var lyrics = this.state.song.lyrics;
+	    this.lyricsEls = [];
+	    var annotations = this.state.song.annotations;
+	    var tracker = 0;
+	    annotations.forEach(function (annotation) {
+	      _this.lyricsEls.push(lyrics.slice(tracker, annotation.start_idx));
+	      _this.lyricsEls.push(React.createElement(
+	        'a',
+	        { key: annotation.id, onClick: _this._handleClick, className: 'highlighted' },
+	        lyrics.slice(annotation.start_idx, annotation.end_idx)
+	      ));
+	
+	      tracker = annotation.end_idx;
+	    });
+	    this.lyricsEls.push(lyrics.slice(tracker));
+	  },
+	  highlight: function highlight() {
+	    $('pre.highlight-lyrics').html(this.state.song.lyrics);
+	
+	    var selection = window.getSelection();
+	    var start = window.getSelection().anchorOffset;
+	    var end = window.getSelection().focusOffset;
+	
+	    var lyrics = this.state.song.lyrics;
+	
+	    $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0, start) + '<span className="highlighted" style="background-color: yellow; color:black">' + $('pre.highlight-lyrics').html().slice(start, end) + '</span>' + $('pre.highlight-lyrics').html().slice(end));
+	  },
+	  render: function render() {
+	
+	    if (this.state.song.lyrics) {
+	      this.createAnnotations();
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'page', id: 'song-container' },
+	      React.createElement(
+	        'pre',
+	        { className: 'ghost-lyrics', onMouseUp: this.highlight },
+	        this.state.song.lyrics
+	      ),
+	      React.createElement(
+	        'pre',
+	        { className: 'highlight-lyrics' },
+	        this.state.song.lyrics
+	      ),
+	      React.createElement(
+	        'pre',
+	        { className: 'lyrics' },
+	        React.createElement(
+	          'div',
+	          null,
+	          this.lyricsEls
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SongShow;
+	
+	// this.state.song ?
+	// <SongLyricHighlights
+	//   lyrics={this.state.song.lyrics}
+	//   annotations={this.state.song.annotations}/>}} : <div></div>
+
+/***/ },
+/* 286 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var SongStore = __webpack_require__(280);
+	var SongActions = __webpack_require__(281);
+	
+	var SongIndex = React.createClass({
+	  displayName: 'SongIndex',
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Hello from the song_index'
+	    );
+	  }
+	});
+	
+	module.exports = SongIndex;
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var SongStore = __webpack_require__(280);
+	var SongActions = __webpack_require__(281);
+	
+	var SongLyricHighlights = React.createClass({
+	  displayName: 'SongLyricHighlights',
+	  componentDidMount: function componentDidMount() {
+	
+	    // const annotationsArr = this.props.annotations.sort().reverse();
+	    //
+	
+	    // });
+	
+	  },
+	  sortAnnotations: function sortAnnotations() {
+	    var indexes = [];
+	    // const sortedAnnotations = this.props.annotations.sort().reverse();
+	    this.props.annotations.forEach(function (annotation) {
+	      indexes.push([annotation.start_idx, annotation.end_idx]);
+	    });
+	    indexes = indexes.sort();
+	    console.log(indexes);
+	
+	    indexes.forEach(function (start, end) {
+	      $('pre').html($('pre').html().slice(0, start) + '<a style="background-color: yellow">' + $('pre').html().slice(start, end) + '</a>' + $('pre').html().slice(end));
+	    });
+	  },
+	  render: function render() {
+	    if (this.props.annotations) {
+	      this.sortAnnotations();
+	      return React.createElement(
+	        'pre',
+	        { className: 'highlights' },
+	        this.props.lyrics
+	      );
+	    } else {
+	      return null;
+	    }
+	  }
+	});
+	
+	module.exports = SongLyricHighlights;
 
 /***/ }
 /******/ ]);

@@ -1,2 +1,2 @@
 json.extract! song, :id, :title, :lyrics, :year, :user_id, :album_id,
-:image_url, :artist, :album
+:image_url, :artist, :album, :annotations

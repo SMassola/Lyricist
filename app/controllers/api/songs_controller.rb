@@ -10,6 +10,15 @@ class Api::SongsController < ApplicationController
     render :new
   end
 
+  def show
+    @song = Song.find_by_id(params[:id])
+    if @song
+      render :show
+    else
+      render json: ['Song does not exist'], status: 404
+    end
+  end
+
   def create
     @song = Song.create!(song_params)
     render :show

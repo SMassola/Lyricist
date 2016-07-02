@@ -7,6 +7,26 @@ const SongApiUtil = {
         callback(resp);
       }
     });
+  },
+
+  fetchSong(id, callback) {
+    $.ajax({
+      url: `api/songs/${id}`,
+      method: "GET",
+      success: function(resp) {
+        callback(resp);
+      }
+    });
+  },
+
+  fetchAllSongAnnotations(id, callback) {
+    $.ajax({
+      url: `api/songs/${id}`,
+      type: "GET",
+      success: function(resp) {
+        callback(resp.annotations);
+      }
+    });
   }
 };
 

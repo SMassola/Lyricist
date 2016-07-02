@@ -17,6 +17,9 @@ const Search = require('./search.jsx');
 const SongActions = require("./actions/song_actions.js");
 const SongStore = require("./stores/song_store.js");
 
+const SongShow = require('./components/song_show.jsx');
+const SongIndex = require('./components/song_index.jsx');
+
 const App = React.createClass({
   render() {
     return (
@@ -27,13 +30,12 @@ const App = React.createClass({
     );
   }
 });
-// <IndexRoute component={LoginForm} />
-// <Route path="/songs" component={SongsIndex} />
-// <Route path="/songs/new" component={SongForm} />
 
 const routes = (
   <Route path="/" component={App}>
     <IndexRoute component={Search} />
+    <Route path="songs" component={SongIndex} />
+    <Route path="songs/:id" component={SongShow} />
   </Route>
 );
 
@@ -45,3 +47,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.SongStore = SongStore;
 window.SongActions = SongActions;
+window.SongShow = SongShow;

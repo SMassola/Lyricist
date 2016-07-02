@@ -50,7 +50,6 @@ const LoginForm = React.createClass({
     });
   },
 
-  // <input name="searchbox" onfocus="if (this.value=='search') this.value = ''" type="text" value="search">
 	render() {
   	return (
 			<div className="login-form-container">
@@ -58,24 +57,18 @@ const LoginForm = React.createClass({
 	        <div className="form-text">Please Sign In</div>
 					<br/>
 					<div className="login-form">
-		        <br />
-		        <br />
 					  <input
               type="text"
               placeholder="Username"
               value={this.state.username}
               onChange={this._usernameChange}
               className="login-input" />
-		        <br />
-		        <br />
 		          <input
                 type="password"
                 placeholder="Password"
                 value={this.state.password}
                 onChange={this._passwordChange}
                 className="login-input" />
-		        <br />
-            <br />
 						<input className="login-button" type="submit" value="Log In" />
 					</div>
 				</form>

@@ -1,0 +1,49 @@
+.test > div {
+  color: black;
+}
+
+pre {
+  font-family: fantasy;
+  font-size: 18px;
+}
+
+.lyrics {
+  position: absolute;
+  margin-left: 100px;
+}
+
+.ghost-lyrics {
+  position:absolute;
+  margin-left: 100px;
+  z-index: 1;
+  color: transparent;
+}
+
+.highlight-lyrics {
+  position:absolute;
+  margin-left: 100px;
+  z-index: 0;
+  color: transparent;
+}
+::selection {
+  background: yellow;
+  color: black;
+}
+.highlighted {
+  position: relative;
+  background-color: yellow;
+  z-index: 2;
+}
+
+*.unselectable {
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+
+   /*
+     Introduced in IE 10.
+     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+   */
+   -ms-user-select: none;
+   user-select: none;
+}
