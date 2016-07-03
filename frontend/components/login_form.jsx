@@ -2,6 +2,8 @@ const React = require('react');
 const Link = require('react-router').Link;
 const SessionActions = require('../actions/session_actions');
 const SessionStore = require('../stores/session_store');
+const ErrorStore = require('../stores/error_store');
+const ErrorActions = require('../actions/error_actions.js');
 const hashHistory = require('react-router').hashHistory;
 
 const LoginForm = React.createClass({
@@ -10,15 +12,22 @@ const LoginForm = React.createClass({
     return {
       username: null,
       password: null,
-			email: null
+			email: null,
+      errors: []
     };
   },
 
+  componentWillMount() {
+    this.redirectIfLoggedIn();
+  },
+
   componentDidMount() {
-    this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
+    this.errorListener = ErrorStore.addListener(this._handleErrors);
+    this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn());
   },
 
   componentWillUnmount() {
+    this.errorListener.remove();
     this.sessionListener.remove();
   },
 
@@ -28,8 +37,13 @@ const LoginForm = React.createClass({
     }
   },
 
-	handleSubmit(e) {
+  _handleErrors() {
+    this.setState({errors: ErrorStore.formErrors("login_form")});
+  },
+
+	_handleSubmit(e) {
 		e.preventDefault();
+    ErrorActions.clearErrors();
 		const formData = {
 			username: this.state.username,
 			password: this.state.password,
@@ -50,12 +64,15 @@ const LoginForm = React.createClass({
     });
   },
 
-	render() {
+  render() {
   	return (
 			<div className="login-form-container">
-				<form onSubmit={this.handleSubmit} className="login-form-box">
+				<form onSubmit={this._handleSubmit} className="login-form-box">
 	        <div className="form-text">Please Sign In</div>
 					<br/>
+            <div className='login-errors'>
+              { this.state.errors.map(error => { return <li>{error}</li>;}) }
+            </div>
 					<div className="login-form">
 					  <input
               type="text"
@@ -63,12 +80,12 @@ const LoginForm = React.createClass({
               value={this.state.username}
               onChange={this._usernameChange}
               className="login-input" />
-		          <input
-                type="password"
-                placeholder="Password"
-                value={this.state.password}
-                onChange={this._passwordChange}
-                className="login-input" />
+	          <input
+              type="password"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={this._passwordChange}
+              className="login-input" />
 						<input className="login-button" type="submit" value="Log In" />
 					</div>
 				</form>

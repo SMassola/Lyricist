@@ -1,5 +1,5 @@
 const SessionApiUtil = {
-	logIn(user, successCallback) {
+	logIn(user, successCallback, errorCallback) {
 		$.ajax({
 			url: '/api/session',
 			type: 'POST',
@@ -7,6 +7,10 @@ const SessionApiUtil = {
 			success: function(resp) {
         successCallback(resp);
       },
+			error(resp) {
+				let errors = resp.responseJSON;
+				errorCallback(errors);
+			}
 		});
 	},
 
@@ -16,11 +20,11 @@ const SessionApiUtil = {
 			method: 'DELETE',
 			success: function(resp) {
         successCallback(resp);
-      },
+      }
 		});
 	},
 
-	signUp(user, successCallback) {
+	signUp(user, successCallback, errorCallback) {
 		$.ajax({
 			url: '/api/users',
 			type: 'POST',
@@ -29,6 +33,10 @@ const SessionApiUtil = {
 			success: function(resp) {
         successCallback(resp);
       },
+			error(resp) {
+				let errors = resp.responseJSON;
+				errorCallback(errors);
+			}
 		});
 	},
 };

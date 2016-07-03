@@ -78,7 +78,7 @@ const Header = React.createClass({
       <div className="navbar">
         {this.isUserLoggedIn() ? this.logOutButton() : this.logInButtons()}
 
-        <Modal
+        <Modal 
           isOpen={this.state.modalOpen}
           onRequestClose={this.onModalClose}
           style={ModalStyle}

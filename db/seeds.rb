@@ -2,6 +2,7 @@ Song.delete_all
 Artist.delete_all
 Album.delete_all
 User.delete_all
+Annotation.delete_all
 
 User.create!(
   username: "Guest",

@@ -1,0 +1,28 @@
+.annotation-form-container {
+  width: 45%;
+}
+
+.annotation-form {
+  margin: 20px;
+  width: 450px;
+  height: 300px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+
+.annotation-form > h1 {
+  margin: 20px;
+  font-size: 40px;
+}
+
+.annotation-textarea {
+  height: 200px;
+  margin: 0px 20px;
+  font-size: 18px;
+}
+
+.annotation-form > button {
+  margin: 10px;
+  width: 50px;
+}

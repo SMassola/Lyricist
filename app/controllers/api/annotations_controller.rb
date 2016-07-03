@@ -1,24 +1,11 @@
 class Api::AnnotationsController < ApplicationController
-  def index
-    @annotations = Annotation.where("song_id = ?", "#{params[:song_id]}")
-
-    render :index
-  end
-
-  def new
-    @annotation = Annotation.new(annotation_params)
-    render :new
-  end
 
   def create
     @annotation = Annotation.new(annotation_params)
-    render :create
-  end
-
-  def show
-  end
-
-  def update
+    if @annotation.save
+      render :create
+    else
+    end
   end
 
   def destroy

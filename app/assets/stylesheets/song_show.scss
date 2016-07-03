@@ -1,49 +1,72 @@
-.test > div {
-  color: black;
+.showpage {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #FAFAFA;
+  align-items: center;
+}
+
+.show-splash {
+  background-image: url("http://www.timelinecoverbanner.com/facebook-covers/2012/12/music-passion.jpg");
+  background-size: cover;
+  height: 50vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-position: center;
+}
+
+.show-content-container {
+  width: 80%;
+  display: flex;
+  background-color: white;
+}
+
+.lyrics-container {
+  width: 55%;
+}
+
+.song-lyrics-title {
+  margin: 20px;
 }
 
 pre {
   font-family: fantasy;
-  font-size: 18px;
+  font-size: 20px;
 }
 
-.lyrics {
-  position: absolute;
-  margin-left: 100px;
+a {
+  text-decoration: none;
+  color: black;
 }
 
 .ghost-lyrics {
-  position:absolute;
-  margin-left: 100px;
-  z-index: 1;
+  position: absolute;
+  margin-left: 20px;
+  z-index: 2;
   color: transparent;
+}
+
+.ghost-lyrics::selection {
+  background: #00BFFF;
+  color: black;
+}
+
+.lyrics {
+  position: relative;
+  margin-left: 20px;
+  z-index: 1;
 }
 
 .highlight-lyrics {
+  pointer-events: none;
   position:absolute;
-  margin-left: 100px;
+  margin-left: 20px;
   z-index: 0;
   color: transparent;
 }
-::selection {
-  background: yellow;
-  color: black;
-}
-.highlighted {
+
+.annotated {
   position: relative;
-  background-color: yellow;
-  z-index: 2;
-}
-
-*.unselectable {
-   -moz-user-select: -moz-none;
-   -khtml-user-select: none;
-   -webkit-user-select: none;
-
-   /*
-     Introduced in IE 10.
-     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
-   */
-   -ms-user-select: none;
-   user-select: none;
+  background-color: #00BFFF;
 }

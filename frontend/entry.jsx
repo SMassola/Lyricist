@@ -9,14 +9,7 @@ const IndexRoute = ReactRouter.IndexRoute;
 const hashHistory = ReactRouter.hashHistory;
 
 const Header = require("./header.jsx");
-
-const LoginForm = require("./components/login_form.jsx");
-
 const Search = require('./search.jsx');
-
-const SongActions = require("./actions/song_actions.js");
-const SongStore = require("./stores/song_store.js");
-
 const SongShow = require('./components/song_show.jsx');
 const SongIndex = require('./components/song_index.jsx');
 
@@ -44,7 +37,3 @@ document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById("root");
   ReactDOM.render(<Router history={hashHistory} routes={routes} />, root);
 });
-
-window.SongStore = SongStore;
-window.SongActions = SongActions;
-window.SongShow = SongShow;

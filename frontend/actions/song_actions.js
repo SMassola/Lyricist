@@ -25,16 +25,27 @@ const SongActions = {
     });
   },
 
-  fetchAllSongAnnotations(songId) {
-    SongApiUtil.fetchAllSongAnnotations(songId, this.receiveAllAnnotations);
+  // fetchAllSongAnnotations(songId) {
+  //   SongApiUtil.fetchAllSongAnnotations(songId, this.receiveAllAnnotations);
+  // },
+  //
+  // receiveAllAnnotations(annotations) {
+  //   AppDispatcher.dispatch({
+  //     actionType: SongConstants.ANNOTATIONS_RECEIVED,
+  //     annotations: annotations
+  //   });
+  // },
+
+  createAnnotation(annotation) {
+    SongApiUtil.createAnnotation(annotation, this.receiveAnnotation);
   },
 
-  receiveAllAnnotations(annotations) {
+  receiveAnnotation(annotation) {
     AppDispatcher.dispatch({
-      actionType: SongConstants.RECEIVED_ANNOTATIONS,
-      annotations: annotations
-    });
-  }
+    actionType: SongConstants.ANNOTATION_RECEIVED,
+    annotation: annotation
+  });
+},
 };
 
 

@@ -57,14 +57,7 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	var Header = __webpack_require__(257);
-	
-	var LoginForm = __webpack_require__(256);
-	
 	var Search = __webpack_require__(284);
-	
-	var SongActions = __webpack_require__(281);
-	var SongStore = __webpack_require__(280);
-	
 	var SongShow = __webpack_require__(285);
 	var SongIndex = __webpack_require__(286);
 	
@@ -93,10 +86,6 @@
 	  var root = document.getElementById("root");
 	  ReactDOM.render(React.createElement(Router, { history: hashHistory, routes: routes }), root);
 	});
-	
-	window.SongStore = SongStore;
-	window.SongActions = SongActions;
-	window.SongShow = SongShow;
 
 /***/ },
 /* 1 */
@@ -25976,13 +25965,14 @@
 	var SessionConstants = __webpack_require__(236);
 	var SessionApiUtil = __webpack_require__(237);
 	var hashHistory = __webpack_require__(168).hashHistory;
+	var ErrorActions = __webpack_require__(289);
 	
 	var SessionActions = {
 	  signUp: function signUp(formData) {
-	    SessionApiUtil.signUp(formData, SessionActions.receiveCurrentUser);
+	    SessionApiUtil.signUp(formData, SessionActions.receiveCurrentUser, ErrorActions.setErrors.bind(null, 'signup_form'));
 	  },
 	  logIn: function logIn(formData) {
-	    SessionApiUtil.logIn(formData, SessionActions.receiveCurrentUser);
+	    SessionApiUtil.logIn(formData, SessionActions.receiveCurrentUser, ErrorActions.setErrors.bind(null, 'login_form'));
 	  },
 	  logOut: function logOut() {
 	    SessionApiUtil.logOut(SessionActions.removeCurrentUser);
@@ -25992,7 +25982,6 @@
 	      actionType: SessionConstants.LOGIN,
 	      currentUser: currentUser
 	    });
-	    hashHistory.push("/");
 	  },
 	  removeCurrentUser: function removeCurrentUser() {
 	    AppDispatcher.dispatch({
@@ -26343,13 +26332,17 @@
 	'use strict';
 	
 	var SessionApiUtil = {
-		logIn: function logIn(user, successCallback) {
+		logIn: function logIn(user, successCallback, errorCallback) {
 			$.ajax({
 				url: '/api/session',
 				type: 'POST',
 				data: { user: user },
 				success: function success(resp) {
 					successCallback(resp);
+				},
+				error: function error(resp) {
+					var errors = resp.responseJSON;
+					errorCallback(errors);
 				}
 			});
 		},
@@ -26362,7 +26355,7 @@
 				}
 			});
 		},
-		signUp: function signUp(user, successCallback) {
+		signUp: function signUp(user, successCallback, errorCallback) {
 			$.ajax({
 				url: '/api/users',
 				type: 'POST',
@@ -26370,6 +26363,10 @@
 				data: { user: user },
 				success: function success(resp) {
 					successCallback(resp);
+				},
+				error: function error(resp) {
+					var errors = resp.responseJSON;
+					errorCallback(errors);
 				}
 			});
 		}
@@ -26386,6 +26383,7 @@
 	var AppDispatcher = __webpack_require__(232);
 	var Store = __webpack_require__(239).Store;
 	var SessionConstants = __webpack_require__(236);
+	var Header = __webpack_require__(257);
 	
 	var SessionStore = new Store(AppDispatcher);
 	
@@ -32875,6 +32873,8 @@
 	var Link = __webpack_require__(168).Link;
 	var SessionActions = __webpack_require__(231);
 	var SessionStore = __webpack_require__(238);
+	var ErrorStore = __webpack_require__(291);
+	var ErrorActions = __webpack_require__(289);
 	var hashHistory = __webpack_require__(168).hashHistory;
 	
 	var LoginForm = React.createClass({
@@ -32883,13 +32883,19 @@
 	    return {
 	      username: null,
 	      password: null,
-	      email: null
+	      email: null,
+	      errors: []
 	    };
 	  },
+	  componentWillMount: function componentWillMount() {
+	    this.redirectIfLoggedIn();
+	  },
 	  componentDidMount: function componentDidMount() {
-	    this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
+	    this.errorListener = ErrorStore.addListener(this._handleErrors);
+	    this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn());
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
+	    this.errorListener.remove();
 	    this.sessionListener.remove();
 	  },
 	  redirectIfLoggedIn: function redirectIfLoggedIn() {
@@ -32897,8 +32903,12 @@
 	      hashHistory.push("/");
 	    }
 	  },
-	  handleSubmit: function handleSubmit(e) {
+	  _handleErrors: function _handleErrors() {
+	    this.setState({ errors: ErrorStore.formErrors("login_form") });
+	  },
+	  _handleSubmit: function _handleSubmit(e) {
 	    e.preventDefault();
+	    ErrorActions.clearErrors();
 	    var formData = {
 	      username: this.state.username,
 	      password: this.state.password
@@ -32922,13 +32932,24 @@
 	      { className: 'login-form-container' },
 	      React.createElement(
 	        'form',
-	        { onSubmit: this.handleSubmit, className: 'login-form-box' },
+	        { onSubmit: this._handleSubmit, className: 'login-form-box' },
 	        React.createElement(
 	          'div',
 	          { className: 'form-text' },
 	          'Please Sign In'
 	        ),
 	        React.createElement('br', null),
+	        React.createElement(
+	          'div',
+	          { className: 'login-errors' },
+	          this.state.errors.map(function (error) {
+	            return React.createElement(
+	              'li',
+	              null,
+	              error
+	            );
+	          })
+	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'login-form' },
@@ -35191,6 +35212,10 @@
 	      resetAllAnnotations(payload.annotations);
 	      SongStore.__emitChange();
 	      break;
+	    case SongConstants.ANNOTATION_RECEIVED:
+	      addAnnotation(payload.annotation);
+	      console.log(payload.annotation);
+	      SongStore.__emitChange();
 	  }
 	};
 	
@@ -35242,6 +35267,11 @@
 	  _songs[song.id] = song;
 	}
 	
+	function addAnnotation(annotation) {
+	  _annotations[annotation.id] = annotation;
+	  console.log(_annotations);
+	}
+	
 	module.exports = SongStore;
 
 /***/ },
@@ -35273,13 +35303,26 @@
 	      song: song
 	    });
 	  },
-	  fetchAllSongAnnotations: function fetchAllSongAnnotations(songId) {
-	    SongApiUtil.fetchAllSongAnnotations(songId, this.receiveAllAnnotations);
+	
+	
+	  // fetchAllSongAnnotations(songId) {
+	  //   SongApiUtil.fetchAllSongAnnotations(songId, this.receiveAllAnnotations);
+	  // },
+	  //
+	  // receiveAllAnnotations(annotations) {
+	  //   AppDispatcher.dispatch({
+	  //     actionType: SongConstants.ANNOTATIONS_RECEIVED,
+	  //     annotations: annotations
+	  //   });
+	  // },
+	
+	  createAnnotation: function createAnnotation(annotation) {
+	    SongApiUtil.createAnnotation(annotation, this.receiveAnnotation);
 	  },
-	  receiveAllAnnotations: function receiveAllAnnotations(annotations) {
+	  receiveAnnotation: function receiveAnnotation(annotation) {
 	    AppDispatcher.dispatch({
-	      actionType: SongConstants.RECEIVED_ANNOTATIONS,
-	      annotations: annotations
+	      actionType: SongConstants.ANNOTATION_RECEIVED,
+	      annotation: annotation
 	    });
 	  }
 	};
@@ -35311,12 +35354,25 @@
 	      }
 	    });
 	  },
-	  fetchAllSongAnnotations: function fetchAllSongAnnotations(id, callback) {
+	
+	  //
+	  // fetchAllSongAnnotations(id, callback) {
+	  //   $.ajax({
+	  //     url: `api/songs/${id}`,
+	  //     type: "GET",
+	  //     success: function(resp) {
+	  //       callback(resp.annotations);
+	  //     }
+	  //   });
+	  // },
+	
+	  createAnnotation: function createAnnotation(annotation, callback) {
 	    $.ajax({
-	      url: "api/songs/" + id,
-	      type: "GET",
+	      url: "api/songs/" + annotation.song_id + "/annotations",
+	      type: "POST",
+	      data: { annotation: annotation },
 	      success: function success(resp) {
-	        callback(resp.annotations);
+	        callback(resp);
 	      }
 	    });
 	  }
@@ -35333,7 +35389,8 @@
 	var SongConstants = {
 		SONGS_RECEIVED: "SONGS_RECEIVED",
 		SONG_RECEIVED: "SONG_RECEIVED",
-		ANNOTATIONS_RECEIVED: "ANNOTATIONS_RECEIVED"
+		// ANNOTATIONS_RECEIVED: "ANNOTATIONS_RECEIVED",
+		ANNOTATION_RECEIVED: "ANNOTATION_RECEIVED"
 	};
 	
 	module.exports = SongConstants;
@@ -35422,12 +35479,14 @@
 	var SongStore = __webpack_require__(280);
 	var SongActions = __webpack_require__(281);
 	var SongLyricHighlights = __webpack_require__(287);
+	var AnnotationForm = __webpack_require__(288);
+	var SessionStore = __webpack_require__(238);
 	
 	var SongShow = React.createClass({
 	  displayName: 'SongShow',
 	  getInitialState: function getInitialState() {
 	    var potentialSong = SongStore.findSong(this.props.params.id);
-	    return { song: potentialSong ? potentialSong : {} };
+	    return { song: potentialSong ? potentialSong : {}, renderForm: false };
 	  },
 	  componentDidMount: function componentDidMount() {
 	    this.songListener = SongStore.addListener(this.handleChange);
@@ -35440,35 +35499,73 @@
 	    var potentialSong = SongStore.findSong(this.props.params.id);
 	    this.setState({ song: potentialSong ? potentialSong : {} });
 	  },
+	  sortAnnotations: function sortAnnotations(array) {
+	
+	    var unsorted = true;
+	    while (unsorted) {
+	      unsorted = false;
+	
+	      for (var i = 0; i < array.length - 1; i++) {
+	        if (array[i].start_idx > array[i + 1].start_idx) {
+	          var temp = array[i];
+	          array[i] = array[i + 1];
+	          array[i + 1] = temp;
+	          unsorted = true;
+	        }
+	      }
+	    }
+	    return array;
+	  },
 	  createAnnotations: function createAnnotations() {
 	    var _this = this;
 	
+	    var unsortedAnnotations = this.state.song.annotations;
+	    var annotations = this.sortAnnotations(unsortedAnnotations);
 	    var lyrics = this.state.song.lyrics;
+	    console.log(annotations);
 	    this.lyricsEls = [];
-	    var annotations = this.state.song.annotations;
-	    var tracker = 0;
+	    var flagIdx = 0;
+	
 	    annotations.forEach(function (annotation) {
-	      _this.lyricsEls.push(lyrics.slice(tracker, annotation.start_idx));
+	      // console.log("flag: " + flagIdx);
+	      // console.log("start: " + annotation.start_idx);
+	      // console.log("end: " + annotation.end_idx);
+	      _this.lyricsEls.push(lyrics.slice(flagIdx, annotation.start_idx));
 	      _this.lyricsEls.push(React.createElement(
 	        'a',
-	        { key: annotation.id, onClick: _this._handleClick, className: 'highlighted' },
+	        {
+	          href: '/',
+	          key: annotation.id,
+	          onClick: _this._handleClick,
+	          className: 'annotated' },
 	        lyrics.slice(annotation.start_idx, annotation.end_idx)
 	      ));
 	
-	      tracker = annotation.end_idx;
+	      flagIdx = annotation.end_idx;
 	    });
-	    this.lyricsEls.push(lyrics.slice(tracker));
+	
+	    this.lyricsEls.push(lyrics.slice(flagIdx));
 	  },
-	  highlight: function highlight() {
+	  highlight: function highlight(e) {
+	    var _ref, _ref2;
+	
+	    var idx1 = window.getSelection().anchorOffset;
+	    var idx2 = window.getSelection().focusOffset;
+	
+	    idx1 < idx2 ? (_ref = [idx1, idx2], this.start = _ref[0], this.end = _ref[1], _ref) : (_ref2 = [idx2, idx1], this.start = _ref2[0], this.end = _ref2[1], _ref2);
+	
+	    if (this.start - this.end === 0) {
+	      $('pre.ghost-lyrics').hide();
+	      document.elementFromPoint(e.clientX, e.clientY).click();
+	      $('pre.ghost-lyrics').show();
+	    } else {
+	      $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0, this.start) + '<span style="background-color: #00BFFF;">' + $('pre.highlight-lyrics').html().slice(this.start, this.end) + '</span>' + $('pre.highlight-lyrics').html().slice(this.end));
+	      this.setState({ renderForm: true });
+	    }
+	  },
+	  removeHighlight: function removeHighlight() {
 	    $('pre.highlight-lyrics').html(this.state.song.lyrics);
-	
-	    var selection = window.getSelection();
-	    var start = window.getSelection().anchorOffset;
-	    var end = window.getSelection().focusOffset;
-	
-	    var lyrics = this.state.song.lyrics;
-	
-	    $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0, start) + '<span className="highlighted" style="background-color: yellow; color:black">' + $('pre.highlight-lyrics').html().slice(start, end) + '</span>' + $('pre.highlight-lyrics').html().slice(end));
+	    this.setState({ renderForm: false });
 	  },
 	  render: function render() {
 	
@@ -35478,36 +35575,48 @@
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'page', id: 'song-container' },
+	      { className: 'showpage' },
+	      React.createElement('div', { className: 'show-splash' }),
 	      React.createElement(
-	        'pre',
-	        { className: 'ghost-lyrics', onMouseUp: this.highlight },
-	        this.state.song.lyrics
-	      ),
-	      React.createElement(
-	        'pre',
-	        { className: 'highlight-lyrics' },
-	        this.state.song.lyrics
-	      ),
-	      React.createElement(
-	        'pre',
-	        { className: 'lyrics' },
+	        'div',
+	        { className: 'show-content-container' },
 	        React.createElement(
 	          'div',
-	          null,
-	          this.lyricsEls
-	        )
+	          { className: 'lyrics-container', id: 'song-container' },
+	          React.createElement(
+	            'h3',
+	            { className: 'song-lyrics-title' },
+	            this.state.song.title
+	          ),
+	          React.createElement(
+	            'pre',
+	            { className: 'ghost-lyrics',
+	              onMouseUp: this.highlight,
+	              onMouseDown: this.removeHighlight },
+	            this.state.song.lyrics
+	          ),
+	          React.createElement(
+	            'pre',
+	            { className: 'highlight-lyrics' },
+	            this.state.song.lyrics
+	          ),
+	          React.createElement(
+	            'pre',
+	            { className: 'lyrics' },
+	            this.lyricsEls
+	          )
+	        ),
+	        this.state.renderForm ? React.createElement(AnnotationForm, {
+	          songId: this.state.song.id,
+	          userId: SessionStore.currentUser().id,
+	          startIdx: this.start,
+	          endIdx: this.end }) : React.createElement('div', null)
 	      )
 	    );
 	  }
 	});
 	
 	module.exports = SongShow;
-	
-	// this.state.song ?
-	// <SongLyricHighlights
-	//   lyrics={this.state.song.lyrics}
-	//   annotations={this.state.song.annotations}/>}} : <div></div>
 
 /***/ },
 /* 286 */
@@ -35580,6 +35689,155 @@
 	});
 	
 	module.exports = SongLyricHighlights;
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var SongActions = __webpack_require__(281);
+	
+	var AnnotationForm = React.createClass({
+	  displayName: 'AnnotationForm',
+	
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      body: "",
+	      user_id: this.props.userId,
+	      song_id: this.props.songId,
+	      start_idx: this.props.startIdx,
+	      end_idx: this.props.endIdx
+	    };
+	  },
+	
+	  _bodyChange: function _bodyChange(e) {
+	    e.preventDefault();
+	    this.setState({ body: e.target.value });
+	  },
+	  _handleSubmit: function _handleSubmit() {
+	    SongActions.createAnnotation(this.state);
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'annotation-form-container' },
+	      React.createElement(
+	        'form',
+	        { className: 'annotation-form', onSubmit: this._handleSubmit },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'New Annotation'
+	        ),
+	        React.createElement('div', { className: 'annotation error-container' }),
+	        React.createElement('textarea', { onChange: this._bodyChange,
+	          className: 'annotation-textarea',
+	          placeholder: 'Body',
+	          value: this.state.body }),
+	        React.createElement('input', { type: 'submit', value: 'Create Annotation' })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = AnnotationForm;
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AppDispatcher = __webpack_require__(232);
+	var ErrorConstants = __webpack_require__(290);
+	
+	var ErrorActions = {
+	  setErrors: function setErrors(form, errors) {
+	    AppDispatcher.dispatch({
+	      actionType: ErrorConstants.SET_ERRORS,
+	      form: form,
+	      errors: errors
+	    });
+	  },
+	  clearErrors: function clearErrors() {
+	    AppDispatcher.dispatch({
+	      actionType: ErrorConstants.CLEAR_ERRORS
+	    });
+	  }
+	};
+	
+	module.exports = ErrorActions;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var ErrorConstants = {
+	  SET_ERRORS: "SET_ERRORS",
+	  CLEAR_ERRORS: "CLEAR_ERRORS"
+	};
+	
+	module.exports = ErrorConstants;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(239).Store;
+	var AppDispatcher = __webpack_require__(232);
+	var ErrorConstants = __webpack_require__(290);
+	
+	var ErrorStore = new Store(AppDispatcher);
+	
+	var _errors = {};
+	var _form = "";
+	
+	function setErrors(payload) {
+	  _errors = payload.errors;
+	  _form = payload.form;
+	}
+	
+	function clearErrors() {
+	  _errors = {};
+	  _form = "";
+	}
+	
+	ErrorStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case ErrorConstants.SET_ERRORS:
+	      setErrors(payload);
+	      ErrorStore.__emitChange();
+	      break;
+	    case ErrorConstants.CLEAR_ERRORS:
+	      clearErrors();
+	      ErrorStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	ErrorStore.formErrors = function (form) {
+	  var errors = [];
+	  if (_form === form) {
+	
+	    Object.keys(_errors).forEach(function (field) {
+	      errors.push('' + _errors[field]);
+	    });
+	  }
+	  return errors;
+	};
+	
+	ErrorStore.form = function () {
+	  return _form;
+	};
+	
+	module.exports = ErrorStore;
 
 /***/ }
 /******/ ]);

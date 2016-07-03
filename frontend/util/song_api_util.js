@@ -18,13 +18,24 @@ const SongApiUtil = {
       }
     });
   },
+  //
+  // fetchAllSongAnnotations(id, callback) {
+  //   $.ajax({
+  //     url: `api/songs/${id}`,
+  //     type: "GET",
+  //     success: function(resp) {
+  //       callback(resp.annotations);
+  //     }
+  //   });
+  // },
 
-  fetchAllSongAnnotations(id, callback) {
+  createAnnotation(annotation, callback) {
     $.ajax({
-      url: `api/songs/${id}`,
-      type: "GET",
+      url: `api/songs/${annotation.song_id}/annotations`,
+      type: "POST",
+      data: {annotation: annotation},
       success: function(resp) {
-        callback(resp.annotations);
+        callback(resp);
       }
     });
   }
