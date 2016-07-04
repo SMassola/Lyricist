@@ -4,12 +4,9 @@ const AppDispatcher = require('../dispatcher/dispatcher.js');
 const ErrorActions = require('./error_actions.js');
 
 const SongActions = {
+
   fetchAllSongs() {
     SongApiUtil.fetchAllSongs(this.receiveAllSongs);
-  },
-
-  fetchSong(id) {
-    SongApiUtil.fetchSong(id, this.receiveSong);
   },
 
   receiveAllSongs(songs) {
@@ -17,6 +14,10 @@ const SongActions = {
       actionType: SongConstants.SONGS_RECEIVED,
       songs: songs
     });
+  },
+
+  fetchSong(id) {
+    SongApiUtil.fetchSong(id, this.receiveSong);
   },
 
   receiveSong(song) {

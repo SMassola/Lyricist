@@ -19,16 +19,6 @@ const SongApiUtil = {
     });
   },
 
-  // fetchAllSongAnnotations(id, callback) {
-  //   $.ajax({
-  //     url: `api/songs/${id}`,
-  //     type: "GET",
-  //     success: function(resp) {
-  //       callback(resp.annotations);
-  //     }
-  //   });
-  // },
-
   createAnnotation(annotation, successCB, errorCB) {
     $.ajax({
       url: `api/songs/${annotation.song_id}/annotations`,

@@ -31,7 +31,7 @@ week 9, this app will at minimum satisfy the following criteria:
 
 ## Design Docs
 * [View Wireframes][views]
-* [React Components][components]
+* [React Components][components]  
 * [Flux Cycles][flux-cycles]
 * [API endpoints][api-endpoints]
 * [DB schema][schema]
@@ -76,7 +76,7 @@ user interface.
 - [ ] setup React Router
 - implement each song and comment component, building out the flux loop as needed.
   - [ ] `SongssIndex`
-  - [ ] `SongIndexItem`
+  - [x] `SongIndexItem`
   - [ ] `SongForm`
   - [ ] `CommentsIndex`
   - [ ] `CommentIndexItem`
@@ -96,10 +96,10 @@ user interface.
 
 **Objective:** Annotations belong to Songs, and can be viewed by Songs.
 
-- [ ] create `Annotation` model
+- [x] create `Annotation` model
 - build out API, Flux loop, and components for:
-  - [ ] Annotations CRUD
-  - [ ] adding annotations to song lyrics
+  - [x] Annotations CRUD
+  - [x] adding annotations to song lyrics
 - Use CSS to style new views
 
 Phase 3 adds organization to the Songs. Annotations belong to a Song,

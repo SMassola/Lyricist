@@ -41,7 +41,7 @@ const Header = React.createClass({
     return SessionStore.isUserLoggedIn();
   },
 
-  logInButtons() {
+  logInLinks() {
     return (
       <div>
         <button
@@ -51,7 +51,7 @@ const Header = React.createClass({
         Log In
       </button>
       <button
-        class="nav-links"
+        className="nav-links"
         id="sign-up-button"
         onClick={this._handleClick.bind(this, false)}>
         Sign Up
@@ -59,11 +59,11 @@ const Header = React.createClass({
     </div>);
   },
 
-  logOutButton() {
+  logOutLink() {
     return (
       <div>
         <button
-          id="log-out-button"
+          className="nav-links"
           onClick={this._handleLogout}>
           Log Out
         </button>
@@ -81,7 +81,7 @@ const Header = React.createClass({
         </div>
         <div className="head-title" onClick={this._redirectHome}>Lyricist</div>
         <div className="head-links">
-          {this.isUserLoggedIn() ? this.logOutButton() : this.logInButtons()}
+          {this.isUserLoggedIn() ? this.logOutLink() : this.logInLinks()}
         </div>
 
         <Modal

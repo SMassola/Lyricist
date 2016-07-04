@@ -27944,7 +27944,7 @@
 	  isUserLoggedIn: function isUserLoggedIn() {
 	    return SessionStore.isUserLoggedIn();
 	  },
-	  logInButtons: function logInButtons() {
+	  logInLinks: function logInLinks() {
 	    return React.createElement(
 	      'div',
 	      null,
@@ -27959,21 +27959,21 @@
 	      React.createElement(
 	        'button',
 	        {
-	          'class': 'nav-links',
+	          className: 'nav-links',
 	          id: 'sign-up-button',
 	          onClick: this._handleClick.bind(this, false) },
 	        'Sign Up'
 	      )
 	    );
 	  },
-	  logOutButton: function logOutButton() {
+	  logOutLink: function logOutLink() {
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement(
 	        'button',
 	        {
-	          id: 'log-out-button',
+	          className: 'nav-links',
 	          onClick: this._handleLogout },
 	        'Log Out'
 	      )
@@ -27998,7 +27998,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'head-links' },
-	        this.isUserLoggedIn() ? this.logOutButton() : this.logInButtons()
+	        this.isUserLoggedIn() ? this.logOutLink() : this.logInLinks()
 	      ),
 	      React.createElement(
 	        Modal,
@@ -35655,14 +35655,14 @@
 	  fetchAllSongs: function fetchAllSongs() {
 	    SongApiUtil.fetchAllSongs(this.receiveAllSongs);
 	  },
-	  fetchSong: function fetchSong(id) {
-	    SongApiUtil.fetchSong(id, this.receiveSong);
-	  },
 	  receiveAllSongs: function receiveAllSongs(songs) {
 	    AppDispatcher.dispatch({
 	      actionType: SongConstants.SONGS_RECEIVED,
 	      songs: songs
 	    });
+	  },
+	  fetchSong: function fetchSong(id) {
+	    SongApiUtil.fetchSong(id, this.receiveSong);
 	  },
 	  receiveSong: function receiveSong(song) {
 	    AppDispatcher.dispatch({
@@ -35708,18 +35708,6 @@
 	      }
 	    });
 	  },
-	
-	
-	  // fetchAllSongAnnotations(id, callback) {
-	  //   $.ajax({
-	  //     url: `api/songs/${id}`,
-	  //     type: "GET",
-	  //     success: function(resp) {
-	  //       callback(resp.annotations);
-	  //     }
-	  //   });
-	  // },
-	
 	  createAnnotation: function createAnnotation(annotation, successCB, errorCB) {
 	    $.ajax({
 	      url: "api/songs/" + annotation.song_id + "/annotations",
@@ -35854,13 +35842,40 @@
 	var SongIndex = React.createClass({
 	  displayName: 'SongIndex',
 	  getInitialState: function getInitialState() {
-	    return { songs: {} };
+	    return { songs: [] };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.songListener = SongStore.addListener(this._handleChange);
+	    SongActions.fetchAllSongs();
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.songListener.remove();
+	  },
+	  _handleChange: function _handleChange() {
+	    var songs = SongStore.allSongs();
+	    this.setState({ songs: songs ? songs : {} });
 	  },
 	  render: function render() {
+	    var songs = this.state.songs;
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Hello from the song_index'
+	      songs.map(function (song) {
+	        return React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'li',
+	            { key: song.id },
+	            song.title
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: song.id },
+	            song.album
+	          )
+	        );
+	      })
 	    );
 	  }
 	});
