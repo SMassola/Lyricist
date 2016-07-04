@@ -70,15 +70,21 @@ const Header = React.createClass({
       </div>);
   },
 
-  render() {
 
+  render() {
     let component = (this.state.signIn) ? <LoginForm /> : <SignupForm />;
 
     return(
       <div className="navbar">
-        {this.isUserLoggedIn() ? this.logOutButton() : this.logInButtons()}
+        <div className="head-user">
+          {this.isUserLoggedIn() ? "Logged in as: " + this.currentUser() : ""}
+        </div>
+        <div className="head-title" onClick={this._redirectHome}>Lyricist</div>
+        <div className="head-links">
+          {this.isUserLoggedIn() ? this.logOutButton() : this.logInButtons()}
+        </div>
 
-        <Modal 
+        <Modal
           isOpen={this.state.modalOpen}
           onRequestClose={this.onModalClose}
           style={ModalStyle}
@@ -89,9 +95,6 @@ const Header = React.createClass({
           </div>
           {component}
         </Modal>
-
-        <div>{this.isUserLoggedIn() ? this.currentUser() : ""}</div>
-
       </div>
     );
   }

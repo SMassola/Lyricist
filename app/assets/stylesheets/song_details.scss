@@ -1,0 +1,41 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,900);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,700);
+
+.song-details-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.song-title {
+  font-family: "Open Sans";
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #F0F0F0;
+  font-size: 60px;
+}
+
+.song-artist {
+  font-family: "Open Sans";
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #6ABEDB;
+  font-size: 40px;
+}
+
+.song-album {
+  font-family: "Open Sans";
+  font-weight: 700;
+  color: #6ABEDB;
+  font-size: 30px;
+}
+
+.album-art-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center
+}
+
+.album-art {
+  border: 2px solid white;
+}

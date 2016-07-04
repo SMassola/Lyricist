@@ -1,14 +1,24 @@
 const React = require('react');
+
 const SongStore = require('../stores/song_store.js');
-const SongActions = require('../actions/song_actions.js');
-const SongLyricHighlights = require('./song_lyric_highlights.jsx');
-const AnnotationForm = require('./annotation_form.jsx');
 const SessionStore = require('../stores/session_store.js');
+
+const SongActions = require('../actions/song_actions.js');
+const AnnotationBody = require('./annotation_body.jsx');
+const AnnotationForm = require('./annotation_form.jsx');
+const SongDetails = require("./song_details.jsx");
+const AlbumArt = require("./album_art.jsx");
 
 const SongShow = React.createClass({
   getInitialState () {
     const potentialSong = SongStore.findSong(this.props.params.id);
-    return ({song: potentialSong ? potentialSong : {}, renderForm: false});
+    return ({
+      song: potentialSong ? potentialSong : {},
+      renderForm: false,
+      renderAnnotationBody: false,
+      currentAnnotation: null,
+      errors: []
+    });
   },
 
   componentDidMount () {
@@ -43,27 +53,32 @@ const SongShow = React.createClass({
   return array;
   },
 
+  handleAnnotationClick(e) {
+    this.setState({
+      renderForm: false,
+      renderAnnotationBody: true,
+      currentAnnotation: e.target.value});
+  },
+
   createAnnotations() {
     let unsortedAnnotations = this.state.song.annotations;
     let annotations = this.sortAnnotations(unsortedAnnotations);
     let lyrics = this.state.song.lyrics;
-    console.log(annotations);
+
     this.lyricsEls = [];
     let flagIdx = 0;
 
     annotations.forEach((annotation) => {
-      // console.log("flag: " + flagIdx);
-      // console.log("start: " + annotation.start_idx);
-      // console.log("end: " + annotation.end_idx);
-      this.lyricsEls.push(lyrics.slice(flagIdx, annotation.start_idx));
       this.lyricsEls.push(
-      <a
-        href="/"
-        key={annotation.id}
-        onClick={this._handleClick}
-        className="annotated">
+        lyrics.slice(flagIdx, annotation.start_idx));
+      this.lyricsEls.push(
+      <span
+        className= "annotated annotation-link"
+        value={annotation}
+        onClick={this.handleAnnotationClick}
+        key={annotation.id}>
         {lyrics.slice(annotation.start_idx, annotation.end_idx)}
-      </a>);
+      </span>);
 
       flagIdx = annotation.end_idx;
     });
@@ -79,14 +94,15 @@ const SongShow = React.createClass({
 
     if (this.start - this.end === 0) {
       $('pre.ghost-lyrics').hide();
-      document.elementFromPoint(e.clientX, e.clientY).click();
+      let tag = document.elementFromPoint(e.clientX, e.clientY);
+      tag.click();
       $('pre.ghost-lyrics').show();
     } else {
       $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0,this.start)
-      + '<span style="background-color: #00BFFF;">'
+      + '<span style="background-color: yellow;">'
       + $('pre.highlight-lyrics').html().slice(this.start,this.end) + '</span>'
       + $('pre.highlight-lyrics').html().slice(this.end));
-      this.setState({renderForm: true});
+      this.setState({renderForm: true, renderAnnotationBody: false});
     }
   },
 
@@ -103,7 +119,14 @@ const SongShow = React.createClass({
 
     return (
       <div className="showpage">
-        <div className="show-splash" />
+        <div className="show-splash">
+          <SongDetails
+            title={this.state.song.title}
+            artist={this.state.song.artist}
+            album={this.state.song.album}
+          />
+          <AlbumArt art={this.state.song.image_url}/>
+        </div>
         <div className="show-content-container">
           <div className="lyrics-container" id="song-container">
             <h3 className="song-lyrics-title">{this.state.song.title}</h3>
@@ -121,15 +144,22 @@ const SongShow = React.createClass({
               {this.lyricsEls}
             </pre>
           </div>
-          {this.state.renderForm ?
-            <AnnotationForm
-              songId={this.state.song.id}
-              userId={SessionStore.currentUser().id}
-              startIdx={this.start}
-              endIdx={this.end} />
-            :<div></div>}
+          <div>
+            {this.state.renderAnnotationBody ?
+              <AnnotationBody
+                annotation={this.state.currentAnnotation} />
+              :<div></div>}
+
+            {this.state.renderForm ?
+              <AnnotationForm
+                songId={this.state.song.id}
+                userId={SessionStore.currentUser().id}
+                startIdx={this.start}
+                endIdx={this.end} />
+              :<div></div>}
+            </div>
+          </div>
         </div>
-      </div>
     );
   }
 });

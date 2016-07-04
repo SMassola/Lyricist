@@ -1,0 +1,23 @@
+.navbar {
+  display: flex;
+  height: 50px;
+  background-color: #222;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.head-title {
+  font-size: 30px;
+  color: white;
+}
+
+.head-links {
+  width: 200px;
+}
+
+.head-user {
+  vertical-align: middle;
+  text-align: center;
+  width: 200px;
+  color: white;
+}

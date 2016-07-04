@@ -5,16 +5,16 @@ const ErrorConstants = require('../constants/error_constants');
 const ErrorStore = new Store(AppDispatcher);
 
 let _errors = {};
-let _form = "";
+let _type = "";
 
 function setErrors(payload){
   _errors = payload.errors;
-  _form = payload.form;
+  _type = payload.type;
 }
 
 function clearErrors(){
   _errors = {};
-  _form = "";
+  _type = "";
 }
 
 ErrorStore.__onDispatch = function (payload) {
@@ -30,9 +30,9 @@ ErrorStore.__onDispatch = function (payload) {
   }
 };
 
-ErrorStore.formErrors = function (form) {
+ErrorStore.typeErrors = function (type) {
   let errors = [];
-  if (_form === form) {
+  if (_type === type) {
 
     Object.keys(_errors).forEach(field => {
       errors.push(`${_errors[field]}`);
@@ -42,8 +42,8 @@ ErrorStore.formErrors = function (form) {
   return errors;
 };
 
-ErrorStore.form = function() {
-  return _form;
+ErrorStore.type = function() {
+  return _type;
 };
 
 module.exports = ErrorStore;

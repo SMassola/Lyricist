@@ -110,7 +110,8 @@ The war is won
 A brave new world",
   year: 2009,
   user_id: User.find_by_username("Guest").id,
-  album_id: Album.find_by_name("This Is War").id
+  album_id: Album.find_by_name("This Is War").id,
+  image_url: "https://upload.wikimedia.org/wikipedia/en/8/88/30STM_%E2%80%94_This_Is_War.jpg"
 )
 
 Song.create!(
@@ -216,17 +217,17 @@ Get down girl go head
 )
 
 Annotation.create!(
-  body: "Good Song!",
-  start_idx: 0,
-  end_idx: 1,
+  body: "Anything can happen in war, but no matter what, you have to always keep on fighting and persevere. Wars test people’s character. The stronger survives while the weaker falls, and usually the good guys always fall victim to the bad guys.!",
+  start_idx: 678,
+  end_idx: 840,
   user_id: User.find_by_username("Guest").id,
   song_id: Song.find_by_title("This Is War").id
 )
 
 Annotation.create!(
-  body: "A BRAVE NEW WORLD!",
-  start_idx: 4,
-  end_idx: 10,
+  body: "Best part of the entire song!",
+  start_idx: 262,
+  end_idx: 291,
   user_id: User.find_by_username("Guest").id,
   song_id: Song.find_by_title("This Is War").id
 )

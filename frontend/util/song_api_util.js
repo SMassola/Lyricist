@@ -18,7 +18,7 @@ const SongApiUtil = {
       }
     });
   },
-  //
+
   // fetchAllSongAnnotations(id, callback) {
   //   $.ajax({
   //     url: `api/songs/${id}`,
@@ -29,13 +29,17 @@ const SongApiUtil = {
   //   });
   // },
 
-  createAnnotation(annotation, callback) {
+  createAnnotation(annotation, successCB, errorCB) {
     $.ajax({
       url: `api/songs/${annotation.song_id}/annotations`,
       type: "POST",
       data: {annotation: annotation},
       success: function(resp) {
-        callback(resp);
+        successCB(resp);
+      },
+      error(resp) {
+        let errors = resp.responseJSON;
+        errorCB(errors);
       }
     });
   }

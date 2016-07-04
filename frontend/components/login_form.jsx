@@ -38,7 +38,7 @@ const LoginForm = React.createClass({
   },
 
   _handleErrors() {
-    this.setState({errors: ErrorStore.formErrors("login_form")});
+    this.setState({errors: ErrorStore.typeErrors("login_form")});
   },
 
 	_handleSubmit(e) {
@@ -77,13 +77,13 @@ const LoginForm = React.createClass({
 					  <input
               type="text"
               placeholder="Username"
-              value={this.state.username}
+              value={this.state.username || ""}
               onChange={this._usernameChange}
               className="login-input" />
 	          <input
               type="password"
               placeholder="Password"
-              value={this.state.password}
+              value={this.state.password || ""}
               onChange={this._passwordChange}
               className="login-input" />
 						<input className="login-button" type="submit" value="Log In" />

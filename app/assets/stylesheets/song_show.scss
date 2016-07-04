@@ -7,13 +7,17 @@
 }
 
 .show-splash {
-  background-image: url("http://www.timelinecoverbanner.com/facebook-covers/2012/12/music-passion.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),
+  linear-gradient(180deg, transparent, black),
+  url("http://www.timelinecoverbanner.com/facebook-covers/2012/12/music-passion.jpg");
   background-size: cover;
   height: 50vh;
   width: 100%;
   position: relative;
   overflow: hidden;
   background-position: center;
+  display: flex;
+  justify-content: space-around;
 }
 
 .show-content-container {
@@ -48,7 +52,7 @@ a {
 }
 
 .ghost-lyrics::selection {
-  background: #00BFFF;
+  background: yellow;
   color: black;
 }
 
@@ -56,6 +60,10 @@ a {
   position: relative;
   margin-left: 20px;
   z-index: 1;
+}
+
+.lyrics::selection {
+  background: transparent;
 }
 
 .highlight-lyrics {
@@ -66,7 +74,15 @@ a {
   color: transparent;
 }
 
+.highlight-lyrics::selection {
+  background: transparent;
+}
+
 .annotated {
   position: relative;
-  background-color: #00BFFF;
+  background-color: #6ABEDB;
+}
+
+.no-events {
+  pointer-events: none;
 }

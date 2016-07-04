@@ -1,28 +1,103 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,700);
+
 .annotation-form-container {
+  font-family: sans-serif;
   width: 45%;
 }
 
 .annotation-form {
+  position: absolute;
+  background-color: white;
   margin: 20px;
   width: 450px;
   height: 300px;
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  border-right: 1px solid;
+  border-left: 10px solid #6abedb;
 }
 
 .annotation-form > h1 {
   margin: 20px;
-  font-size: 40px;
+  font-size: 30px;
+  border-bottom: 5px solid;
+}
+
+.annotation-error-container {
+  font-size: 18px;
+  margin-bottom: 0px;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+  border-radius: 4px;
 }
 
 .annotation-textarea {
-  height: 200px;
+  height: 130px;
   margin: 0px 20px;
   font-size: 18px;
+  resize: none;
+  border-radius: 5px;
 }
 
 .annotation-form > button {
   margin: 10px;
   width: 50px;
+}
+
+.shadow {
+  -moz-box-shadow:    3px 3px 5px 6px #ccc;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+  box-shadow:         3px 3px 5px 6px #ccc;
+}
+
+.annotation-body {
+  position: absolute;
+  background-color: white;
+  margin: 20px;
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  border-right: 1px solid;
+  border-left: 10px solid #6abedb;
+}
+
+.annotator-display {
+  margin: 10px;
+}
+
+.annotation-display {
+  margin: 10px;
+}
+
+.bolded {
+  font-weight: bold;
+}
+
+.annotation-comment-form {
+  width:100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.annotation-input-fields {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.annotation-comment-textarea {
+  width: 95%;
+  margin: auto;
+  border-radius: 5px;
+  height: 100%;
+  resize: none;
+  font-size: 18px;
 }

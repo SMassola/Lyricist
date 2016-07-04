@@ -5,6 +5,7 @@ class Api::AnnotationsController < ApplicationController
     if @annotation.save
       render :create
     else
+      render(json: {base: @annotation.errors.full_messages}, status: 422)
     end
   end
 

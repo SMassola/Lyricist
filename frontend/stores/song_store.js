@@ -23,7 +23,6 @@ SongStore.__onDispatch = function(payload) {
       break;
     case SongConstants.ANNOTATION_RECEIVED:
       addAnnotation(payload.annotation);
-      console.log(payload.annotation);
       SongStore.__emitChange();
   }
 };
@@ -79,7 +78,6 @@ function setSong(song) {
 
 function addAnnotation(annotation) {
   _annotations[annotation.id] = annotation;
-  console.log(_annotations);
 }
 
 module.exports = SongStore;

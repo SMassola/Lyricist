@@ -4,6 +4,10 @@ const SongActions = require('../actions/song_actions.js');
 
 const SongIndex = React.createClass({
 
+  getInitialState() {
+    return {songs: {}};
+  },
+
   render() {
     return(<div>Hello from the song_index</div>);
   }

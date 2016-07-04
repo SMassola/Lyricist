@@ -1,6 +1,7 @@
 const SongApiUtil = require('../util/song_api_util.js');
 const SongConstants = require('../constants/song_constants.js');
 const AppDispatcher = require('../dispatcher/dispatcher.js');
+const ErrorActions = require('./error_actions.js');
 
 const SongActions = {
   fetchAllSongs() {
@@ -25,19 +26,11 @@ const SongActions = {
     });
   },
 
-  // fetchAllSongAnnotations(songId) {
-  //   SongApiUtil.fetchAllSongAnnotations(songId, this.receiveAllAnnotations);
-  // },
-  //
-  // receiveAllAnnotations(annotations) {
-  //   AppDispatcher.dispatch({
-  //     actionType: SongConstants.ANNOTATIONS_RECEIVED,
-  //     annotations: annotations
-  //   });
-  // },
-
   createAnnotation(annotation) {
-    SongApiUtil.createAnnotation(annotation, this.receiveAnnotation);
+    SongApiUtil.createAnnotation(
+      annotation,
+      this.receiveAnnotation,
+      ErrorActions.setErrors.bind(null, 'creating_annotation'));
   },
 
   receiveAnnotation(annotation) {
