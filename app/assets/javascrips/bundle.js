@@ -60,6 +60,7 @@
 	var Search = __webpack_require__(282);
 	var SongShow = __webpack_require__(283);
 	var SongIndex = __webpack_require__(290);
+	var SongForm = __webpack_require__(295);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -77,6 +78,7 @@
 	  Route,
 	  { path: '/', component: App },
 	  React.createElement(IndexRoute, { component: Search }),
+	  React.createElement(Route, { path: 'songs/new', component: SongForm }),
 	  React.createElement(Route, { path: 'songs', component: SongIndex }),
 	  React.createElement(Route, { path: 'songs/:id', component: SongShow })
 	);
@@ -27983,6 +27985,9 @@
 	  _handleIndex: function _handleIndex() {
 	    hashHistory.push("/songs");
 	  },
+	  _handleSongForm: function _handleSongForm() {
+	    hashHistory.push("/songs/new");
+	  },
 	  render: function render() {
 	    var component = this.state.signIn ? React.createElement(LoginForm, { that: this }) : React.createElement(SignupForm, { that: this });
 	
@@ -35704,7 +35709,7 @@
 	    });
 	  },
 	  createSong: function createSong(song) {
-	    SongApiUtil.createSong(song, this.receiveSong, ErrorActions.setErrors.bind(null, 'creating_song'));
+	    SongApiUtil.createSong(song, SongActions.receiveSong, ErrorActions.setErrors.bind(null, 'creating_song'));
 	  }
 	};
 	
@@ -35732,6 +35737,20 @@
 	      method: "GET",
 	      success: function success(resp) {
 	        callback(resp);
+	      }
+	    });
+	  },
+	  createSong: function createSong(song, successCB, errorCB) {
+	    $.ajax({
+	      url: "api/songs",
+	      type: "POST",
+	      data: { song: song },
+	      success: function success(resp) {
+	        successCB(resp);
+	      },
+	      error: function error(resp) {
+	        var errors = resp.responseJSON;
+	        errorCB(errors);
 	      }
 	    });
 	  },
@@ -36086,18 +36105,262 @@
 	        { className: 'album-details' },
 	        React.createElement(
 	          'div',
-	          { className: 'clip-art' },
+	          { className: 'clip-art-container' },
 	          React.createElement('img', { src: this.props.art })
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'album-insert' },
-	          this.props.albumDescription
 	        )
 	      ) : ""
 	    );
 	  }
 	});
+	
+	// <div className="album-insert">{this.props.albumDescription}</div>
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var ReactRouter = __webpack_require__(188);
+	
+	var SongActions = __webpack_require__(286);
+	var ArtistActions = __webpack_require__(297);
+	
+	var ErrorStore = __webpack_require__(280);
+	var SessionStore = __webpack_require__(262);
+	var SongStore = __webpack_require__(284);
+	var hashHistory = ReactRouter.hashHistory;
+	
+	var SongForm = React.createClass({
+	  displayName: 'SongForm',
+	  getInitialState: function getInitialState() {
+	    return {
+	      title: null,
+	      lyrics: null,
+	      year: null,
+	      url: null,
+	      album_id: null,
+	      artistName: null,
+	      albumName: null,
+	      artist_id: null
+	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.songListener = SongStore.addListener(this._handleChange);
+	    this.errorListener = ErrorStore.addListener(this._handleErrors);
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.errorListener.remove();
+	    this.songListener.remove();
+	  },
+	  _handleChange: function _handleChange() {
+	    hashHistory.push("/songs");
+	  },
+	  _handleErrors: function _handleErrors() {
+	    this.setState({ errors: ErrorStore.typeErrors("login_form") });
+	  },
+	  _titleChange: function _titleChange(e) {
+	    this.setState({ title: e.target.value });
+	  },
+	  _yearChange: function _yearChange(e) {
+	    this.setState({ year: e.target.value });
+	  },
+	  _lyricsChange: function _lyricsChange(e) {
+	    this.setState({ lyrics: e.target.value });
+	  },
+	  _artistNameChange: function _artistNameChange(e) {
+	    this.setState({ artistName: e.target.value });
+	  },
+	  _artistDescriptionChange: function _artistDescriptionChange(e) {
+	    this.setState({ artistDescription: e.target.value });
+	  },
+	  _albumNameChange: function _albumNameChange(e) {
+	    this.setState({ albumName: e.target.value });
+	  },
+	  _albumDescriptionChange: function _albumDescriptionChange(e) {
+	    this.setState({ albumDescription: e.target.value });
+	  },
+	  _urlChange: function _urlChange(e) {
+	    this.setState({ url: e.target.value });
+	  },
+	  _handleSubmit: function _handleSubmit(e) {
+	    e.preventDefault();
+	    var artist = { name: this.state.artistName };
+	    var album = { name: this.state.albumName, artist_id: this.state.artist_id };
+	    var song = {
+	      title: this.state.title,
+	      lyrics: this.state.lyrics,
+	      year: this.state.year,
+	      user_id: SessionStore.currentUser()["id"],
+	      album_id: this.state.album_id,
+	      image_url: this.state.url
+	    };
+	    ArtistActions.createArtistAlbumSong(artist, album, song);
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'song-form-container' },
+	      React.createElement(
+	        'form',
+	        { onSubmit: this._handleSubmit },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'Add a New Song to the Lyricist Library'
+	        ),
+	        React.createElement('input', {
+	          type: 'text',
+	          placeholder: 'Title',
+	          value: this.state.title || "",
+	          onChange: this._titleChange,
+	          className: 'song-title-input' }),
+	        React.createElement('input', {
+	          type: 'text',
+	          placeholder: 'Year',
+	          value: this.state.year || "",
+	          onChange: this._yearChange,
+	          className: 'song-year-input' }),
+	        React.createElement('textarea', { onChange: this._lyricsChange,
+	          className: 'lyrics-textarea',
+	          placeholder: 'Lyrics',
+	          value: this.state.body }),
+	        React.createElement('input', {
+	          type: 'text',
+	          placeholder: 'Artist',
+	          value: this.state.artistName || "",
+	          onChange: this._artistNameChange,
+	          className: 'artist-input' }),
+	        React.createElement('input', {
+	          type: 'text',
+	          placeholder: 'Album',
+	          value: this.state.albumName || "",
+	          onChange: this._albumNameChange,
+	          className: 'album-input' }),
+	        React.createElement('input', {
+	          type: 'text',
+	          placeholder: 'Image URL (optional)',
+	          value: this.state.url || "",
+	          onChange: this._urlChange,
+	          className: 'url-input' }),
+	        React.createElement('input', { className: 'submit-to-lyricist', type: 'submit', value: 'Add To Lyricist' })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SongForm;
+	
+	// <h1>New Annotation</h1>
+	// <div className="annotation-error-container">
+	//   {errs.map((error) => {
+	//     return(<li key={error} style={{marginLeft: "20px"}}>{error}</li>);
+	//   })}
+	// </div>
+	// <div className="annotation-input-fields">
+	//   <textarea onChange={this._bodyChange}
+	//     className="annotation-textarea"
+	//     placeholder="Body"
+	//     value={this.state.body}>
+	//   </textarea>
+	//   <input className="submit-comment" type="submit" value="Add Annotation"/>
+	// </div>
+
+/***/ },
+/* 296 */,
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var ArtistApiUtil = __webpack_require__(299);
+	var AppDispatcher = __webpack_require__(254);
+	
+	var AlbumActions = __webpack_require__(298);
+	var ErrorActions = __webpack_require__(260);
+	
+	var ArtistActions = {
+	  createArtistAlbumSong: function createArtistAlbumSong(artist, album, song) {
+	    ArtistApiUtil.createArtistAlbumSong(artist, album, song, AlbumActions.createAlbumSong, ErrorActions.setErrors.bind(null, 'creating_artist'));
+	  }
+	};
+	
+	module.exports = ArtistActions;
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AlbumApiUtil = __webpack_require__(300);
+	var AppDispatcher = __webpack_require__(254);
+	
+	var SongActions = __webpack_require__(286);
+	var ErrorActions = __webpack_require__(260);
+	
+	var AlbumActions = {
+	  createAlbumSong: function createAlbumSong(album, song) {
+	    AlbumApiUtil.createAlbumSong(album, song, SongActions.createSong, ErrorActions.setErrors.bind(null, 'creating_album'));
+	  }
+	};
+	
+	module.exports = AlbumActions;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var ArtistApiUtil = {
+	  createArtistAlbumSong: function createArtistAlbumSong(artist, album, song, successCB, errorCB) {
+	    $.ajax({
+	      url: "api/artists",
+	      type: "POST",
+	      data: { artist: artist },
+	      success: function success(resp) {
+	        album["artist_id"] = resp["id"];
+	        successCB(album, song);
+	      },
+	
+	      error: function error(resp) {
+	        var errors = resp.responseJSON;
+	        errorCB(errors);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = ArtistApiUtil;
+
+/***/ },
+/* 300 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var AlbumApiUtil = {
+	  createAlbumSong: function createAlbumSong(album, song, successCB, errorCB) {
+	    $.ajax({
+	      url: "api/albums",
+	      type: "POST",
+	      data: { album: album },
+	      success: function success(resp) {
+	        song["album_id"] = resp["id"];
+	        successCB(song);
+	      },
+	
+	      error: function error(resp) {
+	        var errors = resp.responseJSON;
+	        errorCB(errors);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = AlbumApiUtil;
 
 /***/ }
 /******/ ]);

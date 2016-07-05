@@ -75,6 +75,10 @@ const Header = React.createClass({
     hashHistory.push("/songs");
   },
 
+  _handleSongForm() {
+    hashHistory.push("/songs/new");
+  },
+
 
   render() {
     let component = (this.state.signIn) ? <LoginForm that={this}/> : <SignupForm that={this}/>;

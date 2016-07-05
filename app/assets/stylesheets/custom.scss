@@ -10,6 +10,10 @@ html {
   background-color: white;
 }
 
+html, body {
+  height:100%;
+}
+
 .splash-container {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),
   image-url("Astronaut.jpg");

@@ -5,9 +5,11 @@ class Api::AlbumsController < ApplicationController
   end
 
   def create
-    @album = Album.new(album_params)
+    @album = Album.find_by(name: params[:album][:name])
+    @album ||= Album.new(album_params)
+    @album.artist_id ||= Artist.find_by()
     if @album.save
-      render :create
+      render :show
     else
       render json: @album.errors.full_messages, status: 422
     end

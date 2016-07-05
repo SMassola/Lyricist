@@ -38,4 +38,11 @@
 
 .album-art {
   border: 2px solid white;
+  height: 300px;
+  width: 300px;
+}
+
+.album-art > img {
+  max-height: 100%;
+  max-width: 100%;
 }

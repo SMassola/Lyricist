@@ -36,11 +36,14 @@ module.exports = React.createClass({
         </button>
         {this.state.hovering ?
           <div className="album-details">
-            <div className="clip-art"><img src={this.props.art}/></div>
-            <div className="album-insert">{this.props.albumDescription}</div>
+            <div className="clip-art-container">
+              <img src={this.props.art}/>
+            </div>
           </div>
            : ""}
       </div>
     );
   }
 });
+
+// <div className="album-insert">{this.props.albumDescription}</div>

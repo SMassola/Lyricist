@@ -1,48 +1,41 @@
 const React = require('react');
+const ReactRouter = require('react-router');
+
 const SongActions = require('../actions/song_actions.js');
-const ArtistActions = require('../actions/song_actions.js');
-const AlbumActions = require('../actions/song_actions.js');
+const ArtistActions = require('../actions/artist_actions.js');
 
 const ErrorStore = require('../stores/error_store.js');
-const ArtistStore = require('../stores/artist_store.js');
-const SongStore = require('../stores/artist_store.js');
-const AlbumStore = require('../stores/artist_store.js');
+const SessionStore = require('../stores/session_store.js');
+const SongStore = require('../stores/song_store.js');
+const hashHistory = ReactRouter.hashHistory;
 
 const SongForm = React.createClass({
 
   getInitialState() {
-      return {
-        title: null,
-        lyrics: null,
-        year: null,
-        user_id: null,
-        album_id: null,
-        artistName: null,
-        albumName: null,
-        artist_id: null
-      };
-  },
-
-  componentWillMount() {
-    this._handleLogIn();
+    return {
+      title: null,
+      lyrics: null,
+      year: null,
+      url: null,
+      album_id: null,
+      artistName: null,
+      albumName: null,
+      artist_id: null
+    };
   },
 
   componentDidMount() {
-    this.artistListener = ArtistStore.addListener(this._handleChange);
-    this.albumListener = AlbumStore.addListener(this._handleChange);
     this.songListener = SongStore.addListener(this._handleChange);
     this.errorListener = ErrorStore.addListener(this._handleErrors);
   },
 
   componentWillUnmount() {
     this.errorListener.remove();
-    this.sessionListener.remove();
+    this.songListener.remove();
   },
 
   _handleChange() {
-    // if (successful creation) {
-    //   hashHistory.push("/songs");
-    // }
+    hashHistory.push("/songs");
   },
 
   _handleErrors() {
@@ -70,8 +63,22 @@ const SongForm = React.createClass({
   _albumDescriptionChange(e) {
     this.setState({albumDescription: e.target.value});
   },
+  _urlChange(e) {
+    this.setState({url: e.target.value});
+  },
   _handleSubmit(e) {
     e.preventDefault();
+    let artist = {name: this.state.artistName};
+    let album = {name: this.state.albumName, artist_id: this.state.artist_id};
+    let song = {
+      title: this.state.title,
+      lyrics: this.state.lyrics,
+      year: this.state.year,
+      user_id: SessionStore.currentUser()["id"],
+      album_id: this.state.album_id,
+      image_url: this.state.url
+    };
+    ArtistActions.createArtistAlbumSong(artist, album, song);
   },
 
   render() {
@@ -102,22 +109,18 @@ const SongForm = React.createClass({
             value={this.state.artistName || ""}
             onChange={this._artistNameChange}
             className="artist-input" />
-          <textarea onChange={this._artistDescriptionChange}
-            className="artist-description"
-            placeholder="Artist Description"
-            value={this.state.artistDescription}>
-          </textarea>
           <input
             type="text"
             placeholder="Album"
-            value={this.state.year || ""}
+            value={this.state.albumName || ""}
             onChange={this._albumNameChange}
             className="album-input" />
-          <textarea onChange={this._albumDescriptionChange}
-            className="album-Desciption"
-            placeholder="Album Description"
-            value={this.state.albumDescription}>
-          </textarea>
+          <input
+            type="text"
+            placeholder="Image URL (optional)"
+            value={this.state.url || ""}
+            onChange={this._urlChange}
+            className="url-input" />
           <input className="submit-to-lyricist" type="submit" value="Add To Lyricist"/>
         </form>
       </div>

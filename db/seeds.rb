@@ -18,6 +18,14 @@ Artist.create!(
   name: "Kanye West"
 )
 
+Artist.create!(
+  name: "Tori Kelly"
+)
+
+Artist.create!(
+  name: "Green Day"
+)
+
 Album.create!(
   name: "This Is War",
   artist_id: Artist.find_by_name("30 Seconds To Mars").id
@@ -26,6 +34,16 @@ Album.create!(
 Album.create!(
   name: "Late Registration",
   artist_id: Artist.find_by_name("Kanye West").id
+)
+
+Album.create!(
+  name: "Unbreakable Smile",
+  artist_id: Artist.find_by_name("Tori Kelly").id
+)
+
+Album.create!(
+  name: "21st Century Breakdown",
+  artist_id: Artist.find_by_name("Green Day").id
 )
 
 Song.create!(
@@ -213,8 +231,133 @@ Get down girl go head
 (lemme hear that back)",
   year: 2005,
   user_id: User.find_by_username("Guest").id,
-  album_id: Album.find_by_name("Late Registration").id
+  album_id: Album.find_by_name("Late Registration").id,
+  image_url: "https://images-na.ssl-images-amazon.com/images/I/61gmEwlJE0L.jpg"
 )
+
+Song.create!(
+  title: "Dear No One",
+  lyrics:
+"I like being independent
+Not so much of an investment
+No one to tell me what to do
+I like being by myself
+Don't gotta entertain anybody else
+No one to answer to...
+
+But sometimes, I just want somebody to hold
+Someone to give me the jacket when it's cold
+Got that young love even when we're old
+Yeah sometimes, I want someone to grab my hand
+Pick me up, pull me close, be my man
+I will love you till the end
+
+So if you're out there I swear to be good to you
+But I'm done lookin', for my future someone
+Cause when the time is right
+You'll be here, but for now
+Dear no one, this is your love song
+Ooo-OhOh
+
+I don't really like big crowds
+I tend to shut people out
+I like my space, yeah
+But I'd love to have a soulmate
+And God'll give him to me someday
+And I know it'll be worth the wait, oh
+
+So if you're out there I swear to be good to you
+But I'm done lookin' (But I'm done lookin'), for my future someone
+Cause when the time is right
+You'll be here, but for now
+Dear no one (Dear nobody) this is your love song (Ooo-Oooh)
+
+Sometimes, I just want somebody to hold
+Someone to give me the jacket when it's cold
+Got that young love even when we're old
+Yeah sometimes, I want someone to grab my hand
+Pick me up, pull me close, be my man
+I will love you till the end
+
+So if you're out there I swear to be good to you
+But I'm done lookin' (I'm done lookin'), for my future someone (Ooo-Yeah)
+Cause when the time is right
+You'll be here, but for now
+Dear no one (Dear Nobody) this is your love song (This is your love song)
+Dear no one, no need to be searchin', no
+Dear no one...
+Dear no one...
+Dear No one, this is your love song",
+  year: 2015,
+  user_id: User.find_by_username("Guest").id,
+  album_id: Album.find_by_name("Unbreakable Smile").id,
+  image_url: "http://assets.rollingstone.com/assets/2015/media/206940/_original/1440433173/1035x1035-MI0003895399.jpg"
+)
+
+Song.create!(
+  title: "21 Guns",
+  lyrics:
+"Do you know what's worth fighting for
+When it's not worth dying for?
+Does it take your breath away
+And you feel yourself suffocating
+Does the pain weigh out the pride?
+And you look for a place to hide
+Did someone break your heart inside
+You're in ruins
+
+One, 21 Guns
+Lay down your arms
+Give up the fight
+One, 21 Guns
+Throw up your arms into the sky
+You and I...
+
+When you're at the end of the road
+And you lost all sense of control
+And your thoughts have taken their toll
+When your mind breaks the spirit of your soul
+Your faith walks on broken glass
+And the hangover doesn't pass
+Nothing's ever built to last
+You're in ruins
+
+One, 21 Guns
+Lay down your arms
+Give up the fight
+One, 21 Guns
+Throw up your arms into the sky
+You and I...
+
+Did you try to live on your own
+When you burned down the house and home
+Did you stand too close to the fire?
+Like a liar looking for forgiveness from a stone
+
+When it's time to live and let die
+And you can't get another try
+Something inside this heart has died
+You're in ruins
+
+One, 21 Guns
+Lay down your arms
+Give up the fight
+One, 21 Guns
+Throw up your arms into the sky
+One, 21 Guns
+Lay down your arms
+Give up the fight
+One, 21 Guns
+Throw up your arms into the sky
+
+You and I",
+  year: 2009,
+  user_id: User.find_by_username("Guest").id,
+  album_id: Album.find_by_name("21st Century Breakdown").id,
+  image_url: "https://upload.wikimedia.org/wikipedia/en/c/c8/Green_Day_-_21st_Century_Breakdown_cover.jpg"
+)
+
+
 
 Annotation.create!(
   body: "Anything can happen in war, but no matter what, you have to always keep on fighting and persevere. Wars test people’s character. The stronger survives while the weaker falls, and usually the good guys always fall victim to the bad guys.!",

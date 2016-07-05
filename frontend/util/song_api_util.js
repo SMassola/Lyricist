@@ -19,6 +19,21 @@ const SongApiUtil = {
     });
   },
 
+  createSong(song, successCB, errorCB) {
+    $.ajax({
+      url: `api/songs`,
+      type: "POST",
+      data: {song: song},
+      success: function(resp) {
+        successCB(resp);
+      },
+      error: function(resp) {
+        let errors = resp.responseJSON;
+        errorCB(errors);
+      }
+    });
+  },
+
   createAnnotation(annotation, successCB, errorCB) {
     $.ajax({
       url: `api/songs/${annotation.song_id}/annotations`,

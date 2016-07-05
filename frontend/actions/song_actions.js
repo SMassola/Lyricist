@@ -23,7 +23,7 @@ const SongActions = {
   receiveSong(song) {
     AppDispatcher.dispatch({
       actionType: SongConstants.SONG_RECEIVED,
-      song: song
+        song: song
     });
   },
 
@@ -44,7 +44,7 @@ const SongActions = {
   createSong(song) {
     SongApiUtil.createSong(
       song,
-      this.receiveSong,
+      SongActions.receiveSong,
       ErrorActions.setErrors.bind(null, 'creating_song')
     );
   }

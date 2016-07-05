@@ -12,6 +12,7 @@ const Header = require("./header.jsx");
 const Search = require('./search.jsx');
 const SongShow = require('./components/song_show.jsx');
 const SongIndex = require('./components/song_index.jsx');
+const SongForm = require('./components/song_form.jsx');
 
 const App = React.createClass({
   render() {
@@ -27,6 +28,7 @@ const App = React.createClass({
 const routes = (
   <Route path="/" component={App}>
     <IndexRoute component={Search} />
+    <Route path="songs/new" component={SongForm} />
     <Route path="songs" component={SongIndex} />
       <Route path="songs/:id" component={SongShow} />
   </Route>
