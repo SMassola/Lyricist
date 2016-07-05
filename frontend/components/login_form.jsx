@@ -1,5 +1,8 @@
 const React = require('react');
 const Link = require('react-router').Link;
+const Header = require('../header.jsx');
+const Modal = require('react-modal');
+
 const SessionActions = require('../actions/session_actions');
 const SessionStore = require('../stores/session_store');
 const ErrorStore = require('../stores/error_store');
@@ -18,12 +21,12 @@ const LoginForm = React.createClass({
   },
 
   componentWillMount() {
-    this.redirectIfLoggedIn();
+    this._handleLogIn();
   },
 
   componentDidMount() {
     this.errorListener = ErrorStore.addListener(this._handleErrors);
-    this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn());
+    this.sessionListener = SessionStore.addListener(this._handleLogIn);
   },
 
   componentWillUnmount() {
@@ -31,9 +34,9 @@ const LoginForm = React.createClass({
     this.sessionListener.remove();
   },
 
-  redirectIfLoggedIn() {
+  _handleLogIn() {
     if (SessionStore.isUserLoggedIn()) {
-      hashHistory.push("/");
+      this.props.that.onModalClose();
     }
   },
 
@@ -74,18 +77,18 @@ const LoginForm = React.createClass({
               { this.state.errors.map(error => { return <li>{error}</li>;}) }
             </div>
 					<div className="login-form">
-  					  <input
-                type="text"
-                placeholder="Username"
-                value={this.state.username || ""}
-                onChange={this._usernameChange}
-                className="login-input" />
-  	          <input
-                type="password"
-                placeholder="Password"
-                value={this.state.password || ""}
-                onChange={this._passwordChange}
-                className="login-input" />
+					  <input
+              type="text"
+              placeholder="Username"
+              value={this.state.username || ""}
+              onChange={this._usernameChange}
+              className="login-input" />
+	          <input
+              type="password"
+              placeholder="Password"
+              value={this.state.password || ""}
+              onChange={this._passwordChange}
+              className="login-input" />
 						<input className="login-button" type="submit" value="Log In" />
 					</div>
 				</form>

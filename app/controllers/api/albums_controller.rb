@@ -23,7 +23,7 @@ class Api::AlbumsController < ApplicationController
   end
 
   def index
-    @albums = Album.where("title LIKE ? AND artist_id IN (?)", "%#{params[:title]}%", "#{params[:artist_id]}").limit(10)
+    @albums = Album.all
     if @albums.length > 0
       render :index
     else

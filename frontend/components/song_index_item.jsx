@@ -4,24 +4,43 @@ const hashHistory = require('react-router').hashHistory;
 
 module.exports = React.createClass({
 
+  getInitialState() {
+    return(
+      {hovering: false}
+    );
+  },
+
   _handleClick(e) {
     hashHistory.push(`/songs/${this.props.songId}`);
+  },
+
+  _handleEnter(e) {
+    this.setState({hovering: true});
+  },
+  _handleExit(e) {
+    this.setState({hovering: false});
   },
 
   render() {
 
     return(
-      <button className="song-item-details-container" onClick={this._handleClick}>
-        <div className="song-item-details">
-          <div className="song-item-title">{this.props.title}</div>
-          <div className="song-item-artist">{this.props.artist}</div>
-        </div>
-      </button>
+      <div>
+        <button className="song-item-details-container"
+          onClick={this._handleClick}
+          onMouseEnter={this._handleEnter}
+          onMouseLeave={this._handleExit}>
+          <div className="song-item-details">
+            <div className="song-item-title">{this.props.title}</div>
+            <div className="song-item-artist">{this.props.artist}</div>
+          </div>
+        </button>
+        {this.state.hovering ?
+          <div className="album-details">
+            <div className="clip-art"><img src={this.props.art}/></div>
+            <div className="album-insert">{this.props.albumDescription}</div>
+          </div>
+           : ""}
+      </div>
     );
   }
 });
-
-
-// <div className="clip-art">
-//   <img src={this.props.art}/>
-// </div>

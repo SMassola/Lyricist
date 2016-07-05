@@ -36,10 +36,18 @@ const SongActions = {
 
   receiveAnnotation(annotation) {
     AppDispatcher.dispatch({
-    actionType: SongConstants.ANNOTATION_RECEIVED,
-    annotation: annotation
-  });
-},
+      actionType: SongConstants.ANNOTATION_RECEIVED,
+      annotation: annotation
+    });
+  },
+
+  createSong(song) {
+    SongApiUtil.createSong(
+      song,
+      this.receiveSong,
+      ErrorActions.setErrors.bind(null, 'creating_song')
+    );
+  }
 };
 
 

@@ -24,6 +24,6 @@ class ApplicationController < ActionController::Base
   end
 
   def require_signed_in!
-    render "api/shared/errors" unless signed_in?
+    render(json: {base:['Must Be Signed In']}, status: 401) unless signed_in?
   end
 end

@@ -27984,7 +27984,7 @@
 	    hashHistory.push("/songs");
 	  },
 	  render: function render() {
-	    var component = this.state.signIn ? React.createElement(LoginForm, null) : React.createElement(SignupForm, null);
+	    var component = this.state.signIn ? React.createElement(LoginForm, { that: this }) : React.createElement(SignupForm, { that: this });
 	
 	    return React.createElement(
 	      'div',
@@ -28098,6 +28098,9 @@
 	
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(188).Link;
+	var Header = __webpack_require__(250);
+	var Modal = __webpack_require__(168);
+	
 	var SessionActions = __webpack_require__(253);
 	var SessionStore = __webpack_require__(262);
 	var ErrorStore = __webpack_require__(280);
@@ -28115,19 +28118,19 @@
 	    };
 	  },
 	  componentWillMount: function componentWillMount() {
-	    this.redirectIfLoggedIn();
+	    this._handleLogIn();
 	  },
 	  componentDidMount: function componentDidMount() {
 	    this.errorListener = ErrorStore.addListener(this._handleErrors);
-	    this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn());
+	    this.sessionListener = SessionStore.addListener(this._handleLogIn);
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
 	    this.errorListener.remove();
 	    this.sessionListener.remove();
 	  },
-	  redirectIfLoggedIn: function redirectIfLoggedIn() {
+	  _handleLogIn: function _handleLogIn() {
 	    if (SessionStore.isUserLoggedIn()) {
-	      hashHistory.push("/");
+	      this.props.that.onModalClose();
 	    }
 	  },
 	  _handleErrors: function _handleErrors() {
@@ -35656,7 +35659,6 @@
 	var SongConstants = {
 		SONGS_RECEIVED: "SONGS_RECEIVED",
 		SONG_RECEIVED: "SONG_RECEIVED",
-		// ANNOTATIONS_RECEIVED: "ANNOTATIONS_RECEIVED",
 		ANNOTATION_RECEIVED: "ANNOTATION_RECEIVED"
 	};
 	
@@ -35700,6 +35702,9 @@
 	      actionType: SongConstants.ANNOTATION_RECEIVED,
 	      annotation: annotation
 	    });
+	  },
+	  createSong: function createSong(song) {
+	    SongApiUtil.createSong(song, this.receiveSong, ErrorActions.setErrors.bind(null, 'creating_song'));
 	  }
 	};
 	
@@ -35897,7 +35902,8 @@
 	            songId: song.id,
 	            title: song.title,
 	            artist: song.artist.name,
-	            art: song.image_url });
+	            art: song.image_url,
+	            albumDescription: song.album.body });
 	        })
 	      )
 	    );
@@ -36037,35 +36043,61 @@
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
+	  getInitialState: function getInitialState() {
+	    return { hovering: false };
+	  },
 	  _handleClick: function _handleClick(e) {
 	    hashHistory.push('/songs/' + this.props.songId);
+	  },
+	  _handleEnter: function _handleEnter(e) {
+	    this.setState({ hovering: true });
+	  },
+	  _handleExit: function _handleExit(e) {
+	    this.setState({ hovering: false });
 	  },
 	  render: function render() {
 	
 	    return React.createElement(
-	      'button',
-	      { className: 'song-item-details-container', onClick: this._handleClick },
+	      'div',
+	      null,
 	      React.createElement(
-	        'div',
-	        { className: 'song-item-details' },
+	        'button',
+	        { className: 'song-item-details-container',
+	          onClick: this._handleClick,
+	          onMouseEnter: this._handleEnter,
+	          onMouseLeave: this._handleExit },
 	        React.createElement(
 	          'div',
-	          { className: 'song-item-title' },
-	          this.props.title
+	          { className: 'song-item-details' },
+	          React.createElement(
+	            'div',
+	            { className: 'song-item-title' },
+	            this.props.title
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'song-item-artist' },
+	            this.props.artist
+	          )
+	        )
+	      ),
+	      this.state.hovering ? React.createElement(
+	        'div',
+	        { className: 'album-details' },
+	        React.createElement(
+	          'div',
+	          { className: 'clip-art' },
+	          React.createElement('img', { src: this.props.art })
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'song-item-artist' },
-	          this.props.artist
+	          { className: 'album-insert' },
+	          this.props.albumDescription
 	        )
-	      )
+	      ) : ""
 	    );
 	  }
 	});
-	
-	// <div className="clip-art">
-	//   <img src={this.props.art}/>
-	// </div>
 
 /***/ }
 /******/ ]);

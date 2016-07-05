@@ -20,6 +20,10 @@ class Api::SongsController < ApplicationController
   end
 
   def create
+    # unless Artist.all.to_a.include?(song_params[:artist])
+    #   Artist.create!( )
+    # end
+    
     @song = Song.create!(song_params)
     render :show
   end

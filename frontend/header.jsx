@@ -77,7 +77,7 @@ const Header = React.createClass({
 
 
   render() {
-    let component = (this.state.signIn) ? <LoginForm /> : <SignupForm />;
+    let component = (this.state.signIn) ? <LoginForm that={this}/> : <SignupForm that={this}/>;
 
     return(
       <div className="header-container">

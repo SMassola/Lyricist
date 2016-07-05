@@ -4,7 +4,7 @@
 }
 
 .header {
-  background: linear-gradient(180deg, transparent, black);
+  // background: linear-gradient(180deg, transparent, black);
   display: flex;
   height: 50px;
   background-color: #222;
@@ -19,7 +19,10 @@
 }
 
 .head-links {
+  height: 100%;
   width: 200px;
+  display: flex;
+  justify-content: center;
 }
 
 .head-user {
@@ -32,8 +35,8 @@
 }
 
 .navbar {
-  background: linear-gradient(180deg, transparent, black);
-  background-color: #6ABEDB;
+  // background: linear-gradient(0deg, transparent, black);
+  background: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), #6ABEDB;
   height: 25px;
   color: white;
   display: flex;
@@ -42,17 +45,19 @@
 }
 
 .nav-links {
-  background:none!important;
+  height: 100%;
+  background:none;
   color: white;
   border:none;
   padding-left: 10px;
   padding-right: 10px;
   font: inherit;
   cursor: pointer;
+  outline: none;
 }
 
 .nav-links:hover {
-   border-top-color: #28597a;
-   background: #28597a;
-   color: #ccc;
+   color: black;
+   background: linear-gradient(0deg, transparent, white);
+   background-color: #ccc;
  }

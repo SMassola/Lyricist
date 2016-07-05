@@ -9,7 +9,7 @@
 Lyricist is a web application inspired by Genius using Ruby on Rails as the framework and React as the frontend interface. By the end
 week 9, this app will at minimum satisfy the following criteria:
 
-- [ ] Hosting on Heroku
+- [x] Hosting on Heroku
 - [ ] New account creation, login, and guest/demo login
 - [ ] A production README, replacing this README (**NB**: check out the [sample production README](docs/production_readme.md) -- you'll write this later)
 - [ ] Songs
@@ -67,7 +67,20 @@ the API.
 - [x] setup `APIUtil` to interact with the API
 - [x] test out API interaction in the console.
 
-### Phase 3: Flux Architecture and Router (1.5 days, W1 F 6pm)
+### Phase 3: Annotations (1 day, W2 Tu 12pm)
+
+**Objective:** Annotations belong to Songs, and can be viewed by Songs.
+
+- [x] create `Annotation` model
+- build out API, Flux loop, and components for:
+- [x] Annotations CRUD
+- [x] adding annotations to song lyrics
+- Use CSS to style new views
+
+Phase 3 adds organization to the Songs. Annotations belong to a Song,
+which has its own `Show` view.
+
+### Phase 4: Flux Architecture and Router (1.5 days, W1 F 6pm)
 
 **Objective:** Songs and Comments can be created, read, edited and destroyed with the
 user interface.
@@ -75,7 +88,7 @@ user interface.
 - [ ] setup the flux loop with skeleton files
 - [ ] setup React Router
 - implement each song and comment component, building out the flux loop as needed.
-  - [ ] `SongssIndex`
+  - [x] `SongssIndex`
   - [x] `SongIndexItem`
   - [ ] `SongForm`
   - [ ] `CommentsIndex`
@@ -84,7 +97,7 @@ user interface.
 - [ ] save Song or Comment to the DB when the form loses focus or is left idle
   after editing.
 
-### Phase 4: Start Styling (0.5 days, W2 M 12pm)
+### Phase 5: Start Styling (0.5 days, W2 M 12pm)
 
 **Objective:** Existing pages (including signup/signin) will look good.
 
@@ -92,18 +105,6 @@ user interface.
 - [ ] position elements on the page
 - [ ] add basic colors & styles
 
-### Phase 5: Annotations (1 day, W2 Tu 12pm)
-
-**Objective:** Annotations belong to Songs, and can be viewed by Songs.
-
-- [x] create `Annotation` model
-- build out API, Flux loop, and components for:
-  - [x] Annotations CRUD
-  - [x] adding annotations to song lyrics
-- Use CSS to style new views
-
-Phase 3 adds organization to the Songs. Annotations belong to a Song,
-which has its own `Show` view.
 
 ### Phase 6: Upvotes (1 days, W2 Th 12pm)
 
@@ -115,15 +116,7 @@ which has its own `Show` view.
   - [ ] adding upvotes to annotations
 - [ ] Style new elements
 
-### Phase 7: Allow Complex Styling in Songs (0.5 days, W2 Th 6pm)
-
-**objective:** Enable complex styling of notes.
-
-- [ ] Integrate `react-quill` (based on Quill.js).
-- [ ] Use Rails helpers to sanitize HTML before rendering.
-- [ ] Style the new Quill elements.
-
-### Phase 8: Styling Cleanup and Seeding (1 day, W2 F 6pm)
+### Phase 7: Styling Cleanup and Seeding (1 day, W2 F 6pm)
 
 **objective:** Make the site feel more cohesive and awesome.
 

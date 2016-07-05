@@ -6,9 +6,10 @@ class Api::ArtistsController < ApplicationController
   end
 
   def create
-    @artist = Artist.new(artist_params)
+    @artist = Artist.find_by(name: params[:artist][:name])
+    @artist ||= Artist.new(artist_params)
     if @artist.save
-      render :create
+      render :show
     else
       render json: @artist.errors.full_messages, status: 422
     end

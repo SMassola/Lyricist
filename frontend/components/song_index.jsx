@@ -36,7 +36,8 @@ const SongIndex = React.createClass({
                 songId={song.id}
                 title={song.title}
                 artist={song.artist.name}
-                art={song.image_url}/>
+                art={song.image_url}
+                albumDescription={song.album.body}/>
               );
           })}
         </div>
