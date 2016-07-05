@@ -5,8 +5,8 @@ const AnnotationBody = React.createClass({
 
   render() {
     let offset = $(window).scrollTop();
-    if (offset < 400) {
-      offset = 400;
+    if (offset < 425) {
+      offset = 425;
     }
 
     let style = {

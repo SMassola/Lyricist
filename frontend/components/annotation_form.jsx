@@ -32,7 +32,8 @@ const AnnotationForm = React.createClass({
     this.setState({body: e.target.value});
   },
 
-  _handleSubmit() {
+  _handleSubmit(e) {
+    e.preventDefault();
     let AnnotationInput = {};
     AnnotationInput = {
       body: this.state.body,
@@ -41,14 +42,13 @@ const AnnotationForm = React.createClass({
       start_idx: this.state.start_idx,
       end_idx: this.state.end_idx
     };
-
     SongActions.createAnnotation(AnnotationInput);
   },
 
   render() {
     let offset = $(window).scrollTop();
-    if (offset < 400) {
-      offset = 400;
+    if (offset < 425) {
+      offset = 425;
     }
     let style = {
       top: offset

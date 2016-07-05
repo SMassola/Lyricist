@@ -74,18 +74,18 @@ const LoginForm = React.createClass({
               { this.state.errors.map(error => { return <li>{error}</li>;}) }
             </div>
 					<div className="login-form">
-					  <input
-              type="text"
-              placeholder="Username"
-              value={this.state.username || ""}
-              onChange={this._usernameChange}
-              className="login-input" />
-	          <input
-              type="password"
-              placeholder="Password"
-              value={this.state.password || ""}
-              onChange={this._passwordChange}
-              className="login-input" />
+  					  <input
+                type="text"
+                placeholder="Username"
+                value={this.state.username || ""}
+                onChange={this._usernameChange}
+                className="login-input" />
+  	          <input
+                type="password"
+                placeholder="Password"
+                value={this.state.password || ""}
+                onChange={this._passwordChange}
+                className="login-input" />
 						<input className="login-button" type="submit" value="Log In" />
 					</div>
 				</form>

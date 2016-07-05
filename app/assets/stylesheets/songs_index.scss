@@ -1,0 +1,86 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,900);
+
+.song-index-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #FAFAFA;
+  align-items: center;
+}
+
+.song-info-container {
+  width: 80%;
+  margin: 10px;
+  background: white;
+}
+
+.song-item-details-container {
+  margin-left: 20px;
+  overflow: hidden;
+  font-size: 20px;
+  background: white;
+  width: 60%;
+  color: black;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  background-color: #e2dede;
+}
+
+.song-item-details-container:hover {
+  cursor: pointer;
+  border-left: 6px solid black;
+  transition: border-left 0.4s ease;
+  overflow: hidden;
+}
+
+.song-item-details-container:focus {
+  outline: none;
+}
+
+.song-item-details {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: center;
+  width: 50%;
+}
+
+.song-index {
+  height: 100vh;
+  width: 80%;
+  background-image: image-url("Background.jpeg");;
+  background-size: cover;
+}
+
+.line {
+  border-top: 1px solid;
+}
+
+.song-index-title {
+  font-family: "Roboto";
+  color: white;
+  font-size: 30px;
+  margin: 20px;
+}
+
+.song-item-title {
+  color: #6ABEDB;
+  font-size: 26px;
+  margin-left: 30px;
+  font-weight: bold;
+}
+
+.song-item-artist {
+  margin-left: 30px;
+  font-weight: semi-bold;
+}
+
+.clip-art {
+  float: right;
+  max-width:100%;
+  max-height:100%;
+  transform: translateX(-50%);
+  transform: translateY(-50%);
+}

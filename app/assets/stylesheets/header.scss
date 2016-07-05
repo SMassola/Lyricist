@@ -1,9 +1,16 @@
-.navbar {
+.header-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: linear-gradient(180deg, transparent, black);
   display: flex;
   height: 50px;
   background-color: #222;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid black;
 }
 
 .head-title {
@@ -20,4 +27,32 @@
   text-align: center;
   width: 200px;
   color: white;
+  display: flex;
+  justify-content: center;
 }
+
+.navbar {
+  background: linear-gradient(180deg, transparent, black);
+  background-color: #6ABEDB;
+  height: 25px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-links {
+  background:none!important;
+  color: white;
+  border:none;
+  padding-left: 10px;
+  padding-right: 10px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.nav-links:hover {
+   border-top-color: #28597a;
+   background: #28597a;
+   color: #ccc;
+ }

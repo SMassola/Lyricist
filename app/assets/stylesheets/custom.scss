@@ -59,28 +59,10 @@ html {
   margin: 0;
   font-size: 1.3rem;
 }
-
-button.nav-links {
-  background:none!important;
-  color: white;
-  border:none;
-  margin-right: 20px;
-  padding:0!important;
-  font: inherit;
-  /*border is optional*/
-  border-bottom:1px solid #444;
-  cursor: pointer;
-}
-
-button:hover {
-   border-top-color: #28597a;
-   background: #28597a;
-   color: #ccc;
-   }
-button:active {
-   border-top-color: #1b435e;
-   background: #1b435e;
- }
+// button:active {
+//    border-top-color: #1b435e;
+//    background: #1b435e;
+//  }
 
 //Search Bar
 

@@ -111,7 +111,7 @@ const SongShow = React.createClass({
     this.setState({renderForm: false});
   },
 
-  render () {
+  render () { 
 
     if (this.state.song.lyrics) {
       this.createAnnotations();

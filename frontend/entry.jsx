@@ -28,7 +28,7 @@ const routes = (
   <Route path="/" component={App}>
     <IndexRoute component={Search} />
     <Route path="songs" component={SongIndex} />
-    <Route path="songs/:id" component={SongShow} />
+      <Route path="songs/:id" component={SongShow} />
   </Route>
 );
 

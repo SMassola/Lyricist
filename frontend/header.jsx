@@ -1,6 +1,7 @@
 const React = require('react');
 const Modal = require('react-modal');
 const ModalStyle = require('./modal_style.js');
+const hashHistory = require('react-router').hashHistory;
 
 const LoginForm = require('./components/login_form.jsx');
 const SignupForm = require('./components/signup_form.jsx');
@@ -70,31 +71,41 @@ const Header = React.createClass({
       </div>);
   },
 
+  _handleIndex () {
+    hashHistory.push("/songs");
+  },
+
 
   render() {
     let component = (this.state.signIn) ? <LoginForm /> : <SignupForm />;
 
     return(
-      <div className="navbar">
-        <div className="head-user">
-          {this.isUserLoggedIn() ? "Logged in as: " + this.currentUser() : ""}
-        </div>
-        <div className="head-title" onClick={this._redirectHome}>Lyricist</div>
-        <div className="head-links">
-          {this.isUserLoggedIn() ? this.logOutLink() : this.logInLinks()}
-        </div>
-
-        <Modal
-          isOpen={this.state.modalOpen}
-          onRequestClose={this.onModalClose}
-          style={ModalStyle}
-          onAfterOpen={this.onModalOpen}>
-          <div className="modal-header">
-            <div>Login</div>
-            <button className="exit" onClick={this.onModalClose}>x</button>
+      <div className="header-container">
+        <div className="header">
+          <div className="head-user">
+            {this.isUserLoggedIn() ? "Logged in as: " + this.currentUser() : ""}
           </div>
-          {component}
-        </Modal>
+          <div className="head-title" onClick={this._redirectHome}>Lyricist</div>
+          <div className="head-links">
+            {this.isUserLoggedIn() ? this.logOutLink() : this.logInLinks()}
+          </div>
+
+          <Modal
+            isOpen={this.state.modalOpen}
+            onRequestClose={this.onModalClose}
+            style={ModalStyle}
+            onAfterOpen={this.onModalOpen}>
+            <div className="modal-header">
+              <div>Login</div>
+              <button className="exit" onClick={this.onModalClose}>x</button>
+            </div>
+            {component}
+          </Modal>
+        </div>
+        <div className="navbar">
+          <button className="nav-links" onClick={this._handleIndex}>All Songs</button>
+          <button className="nav-links" onClick={this._handleSongForm}>Add Song</button>
+        </div>
       </div>
     );
   }

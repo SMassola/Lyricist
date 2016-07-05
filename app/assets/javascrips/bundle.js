@@ -27911,6 +27911,7 @@
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(168);
 	var ModalStyle = __webpack_require__(251);
+	var hashHistory = __webpack_require__(188).hashHistory;
 	
 	var LoginForm = __webpack_require__(252);
 	var SignupForm = __webpack_require__(281);
@@ -27979,49 +27980,70 @@
 	      )
 	    );
 	  },
+	  _handleIndex: function _handleIndex() {
+	    hashHistory.push("/songs");
+	  },
 	  render: function render() {
 	    var component = this.state.signIn ? React.createElement(LoginForm, null) : React.createElement(SignupForm, null);
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'navbar' },
+	      { className: 'header-container' },
 	      React.createElement(
 	        'div',
-	        { className: 'head-user' },
-	        this.isUserLoggedIn() ? "Logged in as: " + this.currentUser() : ""
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'head-title', onClick: this._redirectHome },
-	        'Lyricist'
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'head-links' },
-	        this.isUserLoggedIn() ? this.logOutLink() : this.logInLinks()
-	      ),
-	      React.createElement(
-	        Modal,
-	        {
-	          isOpen: this.state.modalOpen,
-	          onRequestClose: this.onModalClose,
-	          style: ModalStyle,
-	          onAfterOpen: this.onModalOpen },
+	        { className: 'header' },
 	        React.createElement(
 	          'div',
-	          { className: 'modal-header' },
+	          { className: 'head-user' },
+	          this.isUserLoggedIn() ? "Logged in as: " + this.currentUser() : ""
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'head-title', onClick: this._redirectHome },
+	          'Lyricist'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'head-links' },
+	          this.isUserLoggedIn() ? this.logOutLink() : this.logInLinks()
+	        ),
+	        React.createElement(
+	          Modal,
+	          {
+	            isOpen: this.state.modalOpen,
+	            onRequestClose: this.onModalClose,
+	            style: ModalStyle,
+	            onAfterOpen: this.onModalOpen },
 	          React.createElement(
 	            'div',
-	            null,
-	            'Login'
+	            { className: 'modal-header' },
+	            React.createElement(
+	              'div',
+	              null,
+	              'Login'
+	            ),
+	            React.createElement(
+	              'button',
+	              { className: 'exit', onClick: this.onModalClose },
+	              'x'
+	            )
 	          ),
-	          React.createElement(
-	            'button',
-	            { className: 'exit', onClick: this.onModalClose },
-	            'x'
-	          )
+	          component
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'navbar' },
+	        React.createElement(
+	          'button',
+	          { className: 'nav-links', onClick: this._handleIndex },
+	          'All Songs'
 	        ),
-	        component
+	        React.createElement(
+	          'button',
+	          { className: 'nav-links', onClick: this._handleSongForm },
+	          'Add Song'
+	        )
 	      )
 	    );
 	  }
@@ -35765,7 +35787,8 @@
 	    e.preventDefault();
 	    this.setState({ body: e.target.value });
 	  },
-	  _handleSubmit: function _handleSubmit() {
+	  _handleSubmit: function _handleSubmit(e) {
+	    e.preventDefault();
 	    var AnnotationInput = {};
 	    AnnotationInput = {
 	      body: this.state.body,
@@ -35774,13 +35797,12 @@
 	      start_idx: this.state.start_idx,
 	      end_idx: this.state.end_idx
 	    };
-	
 	    SongActions.createAnnotation(AnnotationInput);
 	  },
 	  render: function render() {
 	    var offset = $(window).scrollTop();
-	    if (offset < 400) {
-	      offset = 400;
+	    if (offset < 425) {
+	      offset = 425;
 	    }
 	    var style = {
 	      top: offset
@@ -35838,6 +35860,7 @@
 	var React = __webpack_require__(1);
 	var SongStore = __webpack_require__(284);
 	var SongActions = __webpack_require__(286);
+	var SongIndexItem = __webpack_require__(294);
 	
 	var SongIndex = React.createClass({
 	  displayName: 'SongIndex',
@@ -35859,23 +35882,24 @@
 	    var songs = this.state.songs;
 	    return React.createElement(
 	      'div',
-	      null,
-	      songs.map(function (song) {
-	        return React.createElement(
+	      { className: 'song-index-container' },
+	      React.createElement(
+	        'div',
+	        { className: 'song-index' },
+	        React.createElement(
 	          'div',
-	          null,
-	          React.createElement(
-	            'li',
-	            { key: song.id },
-	            song.title
-	          ),
-	          React.createElement(
-	            'li',
-	            { key: song.id },
-	            song.album
-	          )
-	        );
-	      })
+	          { className: 'song-index-title' },
+	          'All Songs On Lyricist:'
+	        ),
+	        songs.map(function (song) {
+	          return React.createElement(SongIndexItem, {
+	            key: song.id,
+	            songId: song.id,
+	            title: song.title,
+	            artist: song.artist.name,
+	            art: song.image_url });
+	        })
+	      )
 	    );
 	  }
 	});
@@ -35960,8 +35984,8 @@
 	  displayName: 'AnnotationBody',
 	  render: function render() {
 	    var offset = $(window).scrollTop();
-	    if (offset < 400) {
-	      offset = 400;
+	    if (offset < 425) {
+	      offset = 425;
 	    }
 	
 	    var style = {
@@ -36000,6 +36024,48 @@
 	});
 	
 	module.exports = AnnotationBody;
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var AlbumArt = __webpack_require__(292);
+	var hashHistory = __webpack_require__(188).hashHistory;
+	
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	  _handleClick: function _handleClick(e) {
+	    hashHistory.push('/songs/' + this.props.songId);
+	  },
+	  render: function render() {
+	
+	    return React.createElement(
+	      'button',
+	      { className: 'song-item-details-container', onClick: this._handleClick },
+	      React.createElement(
+	        'div',
+	        { className: 'song-item-details' },
+	        React.createElement(
+	          'div',
+	          { className: 'song-item-title' },
+	          this.props.title
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'song-item-artist' },
+	          this.props.artist
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	// <div className="clip-art">
+	//   <img src={this.props.art}/>
+	// </div>
 
 /***/ }
 /******/ ]);

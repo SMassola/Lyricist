@@ -9,6 +9,7 @@ class Annotation < ActiveRecord::Base
 
 
   belongs_to :song
+
   def non_overlapping
     song.annotations.each do |annotation|
       range = (annotation.start_idx..annotation.end_idx)
