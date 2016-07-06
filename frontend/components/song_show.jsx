@@ -11,9 +11,9 @@ const AlbumArt = require("./album_art.jsx");
 
 const SongShow = React.createClass({
   getInitialState () {
-    const potentialSong = SongStore.findSong(this.props.params.id);
+    let song = SongStore.findSong(this.props.params.id);
     return ({
-      song: potentialSong ? potentialSong : {},
+      song: song ? song : {},
       renderForm: false,
       renderAnnotationBody: false,
       currentAnnotation: null,
@@ -22,7 +22,7 @@ const SongShow = React.createClass({
   },
 
   componentDidMount () {
-    this.songListener = SongStore.addListener(this.handleChange);
+    this.songListener = SongStore.addListener(this._handleChange);
     SongActions.fetchSong(parseInt(this.props.params.id));
   },
 
@@ -30,10 +30,15 @@ const SongShow = React.createClass({
     this.songListener.remove();
   },
 
-  handleChange () {
-    const potentialSong = SongStore.findSong(this.props.params.id);
-    this.setState({ song: potentialSong ? potentialSong : {} });
+  _handleChange () {
+    let song = SongStore.findSong(parseInt(this.props.params.id));
+    this.setState({ song: song ? song : {} });
   },
+
+  // componentWillReceiveProps(nextProps) {
+  //   const song = SongStore.findSong(parseInt(nextProps.params.id));
+  //   this.setState({ song: song ? song : {} });
+  // },
 
   sortAnnotations(array) {
 
@@ -111,7 +116,7 @@ const SongShow = React.createClass({
     this.setState({renderForm: false});
   },
 
-  render () { 
+  render () {
 
     if (this.state.song.lyrics) {
       this.createAnnotations();

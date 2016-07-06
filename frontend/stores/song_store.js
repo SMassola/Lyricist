@@ -1,6 +1,7 @@
 const AppDispatcher = require('../dispatcher/dispatcher.js');
 const Store = require('flux/utils').Store;
 const SongConstants = require('../constants/song_constants.js');
+const SongActions = require('../actions/song_actions');
 
 const SongStore = new Store(AppDispatcher);
 
@@ -17,11 +18,8 @@ SongStore.__onDispatch = function(payload) {
       setSong(payload.song);
       SongStore.__emitChange();
       break;
-    case SongConstants.ANNOTATIONS_RECEIVED:
-      resetAllAnnotations(payload.annotations);
-      SongStore.__emitChange();
-      break;
     case SongConstants.ANNOTATION_RECEIVED:
+      // setSong(SongActions.fetchSong(payload.annotation.song_id));
       addAnnotation(payload.annotation);
       SongStore.__emitChange();
   }
@@ -49,6 +47,7 @@ SongStore.allSongs = function() {
 };
 
 SongStore.findSong = function(id) {
+  console.log(_songs);
   return _songs[id];
 };
 
@@ -78,6 +77,8 @@ function setSong(song) {
 
 function addAnnotation(annotation) {
   _annotations[annotation.id] = annotation;
+
+  console.log(_songs);
 }
 
 module.exports = SongStore;

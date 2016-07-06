@@ -97,9 +97,10 @@
 .clip-art-container > img {
   height: 100%;
   width: 100%;
+  background-size: cover;
 }
 
 .album-details {
-  float: right;
+  // float: right;
   margin-right: 20px;
 }

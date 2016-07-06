@@ -13,6 +13,7 @@ const Search = require('./search.jsx');
 const SongShow = require('./components/song_show.jsx');
 const SongIndex = require('./components/song_index.jsx');
 const SongForm = require('./components/song_form.jsx');
+const SessionActions = require('./actions/session_actions');
 
 const App = React.createClass({
   render() {
@@ -35,6 +36,9 @@ const routes = (
 );
 
 document.addEventListener('DOMContentLoaded', () => {
+  if (window.currentUser) {
+    SessionActions.receiveCurrentUser(window.currentUser);
+  }
   Modal.setAppElement(document.getElementById("root"));
   const root = document.getElementById("root");
   ReactDOM.render(<Router history={hashHistory} routes={routes} />, root);

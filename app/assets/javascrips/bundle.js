@@ -59,8 +59,9 @@
 	var Header = __webpack_require__(250);
 	var Search = __webpack_require__(282);
 	var SongShow = __webpack_require__(283);
-	var SongIndex = __webpack_require__(290);
-	var SongForm = __webpack_require__(295);
+	var SongIndex = __webpack_require__(292);
+	var SongForm = __webpack_require__(294);
+	var SessionActions = __webpack_require__(253);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -84,6 +85,9 @@
 	);
 	
 	document.addEventListener('DOMContentLoaded', function () {
+	  if (window.currentUser) {
+	    SessionActions.receiveCurrentUser(window.currentUser);
+	  }
 	  Modal.setAppElement(document.getElementById("root"));
 	  var root = document.getElementById("root");
 	  ReactDOM.render(React.createElement(Router, { history: hashHistory, routes: routes }), root);
@@ -28143,11 +28147,19 @@
 	  },
 	  _handleSubmit: function _handleSubmit(e) {
 	    e.preventDefault();
+	    var formData = {};
 	    ErrorActions.clearErrors();
-	    var formData = {
-	      username: this.state.username,
-	      password: this.state.password
-	    };
+	    if (e.target.value === "Log In") {
+	      formData = {
+	        username: this.state.username,
+	        password: this.state.password
+	      };
+	    } else {
+	      formData = {
+	        username: "Guest",
+	        password: "Password"
+	      };
+	    }
 	
 	    SessionActions.logIn(formData);
 	  },
@@ -28200,7 +28212,8 @@
 	            value: this.state.password || "",
 	            onChange: this._passwordChange,
 	            className: 'login-input' }),
-	          React.createElement('input', { className: 'login-button', type: 'submit', value: 'Log In' })
+	          React.createElement('input', { className: 'login-button', type: 'submit', value: 'Log In' }),
+	          React.createElement('input', { className: 'login-button', type: 'submit', value: 'Log In As Guest' })
 	        )
 	      )
 	    );
@@ -35400,17 +35413,17 @@
 	var SessionStore = __webpack_require__(262);
 	
 	var SongActions = __webpack_require__(286);
-	var AnnotationBody = __webpack_require__(293);
+	var AnnotationBody = __webpack_require__(288);
 	var AnnotationForm = __webpack_require__(289);
-	var SongDetails = __webpack_require__(291);
-	var AlbumArt = __webpack_require__(292);
+	var SongDetails = __webpack_require__(290);
+	var AlbumArt = __webpack_require__(291);
 	
 	var SongShow = React.createClass({
 	  displayName: 'SongShow',
 	  getInitialState: function getInitialState() {
-	    var potentialSong = SongStore.findSong(this.props.params.id);
+	    var song = SongStore.findSong(this.props.params.id);
 	    return {
-	      song: potentialSong ? potentialSong : {},
+	      song: song ? song : {},
 	      renderForm: false,
 	      renderAnnotationBody: false,
 	      currentAnnotation: null,
@@ -35418,16 +35431,23 @@
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    this.songListener = SongStore.addListener(this.handleChange);
+	    this.songListener = SongStore.addListener(this._handleChange);
 	    SongActions.fetchSong(parseInt(this.props.params.id));
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
 	    this.songListener.remove();
 	  },
-	  handleChange: function handleChange() {
-	    var potentialSong = SongStore.findSong(this.props.params.id);
-	    this.setState({ song: potentialSong ? potentialSong : {} });
+	  _handleChange: function _handleChange() {
+	    var song = SongStore.findSong(parseInt(this.props.params.id));
+	    this.setState({ song: song ? song : {} });
 	  },
+	
+	
+	  // componentWillReceiveProps(nextProps) {
+	  //   const song = SongStore.findSong(parseInt(nextProps.params.id));
+	  //   this.setState({ song: song ? song : {} });
+	  // },
+	
 	  sortAnnotations: function sortAnnotations(array) {
 	
 	    var unsorted = true;
@@ -35575,6 +35595,7 @@
 	var AppDispatcher = __webpack_require__(254);
 	var Store = __webpack_require__(263).Store;
 	var SongConstants = __webpack_require__(285);
+	var SongActions = __webpack_require__(286);
 	
 	var SongStore = new Store(AppDispatcher);
 	
@@ -35591,11 +35612,8 @@
 	      setSong(payload.song);
 	      SongStore.__emitChange();
 	      break;
-	    case SongConstants.ANNOTATIONS_RECEIVED:
-	      resetAllAnnotations(payload.annotations);
-	      SongStore.__emitChange();
-	      break;
 	    case SongConstants.ANNOTATION_RECEIVED:
+	      // setSong(SongActions.fetchSong(payload.annotation.song_id));
 	      addAnnotation(payload.annotation);
 	      SongStore.__emitChange();
 	  }
@@ -35622,6 +35640,7 @@
 	};
 	
 	SongStore.findSong = function (id) {
+	  console.log(_songs);
 	  return _songs[id];
 	};
 	
@@ -35651,6 +35670,8 @@
 	
 	function addAnnotation(annotation) {
 	  _annotations[annotation.id] = annotation;
+	
+	  console.log(_songs);
 	}
 	
 	module.exports = SongStore;
@@ -35773,7 +35794,60 @@
 	module.exports = SongApiUtil;
 
 /***/ },
-/* 288 */,
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var SongActions = __webpack_require__(286);
+	
+	var AnnotationBody = React.createClass({
+	  displayName: 'AnnotationBody',
+	  render: function render() {
+	    var offset = $(window).scrollTop();
+	    if (offset < 425) {
+	      offset = 425;
+	    }
+	
+	    var style = {
+	      top: offset
+	    };
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'annotation-body-container' },
+	      React.createElement(
+	        'div',
+	        { className: 'annotation-body shadow', style: style },
+	        React.createElement(
+	          'div',
+	          { className: 'annotator-display bolded' },
+	          'Annotation By: ',
+	          this.props.annotation.user_id
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'annotation-display' },
+	          this.props.annotation.body
+	        ),
+	        React.createElement(
+	          'form',
+	          { className: 'annotation-comment-form' },
+	          React.createElement('div', { className: 'comment error-container' }),
+	          React.createElement('textarea', { onChange: this._bodyChange,
+	            className: 'annotation-comment-textarea',
+	            placeholder: 'Add Comment' }),
+	          React.createElement('input', { type: 'submit', value: 'Add Comment' })
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = AnnotationBody;
+
+/***/ },
 /* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -35879,12 +35953,77 @@
 /* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	module.exports = React.createClass({
+	  displayName: "exports",
+	  render: function render() {
+	    if (this.props.album && this.props.artist) {
+	      return React.createElement(
+	        "div",
+	        { className: "song-details-container" },
+	        React.createElement(
+	          "div",
+	          { className: "song-title" },
+	          this.props.title
+	        ),
+	        React.createElement(
+	          "div",
+	          { className: "song-artist" },
+	          this.props.artist.name
+	        ),
+	        React.createElement(
+	          "div",
+	          { className: "song-album" },
+	          "Album: ",
+	          this.props.album.name
+	        )
+	      );
+	    } else {
+	      return null;
+	    }
+	  }
+	});
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	module.exports = React.createClass({
+	  displayName: "exports",
+	  render: function render() {
+	    if (this.props.art) {
+	      return React.createElement(
+	        "div",
+	        { className: "album-art-container" },
+	        React.createElement(
+	          "div",
+	          { className: "album-art" },
+	          React.createElement("img", { src: this.props.art })
+	        )
+	      );
+	    } else {
+	      return null;
+	    }
+	  }
+	});
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
 	var React = __webpack_require__(1);
 	var SongStore = __webpack_require__(284);
 	var SongActions = __webpack_require__(286);
-	var SongIndexItem = __webpack_require__(294);
+	var SongIndexItem = __webpack_require__(293);
 	
 	var SongIndex = React.createClass({
 	  displayName: 'SongIndex',
@@ -35932,132 +36071,13 @@
 	module.exports = SongIndex;
 
 /***/ },
-/* 291 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var React = __webpack_require__(1);
-	
-	module.exports = React.createClass({
-	  displayName: "exports",
-	  render: function render() {
-	    if (this.props.album && this.props.artist) {
-	      return React.createElement(
-	        "div",
-	        { className: "song-details-container" },
-	        React.createElement(
-	          "div",
-	          { className: "song-title" },
-	          this.props.title
-	        ),
-	        React.createElement(
-	          "div",
-	          { className: "song-artist" },
-	          this.props.artist.name
-	        ),
-	        React.createElement(
-	          "div",
-	          { className: "song-album" },
-	          "Album: ",
-	          this.props.album.name
-	        )
-	      );
-	    } else {
-	      return null;
-	    }
-	  }
-	});
-
-/***/ },
-/* 292 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var React = __webpack_require__(1);
-	
-	module.exports = React.createClass({
-	  displayName: "exports",
-	  render: function render() {
-	    if (this.props.art) {
-	      return React.createElement(
-	        "div",
-	        { className: "album-art-container" },
-	        React.createElement(
-	          "div",
-	          { className: "album-art" },
-	          React.createElement("img", { src: this.props.art })
-	        )
-	      );
-	    } else {
-	      return null;
-	    }
-	  }
-	});
-
-/***/ },
 /* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var SongActions = __webpack_require__(286);
-	
-	var AnnotationBody = React.createClass({
-	  displayName: 'AnnotationBody',
-	  render: function render() {
-	    var offset = $(window).scrollTop();
-	    if (offset < 425) {
-	      offset = 425;
-	    }
-	
-	    var style = {
-	      top: offset
-	    };
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'annotation-body-container' },
-	      React.createElement(
-	        'div',
-	        { className: 'annotation-body shadow', style: style },
-	        React.createElement(
-	          'div',
-	          { className: 'annotator-display bolded' },
-	          'Annotation By: ',
-	          this.props.annotation.user_id
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'annotation-display' },
-	          this.props.annotation.body
-	        ),
-	        React.createElement(
-	          'form',
-	          { className: 'annotation-comment-form' },
-	          React.createElement('div', { className: 'comment error-container' }),
-	          React.createElement('textarea', { onChange: this._bodyChange,
-	            className: 'annotation-comment-textarea',
-	            placeholder: 'Add Comment' }),
-	          React.createElement('input', { type: 'submit', value: 'Add Comment' })
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = AnnotationBody;
-
-/***/ },
-/* 294 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var AlbumArt = __webpack_require__(292);
+	var AlbumArt = __webpack_require__(291);
 	var hashHistory = __webpack_require__(188).hashHistory;
 	
 	module.exports = React.createClass({
@@ -36116,7 +36136,7 @@
 	// <div className="album-insert">{this.props.albumDescription}</div>
 
 /***/ },
-/* 295 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36125,7 +36145,7 @@
 	var ReactRouter = __webpack_require__(188);
 	
 	var SongActions = __webpack_require__(286);
-	var ArtistActions = __webpack_require__(297);
+	var ArtistActions = __webpack_require__(295);
 	
 	var ErrorStore = __webpack_require__(280);
 	var SessionStore = __webpack_require__(262);
@@ -36158,7 +36178,7 @@
 	    hashHistory.push("/songs");
 	  },
 	  _handleErrors: function _handleErrors() {
-	    this.setState({ errors: ErrorStore.typeErrors("login_form") });
+	    this.setState({ errors: ErrorStore.typeErrors("song_form") });
 	  },
 	  _titleChange: function _titleChange(e) {
 	    this.setState({ title: e.target.value });
@@ -36204,46 +36224,55 @@
 	      { className: 'song-form-container' },
 	      React.createElement(
 	        'form',
-	        { onSubmit: this._handleSubmit },
+	        { className: 'song-form', onSubmit: this._handleSubmit },
 	        React.createElement(
 	          'h1',
-	          null,
+	          { className: 'song-form-title' },
 	          'Add a New Song to the Lyricist Library'
 	        ),
-	        React.createElement('input', {
-	          type: 'text',
-	          placeholder: 'Title',
-	          value: this.state.title || "",
-	          onChange: this._titleChange,
-	          className: 'song-title-input' }),
-	        React.createElement('input', {
-	          type: 'text',
-	          placeholder: 'Year',
-	          value: this.state.year || "",
-	          onChange: this._yearChange,
-	          className: 'song-year-input' }),
+	        React.createElement(
+	          'div',
+	          { className: 'small-inputs' },
+	          React.createElement(
+	            'div',
+	            { className: 'smaller-inputs' },
+	            React.createElement('input', {
+	              type: 'text',
+	              placeholder: 'Song Title',
+	              value: this.state.title || "",
+	              onChange: this._titleChange,
+	              className: 'song-title-input' }),
+	            React.createElement('input', {
+	              type: 'text',
+	              placeholder: 'Year',
+	              value: this.state.year || "",
+	              onChange: this._yearChange,
+	              className: 'song-year-input' }),
+	            React.createElement('input', {
+	              type: 'text',
+	              placeholder: 'Artist',
+	              value: this.state.artistName || "",
+	              onChange: this._artistNameChange,
+	              className: 'artist-input' }),
+	            React.createElement('input', {
+	              type: 'text',
+	              placeholder: 'Album',
+	              value: this.state.albumName || "",
+	              onChange: this._albumNameChange,
+	              className: 'album-input' })
+	          ),
+	          React.createElement('input', {
+	            type: 'text',
+	            placeholder: 'Image URL (optional)',
+	            value: this.state.url || "",
+	            onChange: this._urlChange,
+	            className: 'url-input' })
+	        ),
 	        React.createElement('textarea', { onChange: this._lyricsChange,
 	          className: 'lyrics-textarea',
 	          placeholder: 'Lyrics',
+	          cols: '2',
 	          value: this.state.body }),
-	        React.createElement('input', {
-	          type: 'text',
-	          placeholder: 'Artist',
-	          value: this.state.artistName || "",
-	          onChange: this._artistNameChange,
-	          className: 'artist-input' }),
-	        React.createElement('input', {
-	          type: 'text',
-	          placeholder: 'Album',
-	          value: this.state.albumName || "",
-	          onChange: this._albumNameChange,
-	          className: 'album-input' }),
-	        React.createElement('input', {
-	          type: 'text',
-	          placeholder: 'Image URL (optional)',
-	          value: this.state.url || "",
-	          onChange: this._urlChange,
-	          className: 'url-input' }),
 	        React.createElement('input', { className: 'submit-to-lyricist', type: 'submit', value: 'Add To Lyricist' })
 	      )
 	    );
@@ -36268,16 +36297,15 @@
 	// </div>
 
 /***/ },
-/* 296 */,
-/* 297 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var ArtistApiUtil = __webpack_require__(299);
+	var ArtistApiUtil = __webpack_require__(296);
 	var AppDispatcher = __webpack_require__(254);
 	
-	var AlbumActions = __webpack_require__(298);
+	var AlbumActions = __webpack_require__(297);
 	var ErrorActions = __webpack_require__(260);
 	
 	var ArtistActions = {
@@ -36289,27 +36317,7 @@
 	module.exports = ArtistActions;
 
 /***/ },
-/* 298 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var AlbumApiUtil = __webpack_require__(300);
-	var AppDispatcher = __webpack_require__(254);
-	
-	var SongActions = __webpack_require__(286);
-	var ErrorActions = __webpack_require__(260);
-	
-	var AlbumActions = {
-	  createAlbumSong: function createAlbumSong(album, song) {
-	    AlbumApiUtil.createAlbumSong(album, song, SongActions.createSong, ErrorActions.setErrors.bind(null, 'creating_album'));
-	  }
-	};
-	
-	module.exports = AlbumActions;
-
-/***/ },
-/* 299 */
+/* 296 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36336,7 +36344,27 @@
 	module.exports = ArtistApiUtil;
 
 /***/ },
-/* 300 */
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AlbumApiUtil = __webpack_require__(298);
+	var AppDispatcher = __webpack_require__(254);
+	
+	var SongActions = __webpack_require__(286);
+	var ErrorActions = __webpack_require__(260);
+	
+	var AlbumActions = {
+	  createAlbumSong: function createAlbumSong(album, song) {
+	    AlbumApiUtil.createAlbumSong(album, song, SongActions.createSong, ErrorActions.setErrors.bind(null, 'creating_album'));
+	  }
+	};
+	
+	module.exports = AlbumActions;
+
+/***/ },
+/* 298 */
 /***/ function(module, exports) {
 
 	"use strict";

@@ -46,11 +46,19 @@ const LoginForm = React.createClass({
 
 	_handleSubmit(e) {
 		e.preventDefault();
+    let formData = {};
     ErrorActions.clearErrors();
-		const formData = {
-			username: this.state.username,
-			password: this.state.password,
-		};
+    if (e.target.value === "Log In") {
+        formData = {
+        username: this.state.username,
+        password: this.state.password,
+      };
+    } else {
+        formData = {
+        username: "Guest",
+        password: "Password"
+      };
+    }
 
     SessionActions.logIn(formData);
 	},
@@ -90,6 +98,7 @@ const LoginForm = React.createClass({
               onChange={this._passwordChange}
               className="login-input" />
 						<input className="login-button" type="submit" value="Log In" />
+            <input className="login-button" type="submit" value="Log In As Guest" />
 					</div>
 				</form>
 			</div>

@@ -39,7 +39,7 @@ const SongForm = React.createClass({
   },
 
   _handleErrors() {
-    this.setState({errors: ErrorStore.typeErrors("login_form")});
+    this.setState({errors: ErrorStore.typeErrors("song_form")});
   },
 
   _titleChange(e) {
@@ -84,43 +84,48 @@ const SongForm = React.createClass({
   render() {
     return(
       <div className="song-form-container">
-        <form onSubmit={this._handleSubmit}>
-          <h1>Add a New Song to the Lyricist Library</h1>
-          <input
-            type="text"
-            placeholder="Title"
-            value={this.state.title || ""}
-            onChange={this._titleChange}
-            className="song-title-input" />
-          <input
-            type="text"
-            placeholder="Year"
-            value={this.state.year || ""}
-            onChange={this._yearChange}
-            className="song-year-input" />
+        <form className="song-form" onSubmit={this._handleSubmit}>
+          <h1 className="song-form-title">Add a New Song to the Lyricist Library</h1>
+          <div className="small-inputs">
+            <div className="smaller-inputs">
+              <input
+                type="text"
+                placeholder="Song Title"
+                value={this.state.title || ""}
+                onChange={this._titleChange}
+                className="song-title-input" />
+              <input
+                type="text"
+                placeholder="Year"
+                value={this.state.year || ""}
+                onChange={this._yearChange}
+                className="song-year-input" />
+              <input
+                type="text"
+                placeholder="Artist"
+                value={this.state.artistName || ""}
+                onChange={this._artistNameChange}
+                className="artist-input" />
+              <input
+                type="text"
+                placeholder="Album"
+                value={this.state.albumName || ""}
+                onChange={this._albumNameChange}
+                className="album-input" />
+            </div>
+            <input
+              type="text"
+              placeholder="Image URL (optional)"
+              value={this.state.url || ""}
+              onChange={this._urlChange}
+              className="url-input" />
+          </div>
           <textarea onChange={this._lyricsChange}
             className="lyrics-textarea"
             placeholder="Lyrics"
+            cols="2"
             value={this.state.body}>
           </textarea>
-          <input
-            type="text"
-            placeholder="Artist"
-            value={this.state.artistName || ""}
-            onChange={this._artistNameChange}
-            className="artist-input" />
-          <input
-            type="text"
-            placeholder="Album"
-            value={this.state.albumName || ""}
-            onChange={this._albumNameChange}
-            className="album-input" />
-          <input
-            type="text"
-            placeholder="Image URL (optional)"
-            value={this.state.url || ""}
-            onChange={this._urlChange}
-            className="url-input" />
           <input className="submit-to-lyricist" type="submit" value="Add To Lyricist"/>
         </form>
       </div>
