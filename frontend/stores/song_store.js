@@ -6,7 +6,6 @@ const SongActions = require('../actions/song_actions');
 const SongStore = new Store(AppDispatcher);
 
 let _songs = {};
-let _annotations = {};
 
 SongStore.__onDispatch = function(payload) {
   switch (payload.actionType) {
@@ -19,22 +18,15 @@ SongStore.__onDispatch = function(payload) {
       SongStore.__emitChange();
       break;
     case SongConstants.ANNOTATION_RECEIVED:
-      // setSong(SongActions.fetchSong(payload.annotation.song_id));
       addAnnotation(payload.annotation);
       SongStore.__emitChange();
+      break;
+    case SongConstants.SONG_COMMENT_RECEIVED:
+      addSongComment(payload.comment);
+      SongStore.__emitChange();
+      break;
   }
 };
-
-SongStore.allAnnotations = function() {
-  let annotations = [];
-
-  Object.keys(_annotations).forEach((key) => {
-    annotations.push(_annotations[key]);
-  });
-
-  return annotations;
-};
-
 
 SongStore.allSongs = function() {
   let songs = [];
@@ -47,12 +39,7 @@ SongStore.allSongs = function() {
 };
 
 SongStore.findSong = function(id) {
-  console.log(_songs);
   return _songs[id];
-};
-
-SongStore.findAnnotation = function(id) {
-  return _annotations[id];
 };
 
 function resetAllSongs(songs) {
@@ -63,22 +50,16 @@ function resetAllSongs(songs) {
   });
 }
 
-function resetAllAnnotations(annotations) {
-  _annotations = {};
-
-  annotations.forEach((annotation) => {
-    _annotations[annotation.id] = annotation;
-  });
-}
-
 function setSong(song) {
   _songs[song.id] = song;
 }
 
 function addAnnotation(annotation) {
-  _annotations[annotation.id] = annotation;
+  SongStore.findSong(annotation.song_id).annotations.push(annotation);
+}
 
-  console.log(_songs);
+function addSongComment(comment) {
+  SongStore.findSong(comment.commentable_id).comments.push(comment);
 }
 
 module.exports = SongStore;

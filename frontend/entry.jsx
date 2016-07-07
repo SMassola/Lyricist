@@ -31,7 +31,7 @@ const routes = (
     <IndexRoute component={Search} />
     <Route path="songs/new" component={SongForm} />
     <Route path="songs" component={SongIndex} />
-      <Route path="songs/:id" component={SongShow} />
+    <Route path="songs/:id" component={SongShow} />
   </Route>
 );
 

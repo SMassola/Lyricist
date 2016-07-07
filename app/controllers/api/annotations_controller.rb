@@ -4,7 +4,7 @@ class Api::AnnotationsController < ApplicationController
   def create
     @annotation = Annotation.new(annotation_params)
     if @annotation.save
-      render :create
+      render :show
     else
       @errors = @annotation.errors.full_messages
       render "api/shared/error", status: 422

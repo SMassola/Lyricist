@@ -48,20 +48,23 @@ const LoginForm = React.createClass({
 		e.preventDefault();
     let formData = {};
     ErrorActions.clearErrors();
-    if (e.target.value === "Log In") {
-        formData = {
-        username: this.state.username,
-        password: this.state.password,
-      };
-    } else {
-        formData = {
-        username: "Guest",
-        password: "Password"
-      };
-    }
-
+    formData = {
+      username: this.state.username,
+      password: this.state.password
+    };
     SessionActions.logIn(formData);
 	},
+
+  _handleGuest(e) {
+    e.preventDefault();
+    let formData = {};
+    ErrorActions.clearErrors();
+    formData = {
+      username: "Guest",
+      password: "Password"
+    };
+    SessionActions.logIn(formData);
+  },
 
   _usernameChange(e) {
     this.setState({
@@ -78,7 +81,7 @@ const LoginForm = React.createClass({
   render() {
   	return (
 			<div className="login-form-container">
-				<form onSubmit={this._handleSubmit} className="login-form-box">
+				<form className="login-form-box">
 	        <div className="form-text">Please Sign In</div>
 					<br/>
             <div className='login-errors'>
@@ -97,8 +100,8 @@ const LoginForm = React.createClass({
               value={this.state.password || ""}
               onChange={this._passwordChange}
               className="login-input" />
-						<input className="login-button" type="submit" value="Log In" />
-            <input className="login-button" type="submit" value="Log In As Guest" />
+            <input onClick={this._handleSubmit} className="login-button" type="submit" value="Log In" />
+            <input onClick={this._handleGuest} className="login-button" type="submit" value="Log In As Guest" />
 					</div>
 				</form>
 			</div>

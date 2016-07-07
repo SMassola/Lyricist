@@ -8,6 +8,7 @@ const AnnotationBody = require('./annotation_body.jsx');
 const AnnotationForm = require('./annotation_form.jsx');
 const SongDetails = require("./song_details.jsx");
 const AlbumArt = require("./album_art.jsx");
+const SongComments = require("./song_comments.jsx");
 
 const SongShow = React.createClass({
   getInitialState () {
@@ -34,11 +35,6 @@ const SongShow = React.createClass({
     let song = SongStore.findSong(parseInt(this.props.params.id));
     this.setState({ song: song ? song : {} });
   },
-
-  // componentWillReceiveProps(nextProps) {
-  //   const song = SongStore.findSong(parseInt(nextProps.params.id));
-  //   this.setState({ song: song ? song : {} });
-  // },
 
   sortAnnotations(array) {
 
@@ -121,7 +117,6 @@ const SongShow = React.createClass({
     if (this.state.song.lyrics) {
       this.createAnnotations();
     }
-
     return (
       <div className="showpage">
         <div className="show-splash">
@@ -133,28 +128,31 @@ const SongShow = React.createClass({
           <AlbumArt art={this.state.song.image_url}/>
         </div>
         <div className="show-content-container">
-          <div className="lyrics-container" id="song-container">
-            <h3 className="song-lyrics-title">{this.state.song.title}</h3>
-            <pre className="ghost-lyrics"
-              onMouseUp={this.highlight}
-              onMouseDown={this.removeHighlight}>
-              {this.state.song.lyrics}
-            </pre>
+          <div className="song-lyrics-and-comments">
+            <div className="lyrics-container" id="song-container">
+              <h3 className="song-lyrics-title">{this.state.song.title}</h3>
+              <pre className="ghost-lyrics"
+                onMouseUp={this.highlight}
+                onMouseDown={this.removeHighlight}>
+                {this.state.song.lyrics}
+              </pre>
 
-            <pre className="highlight-lyrics">
-              {this.state.song.lyrics}
-            </pre>
+              <pre className="highlight-lyrics">
+                {this.state.song.lyrics}
+              </pre>
 
-            <pre className="lyrics">
-              {this.lyricsEls}
-            </pre>
+              <pre className="lyrics">
+                {this.lyricsEls}
+              </pre>
+            </div>
+            <SongComments
+              comments={this.state.song.comments} songId={this.state.song.id}/>
           </div>
-          <div>
+          <div className="float">
             {this.state.renderAnnotationBody ?
               <AnnotationBody
                 annotation={this.state.currentAnnotation} />
               :<div></div>}
-
             {this.state.renderForm ?
               <AnnotationForm
                 songId={this.state.song.id}
@@ -162,9 +160,9 @@ const SongShow = React.createClass({
                 startIdx={this.start}
                 endIdx={this.end} />
               :<div></div>}
-            </div>
           </div>
         </div>
+      </div>
     );
   }
 });

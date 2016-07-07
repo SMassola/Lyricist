@@ -7,7 +7,6 @@ class Api::AlbumsController < ApplicationController
   def create
     @album = Album.find_by(name: params[:album][:name])
     @album ||= Album.new(album_params)
-    @album.artist_id ||= Artist.find_by()
     if @album.save
       render :show
     else

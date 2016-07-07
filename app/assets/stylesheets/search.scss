@@ -1,0 +1,28 @@
+.gallery-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.album-image {
+  margin: 20px 20px;
+}
+
+.home-album-art-container {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap-reverse;
+  justify-content: space-around;
+}
+
+.home-album-art {
+  border: 5px solid black;
+  height: 300px;
+  width: 300px;
+}
+
+.home-album-art > img {
+  max-height: 100%;
+  max-width: 100%;
+  background-size: cover;
+}

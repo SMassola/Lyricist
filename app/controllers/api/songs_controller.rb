@@ -11,7 +11,7 @@ class Api::SongsController < ApplicationController
   end
 
   def show
-    @song = Song.find_by_id(params[:id])
+    @song = Song.includes(:comments, comments: [:user]).find_by_id(params[:id])
     if @song
       render :show
     else

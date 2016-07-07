@@ -32,8 +32,8 @@ column name      | data type | details
 id               | integer   | not null, primary key
 commentable_id   | integer   | not null, foreign key (references songs), indexed
 user_id          | integer   | not null, foreign key (references users), indexed
-commentable_type | integer   | not null
-body             | string    |
+commentable_type | string    | not null
+body             | string    | not null
 
 ## annotations
 column name | data type | details

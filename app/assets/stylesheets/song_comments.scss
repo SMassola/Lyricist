@@ -1,0 +1,73 @@
+.song-comment-form-and-display {
+  font-family: sans-serif;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80%;
+  max-width: 80%;
+  border: 1px solid #fcfcfc;
+}
+
+.song-comment-form {
+  width: 100%;
+  background: #fcfcfc;
+}
+
+.song-comments-container {
+  width: 100%;
+}
+
+.song-comment-form-title {
+  font-family: sans-serif;
+  margin: 20px;
+}
+
+.song-comment-input-fields {
+  border-radius: 10px;
+
+}
+
+.song-comment-textarea {
+  font-size: 16px;
+  height: 60px;
+  width: 90%;
+  margin: 20px;
+}
+
+.song-comment-details-container {
+  width: 100%;
+  min-height: 100px;
+  background: white;
+}
+
+.song-comment-details-container:nth-child(even) {
+  background: #fcfcfc;
+}
+
+.song-commenter {
+  padding-top: 10px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.song-comment {
+  margin-left: 10px;
+  padding-bottom: 5px;
+}
+
+.submit-song-comment {
+  width: 140px;
+  height: 40px;
+  color: white;
+  margin: 5px;
+  background: #6ABEDB;
+  padding:0!important;
+  font: inherit;
+  cursor: pointer;
+}
+
+.submit-song-comment:focus {
+  outline: none;
+}

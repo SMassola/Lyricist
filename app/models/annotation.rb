@@ -7,7 +7,7 @@ class Annotation < ActiveRecord::Base
             :song_id,
             presence: true
 
-
+  has_many :comments, as: :commentable
   belongs_to :song
 
   def non_overlapping

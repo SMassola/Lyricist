@@ -47,6 +47,20 @@ const SongActions = {
       SongActions.receiveSong,
       ErrorActions.setErrors.bind(null, 'creating_song')
     );
+  },
+
+  createSongComment(comment) {
+    SongApiUtil.createSongComment(
+      comment,
+      this.receiveSongComment
+    );
+  },
+
+  receiveSongComment(comment) {
+    AppDispatcher.dispatch({
+      actionType: SongConstants.SONG_COMMENT_RECEIVED,
+      comment: comment
+    });
   }
 };
 

@@ -23,7 +23,12 @@
 .show-content-container {
   width: 80%;
   display: flex;
+  flex-direction: row;
   background-color: white;
+}
+
+.float {
+  float: right;
 }
 
 .lyrics-container {
@@ -85,4 +90,9 @@ a {
 
 .no-events {
   pointer-events: none;
+}
+
+.song-lyrics-and-comments {
+  min-width: 55%;
+  max-width: 55%;
 }
