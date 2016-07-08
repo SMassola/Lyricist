@@ -1,10 +1,10 @@
 const React = require('react');
 const SongActions = require('../actions/song_actions.js');
-const SessionStore = require('../stores/session_store.js');
-const ErrorStore = require('../stores/error_store.js');
+
+const ErrorStore = require('../stores/error_store');
 const ErrorActions = require('../actions/error_actions.js');
 
-const SongComments = React.createClass({
+const AnnotationComments = React.createClass({
 
   getInitialState() {
     return({
@@ -22,8 +22,9 @@ const SongComments = React.createClass({
   },
 
   _handleErrors() {
-    this.setState({errors: ErrorStore.typeErrors("song_comments_form")});
+    this.setState({errors: ErrorStore.typeErrors("annotation_comments_form")});
   },
+
   _bodyChange(e) {
     e.preventDefault();
     this.setState({body: e.target.value});
@@ -31,56 +32,58 @@ const SongComments = React.createClass({
 
   _handleSubmit(e) {
     e.preventDefault();
+
     const formData = {
       body: this.state.body,
-      song_id: this.props.songId
+      annotation_id: this.props.annotation.id
     };
-    SongActions.createSongComment(formData);
+    SongActions.createAnnotationComment(formData);
     this.setState({body: ""});
   },
 
   render() {
-    let comments = this.props.comments;
+    let comments = this.props.annotation.comments;
 
     let errs = [];
     if (this.state.errors.length > 0) {
       errs = this.state.errors.shift().split(',');
     }
 
-    if (!this.props.comments) {
+    if (!comments) {
       return null;
     }
+
     return(
-    <div className="song-comment-form-and-display">
-      <form onSubmit={this._handleSubmit} className="song-comment-form">
-        <h3 className="song-comment-form-title">Comments</h3>
+    <div className="annotation-comment-form-and-display">
+      <form onSubmit={this._handleSubmit} className="annotation-comment-form">
+        <h3 className="annotation-comment-form-title">Comments</h3>
         <div className="error-box">
-          <div className="song-comments-error-container">
+          <div className="annotation-comments-error-container">
             {errs.map((error) => {
               return(<li key={error} style={{marginLeft: "20px"}}>{error}</li>);
             })}
           </div>
         </div>
-        <div className="song-comment-input-fields">
+        <div className="annotation-comment-input-fields">
           <textarea onChange={this._bodyChange}
-            className="song-comment-textarea"
+            className="annotation-comment-textarea"
             placeholder="Add A Comment Here..."
             value={this.state.body}>
           </textarea>
         </div>
         <input
-          className="submit-song-comment"
+          className="submit-annotation-comment"
           type="submit"
           value="Add Comment"/>
       </form>
-      <div className="song-comments-container">
+      <div className="annotation-comments-container">
         {comments.map((comment) => {
           return(
-            <div key={comment.id} className="song-comment-details-container">
-              <div className="song-commenter" key={1}>
+            <div key={comment.id} className="annotation-comment-details-container">
+              <div className="annotation-commenter" key={1}>
                  {comment.username} commented:
               </div>
-              <div className="song-comment" key={2}>{comment.body}</div>
+              <div className="annotation-comment" key={2}>{comment.body}</div>
             </div>);
           })}
         </div>
@@ -88,4 +91,4 @@ const SongComments = React.createClass({
   }
 });
 
-module.exports = SongComments;
+module.exports = AnnotationComments;

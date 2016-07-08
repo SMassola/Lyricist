@@ -45,14 +45,15 @@ const SongActions = {
     SongApiUtil.createSong(
       song,
       SongActions.receiveSong,
-      ErrorActions.setErrors.bind(null, 'creating_song')
+      ErrorActions.setErrors.bind(null, 'song_form')
     );
   },
 
   createSongComment(comment) {
     SongApiUtil.createSongComment(
       comment,
-      this.receiveSongComment
+      this.receiveSongComment,
+      ErrorActions.setErrors.bind(null, 'song_comments_form')
     );
   },
 
@@ -61,7 +62,22 @@ const SongActions = {
       actionType: SongConstants.SONG_COMMENT_RECEIVED,
       comment: comment
     });
-  }
+  },
+
+  createAnnotationComment(comment) {
+    SongApiUtil.createAnnotationComment(
+      comment,
+      this.receiveAnnotationComment,
+      ErrorActions.setErrors.bind(null, 'annotation_comments_form')
+    );
+  },
+
+  receiveAnnotationComment(comment) {
+    AppDispatcher.dispatch({
+      actionType: SongConstants.ANNOTATION_COMMENT_RECEIVED,
+      comment: comment
+    });
+  },
 };
 
 

@@ -20,7 +20,8 @@ const SongForm = React.createClass({
       album_id: null,
       artistName: null,
       albumName: null,
-      artist_id: null
+      artist_id: null,
+      errors: []
     };
   },
 
@@ -82,10 +83,23 @@ const SongForm = React.createClass({
   },
 
   render() {
+
+    let errs = [];
+    if (this.state.errors.length > 0) {
+      errs = this.state.errors.shift().split(',');
+    }
+
     return(
       <div className="song-form-container">
         <form className="song-form" onSubmit={this._handleSubmit}>
           <h1 className="song-form-title">Add a New Song to the Lyricist Library</h1>
+          <div className="song-form-error-box">
+            <div className="song-form-error-container">
+              {errs.map((error) => {
+                return(<li key={error}>{error}</li>);
+              })}
+            </div>
+          </div>
           <div className="small-inputs">
             <div className="smaller-inputs">
               <input
@@ -134,18 +148,3 @@ const SongForm = React.createClass({
 });
 
 module.exports = SongForm;
-
-// <h1>New Annotation</h1>
-// <div className="annotation-error-container">
-//   {errs.map((error) => {
-//     return(<li key={error} style={{marginLeft: "20px"}}>{error}</li>);
-//   })}
-// </div>
-// <div className="annotation-input-fields">
-//   <textarea onChange={this._bodyChange}
-//     className="annotation-textarea"
-//     placeholder="Body"
-//     value={this.state.body}>
-//   </textarea>
-//   <input className="submit-comment" type="submit" value="Add Annotation"/>
-// </div>

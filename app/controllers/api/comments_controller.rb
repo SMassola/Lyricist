@@ -1,4 +1,5 @@
 class Api::CommentsController < ApplicationController
+  before_action :require_signed_in!
 
   def index
     @comments = Comment.all
@@ -10,7 +11,6 @@ class Api::CommentsController < ApplicationController
     elsif params[:annotation_id]
       commentable = Annotation.find_by_id(params[:annotation_id])
     end
-
     @comment = commentable.comments.new(comment_params)
     @comment.user = current_user;
     if @comment.save

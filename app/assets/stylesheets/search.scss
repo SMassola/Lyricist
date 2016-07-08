@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .album-image {
@@ -13,10 +14,12 @@
   flex-direction: row-reverse;
   flex-wrap: wrap-reverse;
   justify-content: space-around;
+  margin: 25px;
 }
 
 .home-album-art {
-  border: 5px solid black;
+
+  border: 5px solid whitesmoke;
   height: 300px;
   width: 300px;
 }
@@ -26,3 +29,26 @@
   max-width: 100%;
   background-size: cover;
 }
+
+.tint {
+  position: relative;
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  box-shadow: rgba(0,0,0,.2) 3px 5px 5px;
+}
+
+.tint:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0, 0.5);
+  transition: all .3s linear;
+}
+
+.tint:hover:before { background: none; }

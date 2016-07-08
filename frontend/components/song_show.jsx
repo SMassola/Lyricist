@@ -34,24 +34,24 @@ const SongShow = React.createClass({
   _handleChange () {
     let song = SongStore.findSong(parseInt(this.props.params.id));
     this.setState({ song: song ? song : {} });
+    // this.setState({ renderForm: false, renderAnnotationBody: false});
   },
 
   sortAnnotations(array) {
+    let unsorted = true;
+    while (unsorted) {
+      unsorted = false;
 
-  let unsorted = true;
-  while (unsorted) {
-    unsorted = false;
-
-    for (let i = 0; i < array.length-1; i++) {
-      if (array[i].start_idx > array[i+1].start_idx) {
-        let temp = array[i];
-        array[i] = array[i+1];
-        array[i+1] = temp;
-        unsorted = true;
+      for (let i = 0; i < array.length-1; i++) {
+        if (array[i].start_idx > array[i+1].start_idx) {
+          let temp = array[i];
+          array[i] = array[i+1];
+          array[i+1] = temp;
+          unsorted = true;
+        }
       }
     }
-  }
-  return array;
+    return array;
   },
 
   handleAnnotationClick(e) {
@@ -113,7 +113,6 @@ const SongShow = React.createClass({
   },
 
   render () {
-
     if (this.state.song.lyrics) {
       this.createAnnotations();
     }

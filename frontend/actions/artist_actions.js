@@ -11,7 +11,7 @@ const ArtistActions = {
       album,
       song,
       AlbumActions.createAlbumSong,
-      ErrorActions.setErrors.bind(null, 'creating_artist')
+      ErrorActions.setErrors.bind(null, 'song_form')
     );
   }
 };

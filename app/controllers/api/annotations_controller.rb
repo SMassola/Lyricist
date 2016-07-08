@@ -1,14 +1,18 @@
 class Api::AnnotationsController < ApplicationController
   before_action :require_signed_in!
 
+  def index
+    @annotations = Annotation.all
+  end
+
   def create
-    @annotation = Annotation.new(annotation_params)
+    @annotation = Annotation.includes(:comments, comments: [:user]).new(annotation_params)
+    @annotation.user = current_user
     if @annotation.save
       render :show
     else
       @errors = @annotation.errors.full_messages
       render "api/shared/error", status: 422
-      # render(json: {base: @annotation.errors.full_messages}, status: 422)
     end
   end
 

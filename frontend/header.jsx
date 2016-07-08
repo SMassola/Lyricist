@@ -79,6 +79,9 @@ const Header = React.createClass({
     hashHistory.push("/songs/new");
   },
 
+  _redirectHome() {
+    hashHistory.push("/");
+  },
 
   render() {
     let component = (this.state.signIn) ? <LoginForm that={this}/> : <SignupForm that={this}/>;

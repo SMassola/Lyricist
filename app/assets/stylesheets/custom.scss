@@ -26,6 +26,10 @@ html, body {
 }
 
 .splash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   font-family: 'Roboto', sans-serif;
   position: absolute;
   top: 50%;
@@ -35,6 +39,7 @@ html, body {
   text-align: center;
 }
 .splash h2 {
+  letter-spacing: 10px;
   font-weight: 900;
   text-transform: uppercase;
   margin: 0;
@@ -50,13 +55,22 @@ html, body {
 }
 
 .main-page {
-  max-width: 500px;
-  margin: 20px auto;
-  color: black;
+  font-family: 'Roboto';
+  min-width: 100%;
+  color: #6ABEDB;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #222;
 }
 
 .main-page h2 {
-  font-size: 2rem;
+  font-size: 45px;
+  letter-spacing: 1px;
+  width: 100%;
+  margin: auto;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .main-page p {

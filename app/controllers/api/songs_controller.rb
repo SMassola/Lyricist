@@ -1,4 +1,5 @@
 class Api::SongsController < ApplicationController
+  before_action :require_signed_in!, only: [:create]
 
   def index
     @songs = Song.all
@@ -10,6 +11,16 @@ class Api::SongsController < ApplicationController
     render :new
   end
 
+  def create
+    @song = Song.new(song_params)
+    if @song.save
+      render :show
+    else
+      @errors = @song.errors.full_messages
+      render "api/shared/error", status: 422
+    end
+  end
+
   def show
     @song = Song.includes(:comments, comments: [:user]).find_by_id(params[:id])
     if @song
@@ -17,11 +28,6 @@ class Api::SongsController < ApplicationController
     else
       render json: ['Song does not exist'], status: 404
     end
-  end
-
-  def create
-    @song = Song.create!(song_params)
-    render :show
   end
 
   private

@@ -360,7 +360,7 @@ You and I",
 
 
 Annotation.create!(
-  body: "Anything can happen in war, but no matter what, you have to always keep on fighting and persevere. Wars test people’s character. The stronger survives while the weaker falls, and usually the good guys always fall victim to the bad guys.!",
+  body: "SICK",
   start_idx: 678,
   end_idx: 840,
   user_id: User.find_by_username("Guest").id,
@@ -376,7 +376,7 @@ Annotation.create!(
 )
 
 Annotation.create!(
-  body: "She IS a gold digger!",
+  body: "LOL!",
   start_idx: 4,
   end_idx: 12,
   user_id: User.find_by_username("Guest").id,
@@ -385,8 +385,8 @@ Annotation.create!(
 
 Annotation.create!(
   body: "GET DOWN!",
-  start_idx: 24,
-  end_idx: 33,
+  start_idx: 50,
+  end_idx: 75,
   user_id: User.find_by_username("Guest").id,
   song_id: Song.find_by_title("Gold Digger").id
 )

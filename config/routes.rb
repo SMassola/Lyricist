@@ -8,8 +8,8 @@ Rails.application.routes.draw do
     end
 
     resources :comments, only: [:destroy]
-    resources :annotations, only: [:destroy] do
-      resources :comments, only: [:create]
+    resources :annotations, only: [:index, :destroy] do
+      resources :comments, only: [:index, :create]
     end
     resources :artists, only: [:index, :create]
     resources :albums, only: [:index, :create]

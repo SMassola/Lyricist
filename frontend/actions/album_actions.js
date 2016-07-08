@@ -11,7 +11,7 @@ const AlbumActions = {
       album,
       song,
       SongActions.createSong,
-      ErrorActions.setErrors.bind(null, 'creating_album')
+      ErrorActions.setErrors.bind(null, 'song_form')
     );
   },
 };

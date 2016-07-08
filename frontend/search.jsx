@@ -34,15 +34,15 @@ const Search = React.createClass({
             <p>Annotate Your Songs</p>
           </div>
           <div className="search-bar">
-            <h1 className="search-area">Search Bar</h1>
+            <h1 className="search-area"></h1>
           </div>
         </header>
         <main className="main-page">
-          <h2>Popular Songs</h2>
+          <h2>Lyricist Gallery</h2>
           <div className="gallery-container">
             {songs.map((song) => {
               return(
-                <IndexAlbumArt key={song.id} art={song.image_url}/>
+                <IndexAlbumArt key={song.id} id={song.id} art={song.image_url}/>
                 );
             })}
           </div>

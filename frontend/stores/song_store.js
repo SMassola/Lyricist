@@ -25,6 +25,10 @@ SongStore.__onDispatch = function(payload) {
       addSongComment(payload.comment);
       SongStore.__emitChange();
       break;
+    case SongConstants.ANNOTATION_COMMENT_RECEIVED:
+      addAnnotationComment(payload.comment);
+      SongStore.__emitChange();
+      break;
   }
 };
 
@@ -40,6 +44,14 @@ SongStore.allSongs = function() {
 
 SongStore.findSong = function(id) {
   return _songs[id];
+};
+
+SongStore.findAnnotation = function(song, id) {
+  for (let i = 0 ; i < song.annotations.length ; i++) {
+    if (song.annotations[i].id === id) {
+      return song.annotations[i];
+    }
+  }
 };
 
 function resetAllSongs(songs) {
@@ -60,6 +72,11 @@ function addAnnotation(annotation) {
 
 function addSongComment(comment) {
   SongStore.findSong(comment.commentable_id).comments.push(comment);
+}
+
+function addAnnotationComment(comment) {
+  let annotation = SongStore.findAnnotation(SongStore.findSong(comment.commentable.song_id), comment.commentable_id);
+  annotation.comments.push(comment);
 }
 
 module.exports = SongStore;

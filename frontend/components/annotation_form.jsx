@@ -74,7 +74,7 @@ const AnnotationForm = React.createClass({
               placeholder="Body"
               value={this.state.body}>
             </textarea>
-            <input className="submit-comment" type="submit" value="Add Annotation"/>
+            <input className="submit-annotation" type="submit" value="Add Annotation"/>
           </div>
         </form>
       </div>
