@@ -4,6 +4,7 @@ class Api::AlbumsController < ApplicationController
   def create
     @album = Album.find_by(name: params[:album][:name])
     @album ||= Album.new(album_params)
+
     if @album.save
       render :show
     else
@@ -14,6 +15,10 @@ class Api::AlbumsController < ApplicationController
   private
 
   def album_params
-    params.require(:album).permit(:artist_id, :name, :description)
+    params.require(:album).permit(
+      :artist_id,
+      :name,
+      :description,
+      artist_attributes: [:name])
   end
 end

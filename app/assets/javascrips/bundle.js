@@ -28197,7 +28197,7 @@
 	          this.state.errors.map(function (error) {
 	            return React.createElement(
 	              'li',
-	              null,
+	              { key: error },
 	              error
 	            );
 	          })
@@ -35238,6 +35238,8 @@
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(188).Link;
 	var SessionActions = __webpack_require__(253);
+	var ErrorActions = __webpack_require__(260);
+	var ErrorStore = __webpack_require__(280);
 	var SessionStore = __webpack_require__(262);
 	var hashHistory = __webpack_require__(188).hashHistory;
 	
@@ -35247,29 +35249,48 @@
 	    return {
 	      username: "",
 	      password: "",
-	      email: ""
+	      email: "",
+	      errors: []
 	    };
 	  },
+	  componentWillMount: function componentWillMount() {
+	    this._handleLogIn();
+	  },
 	  componentDidMount: function componentDidMount() {
-	    this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
+	    this.errorListener = ErrorStore.addListener(this._handleErrors);
+	    this.sessionListener = SessionStore.addListener(this._handleLogIn);
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
 	    this.sessionListener.remove();
+	    this.errorListener.remove();
 	  },
-	  redirectIfLoggedIn: function redirectIfLoggedIn() {
+	  _handleLogIn: function _handleLogIn() {
 	    if (SessionStore.isUserLoggedIn()) {
-	      hashHistory.push("/");
+	      this.props.that.onModalClose();
 	    }
 	  },
 	  handleSubmit: function handleSubmit(e) {
 	    e.preventDefault();
-	
+	    ErrorActions.cleawrErrors();
 	    var formData = {
 	      username: this.state.username,
 	      password: this.state.password,
 	      email: this.state.email
 	    };
 	    SessionActions.signUp(formData);
+	  },
+	  _handleGuest: function _handleGuest(e) {
+	    e.preventDefault();
+	    var formData = {};
+	    ErrorActions.clearErrors();
+	    formData = {
+	      username: "Guest",
+	      password: "Password"
+	    };
+	    SessionActions.logIn(formData);
+	  },
+	  _handleErrors: function _handleErrors() {
+	    this.setState({ errors: ErrorStore.typeErrors("signup_form") });
 	  },
 	  _usernameChange: function _usernameChange(e) {
 	    this.setState({
@@ -35289,41 +35310,50 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      { className: 'signup-form-container' },
+	      { className: 'login-form-container' },
 	      React.createElement(
 	        'form',
-	        { onSubmit: this.handleSubmit, className: 'signup-form-box' },
-	        'Welcome to Lyricist!',
+	        { className: 'login-form-box' },
+	        React.createElement(
+	          'div',
+	          { className: 'form-text' },
+	          'Please Sign Up'
+	        ),
 	        React.createElement('br', null),
 	        React.createElement(
 	          'div',
-	          { className: 'signup-form' },
-	          React.createElement('br', null),
-	          React.createElement('br', null),
-	          React.createElement(
-	            'label',
-	            null,
-	            'Username:',
-	            React.createElement('input', { type: 'text', value: this.state.username, onChange: this._usernameChange, className: 'signup-input' })
-	          ),
-	          React.createElement('br', null),
-	          React.createElement('br', null),
-	          React.createElement(
-	            'label',
-	            null,
-	            ' Password:',
-	            React.createElement('input', { type: 'password', value: this.state.password, onChange: this._passwordChange, className: 'signup-input' })
-	          ),
-	          React.createElement('br', null),
-	          React.createElement('br', null),
-	          React.createElement(
-	            'label',
-	            null,
-	            ' Email:',
-	            React.createElement('input', { type: 'text', value: this.state.email, onChange: this._emailChange, className: 'signup-input' })
-	          ),
-	          React.createElement('br', null),
-	          React.createElement('input', { type: 'submit', value: 'Submit' })
+	          { className: 'login-errors' },
+	          this.state.errors.map(function (error) {
+	            return React.createElement(
+	              'li',
+	              { key: error },
+	              error
+	            );
+	          })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'login-form' },
+	          React.createElement('input', {
+	            type: 'text',
+	            placeholder: 'Username',
+	            value: this.state.username || "",
+	            onChange: this._usernameChange,
+	            className: 'login-input' }),
+	          React.createElement('input', {
+	            type: 'password',
+	            placeholder: 'Password',
+	            value: this.state.password || "",
+	            onChange: this._passwordChange,
+	            className: 'login-input' }),
+	          React.createElement('input', {
+	            type: 'text',
+	            placeholder: 'Email',
+	            value: this.state.email || "",
+	            onChange: this._emailChange,
+	            className: 'login-input' }),
+	          React.createElement('input', { onClick: this._handleSubmit, className: 'login-button', type: 'submit', value: 'Sign Up' }),
+	          React.createElement('input', { onClick: this._handleGuest, className: 'login-button', type: 'submit', value: 'Log In As Guest' })
 	        )
 	      )
 	    );
@@ -35812,6 +35842,7 @@
 	    if (this.state.song.lyrics) {
 	      this.createAnnotations();
 	    }
+	    // window.scrollTo(0,0);
 	    return React.createElement(
 	      'div',
 	      { className: 'showpage' },
@@ -36560,25 +36591,36 @@
 	  },
 	  _handleSubmit: function _handleSubmit(e) {
 	    e.preventDefault();
-	    var artist = { name: this.state.artistName };
-	    var album = { name: this.state.albumName, artist_id: this.state.artist_id };
+	    // let artist = {name: this.state.artistName};
+	    // let album = {name: this.state.albumName, artist_id: this.state.artist_id};
+	    // let song = {
+	    //   title: this.state.title,
+	    //   lyrics: this.state.lyrics,
+	    //   year: this.state.year,
+	    //   user_id: SessionStore.currentUser()["id"],
+	    //   album_id: this.state.album_id,
+	    //   image_url: this.state.url
+	    // };
+	    // ArtistActions.createArtistAlbumSong(artist, album, song);
 	    var song = {
 	      title: this.state.title,
 	      lyrics: this.state.lyrics,
 	      year: this.state.year,
 	      user_id: SessionStore.currentUser()["id"],
 	      album_id: this.state.album_id,
-	      image_url: this.state.url
+	      image_url: this.state.url,
+	      album_attributes: { name: this.state.albumName, artist_attributes: { name: this.state.artistName } }
 	    };
-	    ArtistActions.createArtistAlbumSong(artist, album, song);
+	
+	    SongActions.createSong(song);
 	  },
 	  render: function render() {
+	    console.log(this.state.errors);
 	
 	    var errs = [];
 	    if (this.state.errors.length > 0) {
 	      errs = this.state.errors.shift().split(',');
 	    }
-	
 	    return React.createElement(
 	      'div',
 	      { className: 'song-form-container' },

@@ -12,7 +12,9 @@ class Api::SongsController < ApplicationController
   end
 
   def create
+    
     @song = Song.new(song_params)
+
     if @song.save
       render :show
     else
@@ -33,13 +35,24 @@ class Api::SongsController < ApplicationController
   private
 
   def song_params
+    # params.require(:song).permit(
+    #   :title,
+    #   :lyrics,
+    #   :year,
+    #   :user_id,
+    #   :album_id,
+    #   :image_url,
+    #   album_attributes: [:name],
+    #   artist_attributes: [:name]
+    # )
     params.require(:song).permit(
       :title,
       :lyrics,
       :year,
       :user_id,
       :album_id,
-      :image_url
+      :image_url,
+      album_attributes: [:name, artist_attributes: [:name]],
     )
   end
 

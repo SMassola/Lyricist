@@ -116,6 +116,7 @@ const SongShow = React.createClass({
     if (this.state.song.lyrics) {
       this.createAnnotations();
     }
+    // window.scrollTo(0,0);
     return (
       <div className="showpage">
         <div className="show-splash">

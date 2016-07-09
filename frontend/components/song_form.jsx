@@ -69,26 +69,37 @@ const SongForm = React.createClass({
   },
   _handleSubmit(e) {
     e.preventDefault();
-    let artist = {name: this.state.artistName};
-    let album = {name: this.state.albumName, artist_id: this.state.artist_id};
+    // let artist = {name: this.state.artistName};
+    // let album = {name: this.state.albumName, artist_id: this.state.artist_id};
+    // let song = {
+    //   title: this.state.title,
+    //   lyrics: this.state.lyrics,
+    //   year: this.state.year,
+    //   user_id: SessionStore.currentUser()["id"],
+    //   album_id: this.state.album_id,
+    //   image_url: this.state.url
+    // };
+    // ArtistActions.createArtistAlbumSong(artist, album, song);
     let song = {
       title: this.state.title,
       lyrics: this.state.lyrics,
       year: this.state.year,
       user_id: SessionStore.currentUser()["id"],
       album_id: this.state.album_id,
-      image_url: this.state.url
+      image_url: this.state.url,
+      album_attributes: {name: this.state.albumName, artist_attributes: {name: this.state.artistName}}
     };
-    ArtistActions.createArtistAlbumSong(artist, album, song);
+
+    SongActions.createSong(song);
   },
 
   render() {
+    console.log(this.state.errors);
 
     let errs = [];
     if (this.state.errors.length > 0) {
       errs = this.state.errors.shift().split(',');
     }
-
     return(
       <div className="song-form-container">
         <form className="song-form" onSubmit={this._handleSubmit}>

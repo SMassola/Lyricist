@@ -2,7 +2,7 @@ class Api::ArtistsController < ApplicationController
   before_action :require_signed_in!
 
   def create
-    @artist = Artist.find_by_name(artist_params[:name])
+    @artist = Artist.find_by(name: params[:artist][:name])
     @artist ||= Artist.new(artist_params)
     if @artist.save
       render :show

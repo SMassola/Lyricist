@@ -85,7 +85,7 @@ const LoginForm = React.createClass({
 	        <div className="form-text">Please Sign In</div>
 					<br/>
             <div className='login-errors'>
-              { this.state.errors.map(error => { return <li>{error}</li>;}) }
+              { this.state.errors.map(error => { return <li key={error}>{error}</li>;}) }
             </div>
 					<div className="login-form">
 					  <input
