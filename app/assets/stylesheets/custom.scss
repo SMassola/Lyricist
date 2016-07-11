@@ -12,6 +12,11 @@ html {
 
 html, body {
   height:100%;
+  font-family: "Roboto";
+}
+
+textarea {
+  padding: 5px;
 }
 
 .splash-container {
@@ -77,12 +82,6 @@ html, body {
   margin: 0;
   font-size: 1.3rem;
 }
-// button:active {
-//    border-top-color: #1b435e;
-//    background: #1b435e;
-//  }
-
-//Search Bar
 
 .splash-container > .search-bar {
   position: absolute;

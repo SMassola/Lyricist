@@ -103,7 +103,7 @@ const Header = React.createClass({
             style={ModalStyle}
             onAfterOpen={this.onModalOpen}>
             <div className="modal-header">
-              <div>Login</div>
+              {this.state.signIn ? <div>Login</div> : <div>Register</div>}
               <button className="exit" onClick={this.onModalClose}>x</button>
             </div>
             {component}

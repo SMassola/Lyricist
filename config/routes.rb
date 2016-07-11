@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     resources :annotations, only: [:index, :destroy] do
       resources :comments, only: [:index, :create]
     end
+    
+    resources :upvotes, only: [:create, :destroy]
     resources :artists, only: [:index, :create]
     resources :albums, only: [:index, :create]
     resources :users, only: [:create]

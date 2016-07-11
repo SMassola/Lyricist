@@ -2,6 +2,7 @@ const AppDispatcher = require('../dispatcher/dispatcher.js');
 const Store = require('flux/utils').Store;
 const SongConstants = require('../constants/song_constants.js');
 const SongActions = require('../actions/song_actions');
+const UpvoteConstants = require('../constants/upvote_constants');
 
 const SongStore = new Store(AppDispatcher);
 
@@ -29,6 +30,37 @@ SongStore.__onDispatch = function(payload) {
       addAnnotationComment(payload.comment);
       SongStore.__emitChange();
       break;
+    case UpvoteConstants.DESTROYED_UPVOTE:
+      destroyUpvote(payload.upvote.annotationId, payload.upvote.userId);
+      SongStore.__emitChange();
+      break;
+    case UpvoteConstants.CREATED_UPVOTE:
+      createUpvote(payload.upvote.annotationId, payload.upvote.userId);
+      SongStore.__emitChange();
+      break;
+  }
+};
+
+function createUpvote(annotationId, userId) {
+  let annotation = SongStore.searchForAnnotation(annotationId);
+  debugger
+  annotation.upvote_users.push(parseInt(userId));
+}
+
+function destroyUpvote(annotationId, userId) {
+  let annotation = SongStore.searchForAnnotation(annotationId);
+  let userIdx = annotation.upvote_users.indexOf(parseInt(userId));
+  annotation.upvote_users.splice(userIdx, 1);
+}
+
+SongStore.searchForAnnotation = function(annotationId) {
+  let annotation;
+  let songs = SongStore.allSongs();
+  for (let i = 0; i < songs.length ; i++) {
+    for (let j = 0; j < songs[i].annotations.length; j++)
+      if (songs[i].annotations[j].id === annotationId) {
+        return songs[i].annotations[j];
+      }
   }
 };
 

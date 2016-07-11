@@ -292,7 +292,7 @@ Get down girl go head
   year: 2005,
   user_id: User.find_by_username("Guest").id,
   album_id: Album.find_by_name("Late Registration").id,
-  image_url: "https://images-na.ssl-images-amazon.com/images/I/61gmEwlJE0L.jpg"
+  image_url: "https://upload.wikimedia.org/wikipedia/en/f/f4/Late_registration_cd_cover.jpg"
 )
 
 Song.create!(
@@ -486,7 +486,7 @@ Resistance!",
   year: 2009,
   user_id: User.find_by_username("Guest").id,
   album_id: Album.find_by_name("The Resistance").id,
-  image_url: "http://4.bp.blogspot.com/-ABhte_JFzcI/UM6m49lkKYI/AAAAAAAADJc/DUIkgMrHmhs/s1600/the_resistance_wallpaper_muse-normal.jpg"
+  image_url: "https://upload.wikimedia.org/wikipedia/en/8/8a/Theresistance.jpg"
 )
 
 Song.create!(

@@ -4,6 +4,10 @@ class User < ActiveRecord::Base
 
   has_many :annotations
   has_many :comments
+  has_many :upvotes
+  has_many :upvoted_annotations,
+    through: :upvotes,
+    source: :annotation
 
   attr_reader :password
 

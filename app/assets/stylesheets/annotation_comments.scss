@@ -78,12 +78,19 @@
 .submit-annotation-comment {
   width: 140px;
   height: 40px;
-  color: white;
+  color: #6ABEDB;
   margin: 15px 0 15px 20px;
-  background: #6ABEDB;
+  background: white;
   padding:0!important;
   font: inherit;
   cursor: pointer;
+  border: 2px solid #6ABEDB;
+}
+
+.submit-annotation-comment:hover {
+  color: white;
+  background: #6ABEDB;
+  border: 2px solid white;
 }
 
 .submit-annotation-comment:focus {

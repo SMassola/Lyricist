@@ -3,17 +3,25 @@
 .submit-annotation {
   width: 140px;
   height: 40px;
-  color: white;
   margin: 15px 0 15px 20px;
-  background: #6ABEDB;
   padding: 0 !important;
   font: inherit;
   cursor: pointer;
+  border: 2px solid #6ABEDB;
+  color: #6ABEDB;
+  background: white;
+}
+
+.submit-annotation:hover {
+  background: #6ABEDB;
+  color: white;
+  border: white;
 }
 
 .annotation-form-container {
   font-family: sans-serif;
   width: 45%;
+  z-index: 5;
 }
 
 .annotation-form {
@@ -62,6 +70,10 @@
   -moz-box-shadow:    3px 3px 5px 6px #ccc;
   -webkit-box-shadow: 3px 3px 5px 6px #ccc;
   box-shadow:         3px 3px 5px 6px #ccc;
+}
+
+.annotation-body-container {
+  z-index: 5;
 }
 
 .annotation-body {

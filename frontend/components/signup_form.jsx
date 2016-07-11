@@ -37,9 +37,9 @@ const SignupForm = React.createClass({
     }
   },
 
-	handleSubmit(e) {
+	_handleSubmit(e) {
 		e.preventDefault();
-    ErrorActions.cleawrErrors();
+    ErrorActions.clearErrors();
 		let formData = {
 			username: this.state.username,
 			password: this.state.password,
@@ -86,8 +86,7 @@ const SignupForm = React.createClass({
       <div className="login-form-container">
 				<form className="login-form-box">
 	        <div className="form-text">Please Sign Up</div>
-					<br/>
-            <div className='login-errors'>
+            <div className='signup-errors'>
               {this.state.errors.map(error => { return <li key={error}>{error}</li>;}) }
             </div>
 					<div className="login-form">

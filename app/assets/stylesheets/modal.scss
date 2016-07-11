@@ -38,10 +38,21 @@
   font-size: 16px;
   margin: auto;
   margin-top: 20px;
-  background-color: #1990DB;
-  color: #FFFFFF;
-  width: 250px;
+  background-color: transparent;
+  color: white;
+  width: 200px;
   height: 40px;
+  border: 1px solid white;
+}
+
+.login-button:hover {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+
+.login-button:focus {
+  outline: none;
 }
 
 .login-input {
@@ -55,6 +66,7 @@
   border: 1px #1D1D1D solid;
   margin: auto;
 }
+
 
 .login-form-box {
   margin: auto;

@@ -6,8 +6,11 @@ json.user_id annotation.user_id
 json.song_id annotation.song_id
 json.song annotation.song
 json.comments annotation.comments
+json.upvotes annotation.upvotes
 json.username annotation.user.username
 
 json.comments annotation.comments do |comment|
   json.partial! 'api/comments/comment', comment: comment
 end
+
+json.upvote_users annotation.upvote_users.pluck(:id)

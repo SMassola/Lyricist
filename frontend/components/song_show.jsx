@@ -34,7 +34,7 @@ const SongShow = React.createClass({
   _handleChange () {
     let song = SongStore.findSong(parseInt(this.props.params.id));
     this.setState({ song: song ? song : {} });
-    // this.setState({ renderForm: false, renderAnnotationBody: false});
+    this.setState({ renderForm: false });
   },
 
   sortAnnotations(array) {
@@ -116,7 +116,7 @@ const SongShow = React.createClass({
     if (this.state.song.lyrics) {
       this.createAnnotations();
     }
-    // window.scrollTo(0,0);
+
     return (
       <div className="showpage">
         <div className="show-splash">

@@ -7,6 +7,11 @@ class Annotation < ActiveRecord::Base
             :song_id,
             presence: true
 
+  has_many :upvotes
+  has_many :upvote_users,
+    through: :upvotes,
+    source: :user
+
   has_many :comments, as: :commentable
   belongs_to :song
   belongs_to :user

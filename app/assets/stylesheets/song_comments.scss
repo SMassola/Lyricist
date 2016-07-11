@@ -75,12 +75,19 @@
 .submit-song-comment {
   width: 140px;
   height: 40px;
-  color: white;
   margin: 5px;
-  background: #6ABEDB;
-  padding:0!important;
+  padding:0 !important;
   font: inherit;
   cursor: pointer;
+  border: 2px solid #6ABEDB;
+  color: #6ABEDB;
+  background: white;
+}
+
+.submit-song-comment:hover {
+  border: 2px solid white;
+  color: white;
+  background: #6ABEDB;
 }
 
 .submit-song-comment:focus {

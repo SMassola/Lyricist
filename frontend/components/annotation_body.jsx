@@ -3,6 +3,8 @@ const SongActions = require('../actions/song_actions.js');
 const SongStore = require('../stores/song_store.js');
 const AnnotationComments = require('./annotation_comments.jsx');
 
+const SessionStore = require('../stores/session_store.js');
+
 const AnnotationBody = React.createClass({
 
   getInitialState() {
@@ -54,15 +56,3 @@ const AnnotationBody = React.createClass({
 });
 
 module.exports = AnnotationBody;
-
-
-
-
-// <form className="annotation-comment-form">
-//   <div className="comment error-container"></div>
-//   <textarea onChange={this._bodyChange}
-//     className="annotation-comment-textarea"
-//     placeholder="Add Comment">
-//   </textarea>
-//   <input type="submit" value="Add Comment"/>
-// </form>

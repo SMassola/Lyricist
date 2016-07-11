@@ -41,5 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   Modal.setAppElement(document.getElementById("root"));
   const root = document.getElementById("root");
-  ReactDOM.render(<Router history={hashHistory} routes={routes} />, root);
+  ReactDOM.render(
+    <Router
+      onUpdate={() => window.scrollTo(0,0)}
+      history={hashHistory}
+      routes={routes} />, root);
 });
