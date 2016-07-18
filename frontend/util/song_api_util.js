@@ -1,4 +1,16 @@
 const SongApiUtil = {
+
+  searchSongs(data={}, callback) {
+    $.ajax({
+      url: "api/songs/results",
+      method: "GET",
+      data: data,
+      success: function(resp) {
+        callback(resp);
+      }
+    });
+  },
+
   fetchAllSongs(callback) {
     $.ajax({
       url: "api/songs",

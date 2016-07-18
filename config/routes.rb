@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
 
     resources :songs do
+      collection do
+        get 'results', action: :query
+      end
       resources :annotations, only: [:create]
       resources :comments, only: [:index, :create]
     end
@@ -11,7 +14,7 @@ Rails.application.routes.draw do
     resources :annotations, only: [:index, :destroy] do
       resources :comments, only: [:index, :create]
     end
-    
+
     resources :upvotes, only: [:create, :destroy]
     resources :artists, only: [:index, :create]
     resources :albums, only: [:index, :create]

@@ -9,6 +9,7 @@ const AnnotationForm = require('./annotation_form.jsx');
 const SongDetails = require("./song_details.jsx");
 const AlbumArt = require("./album_art.jsx");
 const SongComments = require("./song_comments.jsx");
+const hashHistory = require('react-router').hashHistory;
 
 const SongShow = React.createClass({
   getInitialState () {
@@ -20,6 +21,10 @@ const SongShow = React.createClass({
       currentAnnotation: null,
       errors: []
     });
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({song: SongActions.fetchSong(parseInt(nextProps.params.id))});
   },
 
   componentDidMount () {
@@ -113,10 +118,12 @@ const SongShow = React.createClass({
   },
 
   render () {
+    if (!this.state.song) {
+      return null;
+    }
     if (this.state.song.lyrics) {
       this.createAnnotations();
     }
-
     return (
       <div className="showpage">
         <div className="show-splash">

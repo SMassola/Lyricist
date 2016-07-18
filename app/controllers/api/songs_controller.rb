@@ -1,6 +1,19 @@
 class Api::SongsController < ApplicationController
   before_action :require_signed_in!, only: [:create]
 
+  def query
+    if params[:query] && !params[:query].empty?
+      @songs = Song.all
+      @songs = @songs.where(
+        [
+          'LOWER(title) LIKE LOWER(:query) OR LOWER(lyrics) LIKE LOWER(:query)',
+          {query: "%#{params[:query]}%"}
+        ]
+      )
+    end
+    render :index
+  end
+
   def index
     @songs = Song.all
     render :index
@@ -12,7 +25,7 @@ class Api::SongsController < ApplicationController
   end
 
   def create
-    
+
     @song = Song.new(song_params)
 
     if @song.save
@@ -33,18 +46,11 @@ class Api::SongsController < ApplicationController
   end
 
   private
+  def search_params
+    params.permit(:title)
+  end
 
   def song_params
-    # params.require(:song).permit(
-    #   :title,
-    #   :lyrics,
-    #   :year,
-    #   :user_id,
-    #   :album_id,
-    #   :image_url,
-    #   album_attributes: [:name],
-    #   artist_attributes: [:name]
-    # )
     params.require(:song).permit(
       :title,
       :lyrics,

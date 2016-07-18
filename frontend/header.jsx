@@ -7,6 +7,7 @@ const LoginForm = require('./components/login_form.jsx');
 const SignupForm = require('./components/signup_form.jsx');
 const SessionStore = require('./stores/session_store.js');
 const SessionActions = require('./actions/session_actions.js');
+const SearchIndex = require('./components/search_index.jsx');
 
 const Header = React.createClass({
 
@@ -89,12 +90,19 @@ const Header = React.createClass({
     return(
       <div className="header-container">
         <div className="header">
-          <div className="head-user">
-            {this.isUserLoggedIn() ? "Logged in as: " + this.currentUser() : ""}
+          <SearchIndex />
+
+          <div className="head-title-container">
+            <div className="head-title" onClick={this._redirectHome}>Lyricist</div>
           </div>
-          <div className="head-title" onClick={this._redirectHome}>Lyricist</div>
-          <div className="head-links">
-            {this.isUserLoggedIn() ? this.logOutLink() : this.logInLinks()}
+
+          <div className="header-logistics">
+            <div className="head-user">
+              {this.isUserLoggedIn() ? "Logged in as: " + this.currentUser() : ""}
+            </div>
+            <div className="head-links">
+              {this.isUserLoggedIn() ? this.logOutLink() : this.logInLinks()}
+            </div>
           </div>
 
           <Modal

@@ -57,10 +57,10 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	var Header = __webpack_require__(250);
-	var Search = __webpack_require__(282);
-	var SongShow = __webpack_require__(288);
-	var SongIndex = __webpack_require__(295);
-	var SongForm = __webpack_require__(297);
+	var Search = __webpack_require__(283);
+	var SongShow = __webpack_require__(289);
+	var SongIndex = __webpack_require__(296);
+	var SongForm = __webpack_require__(298);
 	var SessionActions = __webpack_require__(253);
 	
 	var App = React.createClass({
@@ -27925,9 +27925,10 @@
 	var hashHistory = __webpack_require__(188).hashHistory;
 	
 	var LoginForm = __webpack_require__(252);
-	var SignupForm = __webpack_require__(281);
+	var SignupForm = __webpack_require__(282);
 	var SessionStore = __webpack_require__(262);
 	var SessionActions = __webpack_require__(253);
+	var SearchIndex = __webpack_require__(303);
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
@@ -28009,20 +28010,29 @@
 	      React.createElement(
 	        'div',
 	        { className: 'header' },
+	        React.createElement(SearchIndex, null),
 	        React.createElement(
 	          'div',
-	          { className: 'head-user' },
-	          this.isUserLoggedIn() ? "Logged in as: " + this.currentUser() : ""
+	          { className: 'head-title-container' },
+	          React.createElement(
+	            'div',
+	            { className: 'head-title', onClick: this._redirectHome },
+	            'Lyricist'
+	          )
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'head-title', onClick: this._redirectHome },
-	          'Lyricist'
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'head-links' },
-	          this.isUserLoggedIn() ? this.logOutLink() : this.logInLinks()
+	          { className: 'header-logistics' },
+	          React.createElement(
+	            'div',
+	            { className: 'head-user' },
+	            this.isUserLoggedIn() ? "Logged in as: " + this.currentUser() : ""
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'head-links' },
+	            this.isUserLoggedIn() ? this.logOutLink() : this.logInLinks()
+	          )
 	        ),
 	        React.createElement(
 	          Modal,
@@ -28124,7 +28134,7 @@
 	
 	var SessionActions = __webpack_require__(253);
 	var SessionStore = __webpack_require__(262);
-	var ErrorStore = __webpack_require__(280);
+	var ErrorStore = __webpack_require__(281);
 	var ErrorActions = __webpack_require__(260);
 	var hashHistory = __webpack_require__(188).hashHistory;
 	
@@ -28703,7 +28713,7 @@
 	var Store = __webpack_require__(263).Store;
 	var SessionConstants = __webpack_require__(258);
 	var Header = __webpack_require__(250);
-	var UpvoteConstants = __webpack_require__(305);
+	var UpvoteConstants = __webpack_require__(280);
 	var SessionStore = new Store(AppDispatcher);
 	
 	var _currentUser = {};
@@ -35201,6 +35211,17 @@
 
 /***/ },
 /* 280 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	module.exports = {
+	  CREATED_UPVOTE: "CREATED_UPVOTE",
+	  DESTROYED_UPVOTE: "DESTROYED_UPVOTE"
+	};
+
+/***/ },
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35255,7 +35276,7 @@
 	module.exports = ErrorStore;
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35264,7 +35285,7 @@
 	var Link = __webpack_require__(188).Link;
 	var SessionActions = __webpack_require__(253);
 	var ErrorActions = __webpack_require__(260);
-	var ErrorStore = __webpack_require__(280);
+	var ErrorStore = __webpack_require__(281);
 	var SessionStore = __webpack_require__(262);
 	var hashHistory = __webpack_require__(188).hashHistory;
 	
@@ -35387,14 +35408,14 @@
 	module.exports = SignupForm;
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var SongStore = __webpack_require__(283);
-	var SongActions = __webpack_require__(285);
-	var IndexAlbumArt = __webpack_require__(287);
+	var SongStore = __webpack_require__(284);
+	var SongActions = __webpack_require__(286);
+	var IndexAlbumArt = __webpack_require__(288);
 	
 	var React = __webpack_require__(1);
 	
@@ -35465,16 +35486,16 @@
 	module.exports = Search;
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var AppDispatcher = __webpack_require__(254);
 	var Store = __webpack_require__(263).Store;
-	var SongConstants = __webpack_require__(284);
-	var SongActions = __webpack_require__(285);
-	var UpvoteConstants = __webpack_require__(305);
+	var SongConstants = __webpack_require__(285);
+	var SongActions = __webpack_require__(286);
+	var UpvoteConstants = __webpack_require__(280);
 	
 	var SongStore = new Store(AppDispatcher);
 	
@@ -35515,7 +35536,6 @@
 	
 	function createUpvote(annotationId, userId) {
 	  var annotation = SongStore.searchForAnnotation(annotationId);
-	  debugger;
 	  annotation.upvote_users.push(parseInt(userId));
 	}
 	
@@ -35587,7 +35607,7 @@
 	module.exports = SongStore;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -35597,23 +35617,35 @@
 		SONG_RECEIVED: "SONG_RECEIVED",
 		ANNOTATION_RECEIVED: "ANNOTATION_RECEIVED",
 		SONG_COMMENT_RECEIVED: "SONG_COMMENT_RECEIVED",
-		ANNOTATION_COMMENT_RECEIVED: "ANNOTATION_COMMENT_RECEIVED"
+		ANNOTATION_COMMENT_RECEIVED: "ANNOTATION_COMMENT_RECEIVED",
+		SONGS_SEARCHED: "SONGS_SEARCHED"
 	};
 	
 	module.exports = SongConstants;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var SongApiUtil = __webpack_require__(286);
-	var SongConstants = __webpack_require__(284);
+	var SongApiUtil = __webpack_require__(287);
+	var SongConstants = __webpack_require__(285);
 	var AppDispatcher = __webpack_require__(254);
 	var ErrorActions = __webpack_require__(260);
 	
 	var SongActions = {
+	  searchSongs: function searchSongs() {
+	    var data = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	
+	    SongApiUtil.searchSongs(data, this.receiveResults);
+	  },
+	  receiveResults: function receiveResults(songs) {
+	    AppDispatcher.dispatch({
+	      actionType: SongConstants.SONGS_SEARCHED,
+	      songs: songs
+	    });
+	  },
 	  fetchAllSongs: function fetchAllSongs() {
 	    SongApiUtil.fetchAllSongs(this.receiveAllSongs);
 	  },
@@ -35667,12 +35699,25 @@
 	module.exports = SongActions;
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports) {
 
 	"use strict";
 	
 	var SongApiUtil = {
+	  searchSongs: function searchSongs() {
+	    var data = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var callback = arguments[1];
+	
+	    $.ajax({
+	      url: "api/songs/results",
+	      method: "GET",
+	      data: data,
+	      success: function success(resp) {
+	        callback(resp);
+	      }
+	    });
+	  },
 	  fetchAllSongs: function fetchAllSongs(callback) {
 	    $.ajax({
 	      url: "api/songs",
@@ -35752,7 +35797,7 @@
 	module.exports = SongApiUtil;
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35783,22 +35828,23 @@
 	});
 
 /***/ },
-/* 288 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
 	
-	var SongStore = __webpack_require__(283);
+	var SongStore = __webpack_require__(284);
 	var SessionStore = __webpack_require__(262);
 	
-	var SongActions = __webpack_require__(285);
-	var AnnotationBody = __webpack_require__(289);
-	var AnnotationForm = __webpack_require__(291);
-	var SongDetails = __webpack_require__(292);
-	var AlbumArt = __webpack_require__(293);
-	var SongComments = __webpack_require__(294);
+	var SongActions = __webpack_require__(286);
+	var AnnotationBody = __webpack_require__(290);
+	var AnnotationForm = __webpack_require__(292);
+	var SongDetails = __webpack_require__(293);
+	var AlbumArt = __webpack_require__(294);
+	var SongComments = __webpack_require__(295);
+	var hashHistory = __webpack_require__(188).hashHistory;
 	
 	var SongShow = React.createClass({
 	  displayName: 'SongShow',
@@ -35811,6 +35857,9 @@
 	      currentAnnotation: null,
 	      errors: []
 	    };
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    this.setState({ song: SongActions.fetchSong(parseInt(nextProps.params.id)) });
 	  },
 	  componentDidMount: function componentDidMount() {
 	    this.songListener = SongStore.addListener(this._handleChange);
@@ -35896,10 +35945,12 @@
 	    this.setState({ renderForm: false });
 	  },
 	  render: function render() {
+	    if (!this.state.song) {
+	      return null;
+	    }
 	    if (this.state.song.lyrics) {
 	      this.createAnnotations();
 	    }
-	
 	    return React.createElement(
 	      'div',
 	      { className: 'showpage' },
@@ -35967,15 +36018,15 @@
 	module.exports = SongShow;
 
 /***/ },
-/* 289 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var SongActions = __webpack_require__(285);
-	var SongStore = __webpack_require__(283);
-	var AnnotationComments = __webpack_require__(290);
+	var SongActions = __webpack_require__(286);
+	var SongStore = __webpack_require__(284);
+	var AnnotationComments = __webpack_require__(291);
 	
 	var SessionStore = __webpack_require__(262);
 	
@@ -36039,15 +36090,15 @@
 	module.exports = AnnotationBody;
 
 /***/ },
-/* 290 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var SongActions = __webpack_require__(285);
+	var SongActions = __webpack_require__(286);
 	
-	var ErrorStore = __webpack_require__(280);
+	var ErrorStore = __webpack_require__(281);
 	var ErrorActions = __webpack_require__(260);
 	
 	var AnnotationComments = React.createClass({
@@ -36160,15 +36211,15 @@
 	module.exports = AnnotationComments;
 
 /***/ },
-/* 291 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var SongActions = __webpack_require__(285);
+	var SongActions = __webpack_require__(286);
 	
-	var ErrorStore = __webpack_require__(280);
+	var ErrorStore = __webpack_require__(281);
 	var AnnotationForm = React.createClass({
 	  displayName: 'AnnotationForm',
 	
@@ -36262,7 +36313,7 @@
 	module.exports = AnnotationForm;
 
 /***/ },
-/* 292 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36300,7 +36351,7 @@
 	});
 
 /***/ },
-/* 293 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36327,15 +36378,15 @@
 	});
 
 /***/ },
-/* 294 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var SongActions = __webpack_require__(285);
+	var SongActions = __webpack_require__(286);
 	var SessionStore = __webpack_require__(262);
-	var ErrorStore = __webpack_require__(280);
+	var ErrorStore = __webpack_require__(281);
 	var ErrorActions = __webpack_require__(260);
 	
 	var SongComments = React.createClass({
@@ -36446,15 +36497,15 @@
 	module.exports = SongComments;
 
 /***/ },
-/* 295 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var SongStore = __webpack_require__(283);
-	var SongActions = __webpack_require__(285);
-	var SongIndexItem = __webpack_require__(296);
+	var SongStore = __webpack_require__(284);
+	var SongActions = __webpack_require__(286);
+	var SongIndexItem = __webpack_require__(297);
 	
 	var SongIndex = React.createClass({
 	  displayName: 'SongIndex',
@@ -36503,13 +36554,13 @@
 	module.exports = SongIndex;
 
 /***/ },
-/* 296 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var AlbumArt = __webpack_require__(293);
+	var AlbumArt = __webpack_require__(294);
 	var hashHistory = __webpack_require__(188).hashHistory;
 	
 	module.exports = React.createClass({
@@ -36564,11 +36615,9 @@
 	    );
 	  }
 	});
-	
-	// <div className="album-insert">{this.props.albumDescription}</div>
 
 /***/ },
-/* 297 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36576,13 +36625,13 @@
 	var React = __webpack_require__(1);
 	var ReactRouter = __webpack_require__(188);
 	
-	var SongActions = __webpack_require__(285);
-	var ArtistActions = __webpack_require__(298);
+	var SongActions = __webpack_require__(286);
+	var ArtistActions = __webpack_require__(299);
 	
-	var ErrorStore = __webpack_require__(280);
+	var ErrorStore = __webpack_require__(281);
 	var SessionStore = __webpack_require__(262);
-	var SongStore = __webpack_require__(283);
-	var hashHistory = ReactRouter.hashHistory;
+	var SongStore = __webpack_require__(284);
+	var hashHistory = __webpack_require__(188).hashHistory;
 	
 	var SongForm = React.createClass({
 	  displayName: 'SongForm',
@@ -36663,8 +36712,6 @@
 	    SongActions.createSong(song);
 	  },
 	  render: function render() {
-	    console.log(this.state.errors);
-	
 	    var errs = [];
 	    if (this.state.errors.length > 0) {
 	      errs = this.state.errors.shift().split(',');
@@ -36747,15 +36794,15 @@
 	module.exports = SongForm;
 
 /***/ },
-/* 298 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var ArtistApiUtil = __webpack_require__(299);
+	var ArtistApiUtil = __webpack_require__(300);
 	var AppDispatcher = __webpack_require__(254);
 	
-	var AlbumActions = __webpack_require__(300);
+	var AlbumActions = __webpack_require__(301);
 	var ErrorActions = __webpack_require__(260);
 	
 	var ArtistActions = {
@@ -36767,7 +36814,7 @@
 	module.exports = ArtistActions;
 
 /***/ },
-/* 299 */
+/* 300 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36794,15 +36841,15 @@
 	module.exports = ArtistApiUtil;
 
 /***/ },
-/* 300 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var AlbumApiUtil = __webpack_require__(301);
+	var AlbumApiUtil = __webpack_require__(302);
 	var AppDispatcher = __webpack_require__(254);
 	
-	var SongActions = __webpack_require__(285);
+	var SongActions = __webpack_require__(286);
 	var ErrorActions = __webpack_require__(260);
 	
 	var AlbumActions = {
@@ -36814,7 +36861,7 @@
 	module.exports = AlbumActions;
 
 /***/ },
-/* 301 */
+/* 302 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36841,18 +36888,154 @@
 	module.exports = AlbumApiUtil;
 
 /***/ },
-/* 302 */,
-/* 303 */,
-/* 304 */,
-/* 305 */
-/***/ function(module, exports) {
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
-	module.exports = {
-	  CREATED_UPVOTE: "CREATED_UPVOTE",
-	  DESTROYED_UPVOTE: "DESTROYED_UPVOTE"
+	var React = __webpack_require__(1);
+	var SearchStore = __webpack_require__(306);
+	var SongActions = __webpack_require__(286);
+	var SearchItem = __webpack_require__(305);
+	var SongsSearchBox = __webpack_require__(304);
+	
+	var SearchIndex = React.createClass({
+	  displayName: 'SearchIndex',
+	  getInitialState: function getInitialState() {
+	    return { songs: SearchStore.allResults() };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    SongActions.searchSongs();
+	    this.listener = SearchStore.addListener(this._onChange);
+	  },
+	  _onChange: function _onChange() {
+	    this.setState({ songs: SearchStore.allResults() });
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.listener.remove();
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'search-container' },
+	      React.createElement(SongsSearchBox, null),
+	      React.createElement(
+	        'ul',
+	        { className: 'songs-search-results' },
+	        this.state.songs.map(function (song) {
+	          return React.createElement(SearchItem, { key: song.id, song: song });
+	        })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SearchIndex;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var SongActions = __webpack_require__(286);
+	
+	var SongsSearchBox = React.createClass({
+	  displayName: 'SongsSearchBox',
+	  _onInput: function _onInput(e) {
+	    SongActions.searchSongs({ query: e.target.value });
+	  },
+	  render: function render() {
+	    return React.createElement('input', {
+	      className: 'search-box',
+	      onInput: this._onInput,
+	      placeholder: 'Search by song title or lyrics' });
+	  }
+	});
+	
+	module.exports = SongsSearchBox;
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var hashHistory = __webpack_require__(188).hashHistory;
+	var SongActions = __webpack_require__(286);
+	
+	var SearchItem = React.createClass({
+	  displayName: 'SearchItem',
+	  _handleClick: function _handleClick(e) {
+	    hashHistory.push('/songs/' + this.props.song.id);
+	
+	    $('input.search-box').val("");
+	    SongActions.searchSongs({ query: "" });
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'li',
+	      { onClick: this._handleClick,
+	        key: this.props.song.id,
+	        className: 'search-index-item' },
+	      React.createElement(
+	        'div',
+	        null,
+	        this.props.song.title,
+	        ' - ',
+	        this.props.song.artist.name
+	      ),
+	      React.createElement('div', null)
+	    );
+	  }
+	});
+	
+	module.exports = SearchItem;
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AppDispatcher = __webpack_require__(254);
+	var Store = __webpack_require__(263).Store;
+	var SongConstants = __webpack_require__(285);
+	var SongActions = __webpack_require__(286);
+	var UpvoteConstants = __webpack_require__(280);
+	
+	var SearchStore = new Store(AppDispatcher);
+	
+	var _results = {};
+	
+	SearchStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SongConstants.SONGS_SEARCHED:
+	      resetAllResults(payload.songs);
+	      SearchStore.__emitChange();
+	      break;
+	  }
 	};
+	
+	function resetAllResults(songs) {
+	  _results = {};
+	  songs.forEach(function (song) {
+	    _results[song.id] = song;
+	  });
+	}
+	
+	SearchStore.allResults = function () {
+	  var results = [];
+	  Object.keys(_results).forEach(function (key) {
+	    results.push(_results[key]);
+	  });
+	
+	  return results;
+	};
+	
+	module.exports = SearchStore;
 
 /***/ }
 /******/ ]);

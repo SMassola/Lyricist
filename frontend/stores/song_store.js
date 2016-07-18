@@ -43,7 +43,6 @@ SongStore.__onDispatch = function(payload) {
 
 function createUpvote(annotationId, userId) {
   let annotation = SongStore.searchForAnnotation(annotationId);
-  debugger
   annotation.upvote_users.push(parseInt(userId));
 }
 

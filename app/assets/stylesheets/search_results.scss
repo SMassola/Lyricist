@@ -1,0 +1,33 @@
+.search-container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  z-index: 10;
+}
+
+.search-box {
+  min-height: 28px;
+  margin-top: 11px;
+  font-size: 20px;
+  z-index: 10;
+}
+
+.search-index-item {
+  position: relative;
+}
+
+.songs-search-results {
+  background: #222;
+  color: white;
+}
+
+.songs-search-results:hover {
+  cursor: pointer;
+}
+
+.search-index-item {
+  padding: 5px;
+}

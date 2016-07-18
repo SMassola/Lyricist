@@ -45,5 +45,3 @@ module.exports = React.createClass({
     );
   }
 });
-
-// <div className="album-insert">{this.props.albumDescription}</div>

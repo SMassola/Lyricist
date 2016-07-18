@@ -7,7 +7,7 @@ const ArtistActions = require('../actions/artist_actions.js');
 const ErrorStore = require('../stores/error_store.js');
 const SessionStore = require('../stores/session_store.js');
 const SongStore = require('../stores/song_store.js');
-const hashHistory = ReactRouter.hashHistory;
+const hashHistory = require('react-router').hashHistory;
 
 const SongForm = React.createClass({
 
@@ -94,8 +94,6 @@ const SongForm = React.createClass({
   },
 
   render() {
-    console.log(this.state.errors);
-
     let errs = [];
     if (this.state.errors.length > 0) {
       errs = this.state.errors.shift().split(',');

@@ -5,6 +5,17 @@ const ErrorActions = require('./error_actions.js');
 
 const SongActions = {
 
+  searchSongs(data={}) {
+    SongApiUtil.searchSongs(data, this.receiveResults);
+  },
+
+  receiveResults(songs) {
+    AppDispatcher.dispatch({
+      actionType: SongConstants.SONGS_SEARCHED,
+      songs: songs
+    });
+  },
+
   fetchAllSongs() {
     SongApiUtil.fetchAllSongs(this.receiveAllSongs);
   },
