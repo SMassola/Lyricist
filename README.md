@@ -1,137 +1,96 @@
 # Lyricist
 
-[Heroku link][heroku] **Note:** This should be a link to your production site
+[Heroku link][heroku]
+[heroku]: www.lyricist.us/
 
-[heroku]: https://mylyricist.herokuapp.com/
-
-## Minimum Viable Product
-
-Lyricist is a web application inspired by Genius using Ruby on Rails as the framework and React as the frontend interface. By the end
-week 9, this app will at minimum satisfy the following criteria:
-
-- [x] Hosting on Heroku
-- [ ] New account creation, login, and guest/demo login
-- [ ] A production README, replacing this README (**NB**: check out the [sample production README](docs/production_readme.md) -- you'll write this later)
-- [ ] Songs
-  - [ ] Smooth, bug-free navigation
-  - [ ] Adequate seed data to demonstrate the site's features
-  - [ ] Adequate CSS styling
-- [ ] Annotations
-  - [ ] Smooth, bug-free navigation
-  - [ ] Adequate seed data to demonstrate the site's features
-  - [ ] Adequate CSS styling
-- [ ] Comments
-  - [ ] Smooth, bug-free navigation
-  - [ ] Adequate seed data to demonstrate the site's features
-  - [ ] Adequate CSS styling
-- [ ] Upvotes
-  - [ ] Smooth, bug-free navigation
-  - [ ] Adequate seed data to demonstrate the site's features
-  - [ ] Adequate CSS styling
-
-## Design Docs
-* [View Wireframes][views]
-* [React Components][components]  
-* [Flux Cycles][flux-cycles]
-* [API endpoints][api-endpoints]
-* [DB schema][schema]
-
-[views]: docs/views.md
-[components]: docs/components.md
-[flux-cycles]: docs/flux-cycles.md
-[api-endpoints]: docs/api-endpoints.md
-[schema]: docs/schema.md
-
-## Implementation Timeline
-
-### Phase 1: Backend setup and Front End User Authentication (1 day, W1 Tu 6pm)
-
-**Objective:** Functioning rails project with Authentication
-
-- [x] create new project
-- [x] create `User` model
-- [x] authentication
-- [x] user signup/signin pages
-- [x] blank landing page after signin
-
-### Phase 2: Songs and Comments Model, API, and basic APIUtil (1.5 days, W1 Th 12pm)
-
-**Objective:** Songs can be created, read, edited and destroyed through
-the API.
-
-- [x] create `Song` model and `Comment` model
-- [x] seed the database with a small amount of test data
-- [x] CRUD API for songs (`SongsController`)
-- [x] jBuilder views for songs
-- [x] setup Webpack & Flux scaffold
-- [x] setup `APIUtil` to interact with the API
-- [x] test out API interaction in the console.
-
-### Phase 3: Annotations (1 day, W2 Tu 12pm)
-
-**Objective:** Annotations belong to Songs, and can be viewed by Songs.
-
-- [x] create `Annotation` model
-- build out API, Flux loop, and components for:
-- [x] Annotations CRUD
-- [x] adding annotations to song lyrics
-- Use CSS to style new views
-
-Phase 3 adds organization to the Songs. Annotations belong to a Song,
-which has its own `Show` view.
-
-### Phase 4: Flux Architecture and Router (1.5 days, W1 F 6pm)
-
-**Objective:** Songs and Comments can be created, read, edited and destroyed with the
-user interface.
-
-- [ ] setup the flux loop with skeleton files
-- [ ] setup React Router
-- implement each song and comment component, building out the flux loop as needed.
-  - [x] `SongssIndex`
-  - [x] `SongIndexItem`
-  - [ ] `SongForm`
-  - [ ] `CommentsIndex`
-  - [ ] `CommentIndexItem`
-  - [ ] `CommentForm`
-- [ ] save Song or Comment to the DB when the form loses focus or is left idle
-  after editing.
-
-### Phase 5: Start Styling (0.5 days, W2 M 12pm)
-
-**Objective:** Existing pages (including signup/signin) will look good.
-
-- [ ] create a basic style guide
-- [ ] position elements on the page
-- [ ] add basic colors & styles
+![preview]
+[preview]:	./app/assets/images/Homepage.png
 
 
-### Phase 6: Upvotes (1 days, W2 Th 12pm)
+## Description
+Lyricist is a full-stack web application that enables users to annotate song lyrics, comment on songs and annotations,
+add songs to the library and search for songs by lyrics or song title.
 
-**Objective:** Upvotes can be added to annotations.
+## Implementation
+To render song annotations and the current user highlight on lyrics, Lyricist utilizes three overlapping lyrics layers - the ghost-lyrics
+layer, the high-lyrics layer, and the annotation-lyrics layer.
 
-- [ ] create `Upvotes` model and join table
-- build out API, Flux loop, and components for:
-  - [ ] fetching upvotes for annotations
-  - [ ] adding upvotes to annotations
-- [ ] Style new elements
+```javascript
+<pre className="ghost-lyrics"
+  onMouseUp={this.highlight}
+  onMouseDown={this.removeHighlight}>
+  {this.state.song.lyrics}
+</pre>
 
-### Phase 7: Styling Cleanup and Seeding (1 day, W2 F 6pm)
+<pre className="highlight-lyrics">
+  {this.state.song.lyrics}
+</pre>
 
-**objective:** Make the site feel more cohesive and awesome.
+<pre className="annotation-lyrics">
+  {this.lyricsEls}
+</pre>
+```
 
-- [ ] Get feedback on my UI from others
-- [ ] Refactor HTML classes & CSS rules
-- [ ] Add modals, transitions, and other styling flourishes.
+![add_annotation]
+[add_annotation]:	./app/assets/images/Add_Annotation.png
 
-### Bonus Features (TBD)
-- [ ] Tags
-- [ ] Lyricist IQ
-- [ ] Notifications
-- [ ] Multiple sessions
+The ghost-lyrics layer is a transparent layer that lives overtop of both the highlight-lyrics layer and the annotation-lyrics layer.
+It acts as the user selected layer and remains as is even as annotations are added to the database.
 
-[phase-one]: docs/phases/phase1.md
-[phase-two]: docs/phases/phase2.md
-[phase-three]: docs/phases/phase3.md
-[phase-four]: docs/phases/phase4.md
-[phase-five]: docs/phases/phase5.md
+The highlight-lyrics layer shows the current user selection, highlighted in yellow.
+
+The annotation-lyrics layer holds all the annotations that have been added to the song lyrics, highlighted in blue.
+
+![add_comment]
+[add_comment]: ./app/assets/images/Annotation_Comments.png
+
+```javascript
+createAnnotations() {
+  let unsortedAnnotations = this.state.song.annotations;
+  let annotations = this.sortAnnotations(unsortedAnnotations);
+  let lyrics = this.state.song.lyrics;
+
+  this.lyricsEls = [];
+  let flagIdx = 0;
+
+  annotations.forEach((annotation) => {
+    this.lyricsEls.push(
+      lyrics.slice(flagIdx, annotation.start_idx));
+    this.lyricsEls.push(
+    <span
+      className= "annotated annotation-link"
+      value={annotation}
+      onClick={this.handleAnnotationClick}
+      key={annotation.id}>
+      {lyrics.slice(annotation.start_idx, annotation.end_idx)}
+    </span>);
+
+    flagIdx = annotation.end_idx;
+  });
+
+  this.lyricsEls.push(lyrics.slice(flagIdx));
+}
+```
+
+## Technologies Used
+Lyricist is built using the following technologies
+
+- [X] React Framework
+- [X] Rails Framework
+- [X] JavaScript
+- [X] jQuery
+- [X] Ruby
+- [X] HTML
+- [X] CSS
+
+## Features
+Lyricist is a clone of Genius built with React on the frontend and Rails on the backend
+
+- [x] Create accounts
+- [x] Create sessions
+- [x] Demo User
+- [x] Add songs
+- [x] Annotate Lyrics
+- [x] Comment on annotations
+- [x] Comment on songs
+- [x] Search for songs

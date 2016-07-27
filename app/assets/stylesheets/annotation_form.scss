@@ -7,41 +7,53 @@
   padding: 0 !important;
   font: inherit;
   cursor: pointer;
-  border: 2px solid #6ABEDB;
-  color: #6ABEDB;
+  border: 2px solid black;
+  color: black;
   background: white;
 }
 
 .submit-annotation:hover {
-  background: #6ABEDB;
+  background: black;
   color: white;
   border: white;
 }
 
 .annotation-form-container {
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
   width: 45%;
   z-index: 5;
 }
 
+.animate-timer.slider {
+  transform: translate(0%);
+  -webkit-transform: translate(0%);
+}
+
+.animate-timer {
+  -webkit-transition-duration: 600ms;
+  transition-duration: 600ms;
+}
+
 .annotation-form {
+  transform: translate(150%);
+  -webkit-transform: translate(150%);
   position: absolute;
   background-color: white;
   margin: 20px;
   width: 450px;
-  height: 350px;
+  height: 225px;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid;
-  border-top: 1px solid;
-  border-right: 1px solid;
-  border-left: 10px solid #6abedb;
+  border-radius: 50px;
+  border-right: 10px solid #6abedb;
+  border-top: 10px solid #6abedb;
+  border-left: 1px solid #6abedb;
+  border-bottom: 1px solid #6abedb;
 }
 
 .annotation-form > h1 {
-  margin: 20px;
+  margin: 10px 40px 10px 20px;
   font-size: 30px;
-  border-bottom: 5px solid;
 }
 
 .annotation-error-container {
@@ -54,16 +66,43 @@
 }
 
 .annotation-textarea {
-  height: 130px;
+  height: 50px;
   margin: 0px 20px;
   font-size: 18px;
   resize: none;
   border-radius: 5px;
+  border: 1px solid black;
 }
 
 .annotation-form > button {
   margin: 10px;
   width: 50px;
+}
+
+.triangle-border {
+  position: absolute;
+  bottom: 0.5px;
+  left: 0.5px;
+  transform: translate(-50px, 50px) rotate(45deg);
+  width: 0px;
+  height: 0px;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-top: 100px solid white;
+  z-index: -1;
+}
+
+.triangle {
+  position: absolute;
+  bottom: -1px;
+  left: -1px;
+  transform: translate(-50px, 50px) rotate(45deg);
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-top: 100px solid #6abedb;
+  z-index: -2;
 }
 
 .shadow {

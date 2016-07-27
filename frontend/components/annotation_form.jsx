@@ -15,12 +15,19 @@ const AnnotationForm = React.createClass({
     };
   },
 
+  addAnimation() {
+    setTimeout(function() {
+      $("form.annotation-form").addClass("animate-timer slider");
+    }, 0);
+  },
+
   _handleErrors() {
     this.setState({errors: ErrorStore.typeErrors("creating_annotation")});
   },
 
   componentDidMount () {
     this.errorListener = ErrorStore.addListener(this._handleErrors);
+    this.addAnimation();
   },
 
   componentWillUnmount () {
@@ -60,9 +67,9 @@ const AnnotationForm = React.createClass({
     }
 
     return(
-      <div className="annotation-form-container" >
-        <form className="annotation-form shadow" style={style} onSubmit={this._handleSubmit}>
-          <h1>New Annotation</h1>
+      <div className="annotation-form-container">
+        <form className="annotation-form" style={style} onSubmit={this._handleSubmit}>
+          <h1>Annotate</h1>
           <div className="annotation-error-container">
             {errs.map((error) => {
               return(<li key={error} style={{marginLeft: "20px"}}>{error}</li>);
@@ -71,11 +78,13 @@ const AnnotationForm = React.createClass({
           <div className="annotation-input-fields">
             <textarea onChange={this._bodyChange}
               className="annotation-textarea"
-              placeholder="Body"
+              placeholder="What do you think...?"
               value={this.state.body}>
             </textarea>
             <input className="submit-annotation" type="submit" value="Add Annotation"/>
           </div>
+          <div className='triangle-border'></div>
+          <div className="triangle"></div>
         </form>
       </div>
     );

@@ -108,7 +108,7 @@ const SongShow = React.createClass({
       + '<span style="background-color: yellow;">'
       + $('pre.highlight-lyrics').html().slice(this.start,this.end) + '</span>'
       + $('pre.highlight-lyrics').html().slice(this.end));
-      this.setState({renderForm: true, renderAnnotationBody: false});
+      this.setState({renderAnnotationBody: false, renderForm: true});
     }
   },
 
@@ -148,7 +148,7 @@ const SongShow = React.createClass({
                 {this.state.song.lyrics}
               </pre>
 
-              <pre className="lyrics">
+              <pre className="annotation-lyrics">
                 {this.lyricsEls}
               </pre>
             </div>
@@ -173,5 +173,6 @@ const SongShow = React.createClass({
     );
   }
 });
+
 
 module.exports = SongShow;

@@ -59,17 +59,18 @@
   height: 40px;
   color: white;
   margin: 5px;
-  background: #4CAF50;
+  background: red;
   padding:0!important;
   font: inherit;
   cursor: pointer;
+  border: none;
 
 }
 
 .submit-to-lyricist:hover {
   background: white;
-  color: #4CAF50;
-  border: 5px solid, #4CAF50;
+  color: red;
+  border: 1px solid red;
   margin: 5px;
   cursor: pointer;
 }
