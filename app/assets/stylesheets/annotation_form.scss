@@ -35,23 +35,26 @@
 }
 
 .annotation-form {
-  transform: translate(150%);
-  -webkit-transform: translate(150%);
+  color: white;
+  transform: translate(-10%);
+  -webkit-transform: translate(-10%);
   position: absolute;
-  background-color: white;
   margin: 20px;
   width: 450px;
   height: 225px;
   display: flex;
   flex-direction: column;
   border-radius: 50px;
-  border-right: 10px solid #6abedb;
-  border-top: 10px solid #6abedb;
-  border-left: 1px solid #6abedb;
-  border-bottom: 1px solid #6abedb;
+  background: linear-gradient(0deg, #5a8f00, #5a8f00 30%, #b8db29)
+  // background: #6ABEDB, linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5) %30, rgba(0,0,0,0));
+  // border-right: 10px solid #6abedb;
+  // border-top: 10px solid #6abedb;
+  // border-left: 1px solid #6abedb;
+  // border-bottom: 1px solid #6abedb;
 }
 
 .annotation-form > h1 {
+  letter-spacing: 1px;
   margin: 10px 40px 10px 20px;
   font-size: 30px;
 }
@@ -81,27 +84,27 @@
 
 .triangle-border {
   position: absolute;
-  bottom: 0.5px;
-  left: 0.5px;
+  bottom: 0px;
+  left: 0px;
   transform: translate(-50px, 50px) rotate(45deg);
   width: 0px;
   height: 0px;
   border-left: 50px solid transparent;
   border-right: 50px solid transparent;
-  border-top: 100px solid white;
+  border-top: 100px solid #5a8f00;
   z-index: -1;
 }
 
 .triangle {
   position: absolute;
-  bottom: -1px;
-  left: -1px;
+  bottom: 0px;
+  left: 0px;
   transform: translate(-50px, 50px) rotate(45deg);
   width: 0;
   height: 0;
   border-left: 50px solid transparent;
   border-right: 50px solid transparent;
-  border-top: 100px solid #6abedb;
+  border-top: 100px solid #5a8f00;
   z-index: -2;
 }
 
@@ -116,6 +119,8 @@
 }
 
 .annotation-body {
+  transform: translate(-10%);
+  -webkit-transform: translate(-10%);
   position: absolute;
   background-color: white;
   margin: 20px;
@@ -127,8 +132,9 @@
 
 .annotator-display {
   margin: 10px;
-  font-size: 20px;
+  font-size: 14px;
   font-family: sans-serif;
+  text-decoration: underline;
 }
 
 .annotation-display {
@@ -142,7 +148,7 @@
 }
 
 .annotation-comment-form {
-  width:100%;
+  width: 100%;
   height: 200px;
   display: flex;
   flex-direction: column;

@@ -58,7 +58,6 @@ a {
   margin-left: 20px;
   z-index: 2;
   color: transparent;
-  cursor: pointer;
 }
 
 .ghost-lyrics::selection {
@@ -78,7 +77,7 @@ a {
 
 .highlight-lyrics {
   pointer-events: none;
-  position:absolute;
+  position: absolute;
   margin-left: 20px;
   z-index: 0;
   color: transparent;
@@ -93,6 +92,11 @@ a {
   background-color: #6ABEDB;
 }
 
+.annotated:hover {
+  background-color: green;
+  cursor: pointer;
+}
+
 .no-events {
   pointer-events: none;
 }
@@ -100,4 +104,17 @@ a {
 .song-lyrics-and-comments {
   min-width: 55%;
   max-width: 55%;
+}
+
+.selected-annotation {
+  background: green;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

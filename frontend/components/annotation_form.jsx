@@ -53,6 +53,7 @@ const AnnotationForm = React.createClass({
   },
 
   render() {
+
     let offset = $(window).scrollTop();
     if (offset < 425) {
       offset = 425;

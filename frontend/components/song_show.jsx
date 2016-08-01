@@ -28,6 +28,7 @@ const SongShow = React.createClass({
   },
 
   componentDidMount () {
+    $('pre.ghost-lyrics').hide();
     this.songListener = SongStore.addListener(this._handleChange);
     SongActions.fetchSong(parseInt(this.props.params.id));
   },
@@ -60,10 +61,22 @@ const SongShow = React.createClass({
   },
 
   handleAnnotationClick(e) {
+    $('.annotated').removeClass("selected-annotation");
+    $(e.target).addClass("selected-annotation");
     this.setState({
       renderForm: false,
       renderAnnotationBody: true,
       currentAnnotation: e.target.value});
+  },
+
+  handleAnnotationEnter(e) {
+    $(e.target).addClass("selected-annotation");
+  },
+
+  handleAnnotationLeave(e) {
+    if (this.state.currentAnnotation !== e.target.value) {
+      $(e.target).removeClass("selected-annotation");
+    }
   },
 
   createAnnotations() {
@@ -79,7 +92,7 @@ const SongShow = React.createClass({
         lyrics.slice(flagIdx, annotation.start_idx));
       this.lyricsEls.push(
       <span
-        className= "annotated annotation-link"
+        className="annotated annotation-link"
         value={annotation}
         onClick={this.handleAnnotationClick}
         key={annotation.id}>
@@ -95,21 +108,35 @@ const SongShow = React.createClass({
   highlight (e) {
     let idx1 = window.getSelection().anchorOffset;
     let idx2 = window.getSelection().focusOffset;
-
     idx1 < idx2 ? [this.start, this.end] = [idx1, idx2] : [this.start, this.end] = [idx2, idx1];
 
     if (this.start - this.end === 0) {
       $('pre.ghost-lyrics').hide();
       let tag = document.elementFromPoint(e.clientX, e.clientY);
       tag.click();
-      $('pre.ghost-lyrics').show();
     } else {
       $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0,this.start)
       + '<span style="background-color: yellow;">'
       + $('pre.highlight-lyrics').html().slice(this.start,this.end) + '</span>'
       + $('pre.highlight-lyrics').html().slice(this.end));
-      this.setState({renderAnnotationBody: false, renderForm: true});
+      $('.annotated').removeClass("selected-annotation");
+      this.setState({currentAnnotation: null, renderAnnotationBody: false, renderForm: true});
     }
+    $('pre.ghost-lyrics').hide();
+  },
+
+  removeSelection() {
+    if ( document.selection ) {
+      document.selection.empty();
+    } else if ( window.getSelection ) {
+      window.getSelection().removeAllRanges();
+    }
+  },
+
+  showGhostLayer(e) {
+    this.removeSelection();
+    this.removeHighlight();
+    $('pre.ghost-lyrics').show();
   },
 
   removeHighlight() {
@@ -137,10 +164,11 @@ const SongShow = React.createClass({
         <div className="show-content-container">
           <div className="song-lyrics-and-comments">
             <div className="lyrics-container" id="song-container">
+
               <h3 className="song-lyrics-title">{this.state.song.title}</h3>
+
               <pre className="ghost-lyrics"
-                onMouseUp={this.highlight}
-                onMouseDown={this.removeHighlight}>
+                onMouseUp={this.highlight}>
                 {this.state.song.lyrics}
               </pre>
 
@@ -148,9 +176,11 @@ const SongShow = React.createClass({
                 {this.state.song.lyrics}
               </pre>
 
-              <pre className="annotation-lyrics">
+              <pre className="annotation-lyrics noselect"
+                onMouseDown={this.showGhostLayer}>
                 {this.lyricsEls}
               </pre>
+
             </div>
             <SongComments
               comments={this.state.song.comments} songId={this.state.song.id}/>
@@ -173,6 +203,5 @@ const SongShow = React.createClass({
     );
   }
 });
-
 
 module.exports = SongShow;

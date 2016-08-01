@@ -17,8 +17,15 @@ const AnnotationBody = React.createClass({
     this.setState({annotation: nextProps.annotation});
   },
 
+  addAnimation() {
+    setTimeout(function() {
+      $("div.annotation-body").addClass("animate-timer slider");
+    }, 0);
+  },
+
   componentDidMount() {
     this.songListener = SongStore.addListener(this._handleChange);
+    this.addAnimation();
   },
 
   _handleChange() {
@@ -43,9 +50,9 @@ const AnnotationBody = React.createClass({
 
     return(
       <div className="annotation-body-container">
-        <div className="annotation-body shadow" style={style}>
+        <div className="annotation-body" style={style}>
           <div className="annotator-display bolded">
-            Annotation By: {this.state.annotation.username}
+            {this.state.annotation.username}
           </div>
           <div className="annotation-display">{this.state.annotation.body}</div>
           <AnnotationComments annotation={this.state.annotation} />

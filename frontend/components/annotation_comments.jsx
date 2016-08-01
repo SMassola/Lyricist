@@ -81,7 +81,7 @@ const AnnotationComments = React.createClass({
           return(
             <div key={comment.id} className="annotation-comment-details-container">
               <div className="annotation-commenter" key={1}>
-                 {comment.username} commented:
+                 {comment.username}
               </div>
               <div className="annotation-comment" key={2}>{comment.body}</div>
             </div>);

@@ -36012,6 +36012,7 @@
 	    this.setState({ song: SongActions.fetchSong(parseInt(nextProps.params.id)) });
 	  },
 	  componentDidMount: function componentDidMount() {
+	    $('pre.ghost-lyrics').hide();
 	    this.songListener = SongStore.addListener(this._handleChange);
 	    SongActions.fetchSong(parseInt(this.props.params.id));
 	  },
@@ -36040,10 +36041,20 @@
 	    return array;
 	  },
 	  handleAnnotationClick: function handleAnnotationClick(e) {
+	    $('.annotated').removeClass("selected-annotation");
+	    $(e.target).addClass("selected-annotation");
 	    this.setState({
 	      renderForm: false,
 	      renderAnnotationBody: true,
 	      currentAnnotation: e.target.value });
+	  },
+	  handleAnnotationEnter: function handleAnnotationEnter(e) {
+	    $(e.target).addClass("selected-annotation");
+	  },
+	  handleAnnotationLeave: function handleAnnotationLeave(e) {
+	    if (this.state.currentAnnotation !== e.target.value) {
+	      $(e.target).removeClass("selected-annotation");
+	    }
 	  },
 	  createAnnotations: function createAnnotations() {
 	    var _this = this;
@@ -36077,18 +36088,30 @@
 	
 	    var idx1 = window.getSelection().anchorOffset;
 	    var idx2 = window.getSelection().focusOffset;
-	
 	    idx1 < idx2 ? (_ref = [idx1, idx2], this.start = _ref[0], this.end = _ref[1], _ref) : (_ref2 = [idx2, idx1], this.start = _ref2[0], this.end = _ref2[1], _ref2);
 	
 	    if (this.start - this.end === 0) {
 	      $('pre.ghost-lyrics').hide();
 	      var tag = document.elementFromPoint(e.clientX, e.clientY);
 	      tag.click();
-	      $('pre.ghost-lyrics').show();
 	    } else {
 	      $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0, this.start) + '<span style="background-color: yellow;">' + $('pre.highlight-lyrics').html().slice(this.start, this.end) + '</span>' + $('pre.highlight-lyrics').html().slice(this.end));
-	      this.setState({ renderAnnotationBody: false, renderForm: true });
+	      $('.annotated').removeClass("selected-annotation");
+	      this.setState({ currentAnnotation: null, renderAnnotationBody: false, renderForm: true });
 	    }
+	    $('pre.ghost-lyrics').hide();
+	  },
+	  removeSelection: function removeSelection() {
+	    if (document.selection) {
+	      document.selection.empty();
+	    } else if (window.getSelection) {
+	      window.getSelection().removeAllRanges();
+	    }
+	  },
+	  showGhostLayer: function showGhostLayer(e) {
+	    this.removeSelection();
+	    this.removeHighlight();
+	    $('pre.ghost-lyrics').show();
 	  },
 	  removeHighlight: function removeHighlight() {
 	    $('pre.highlight-lyrics').html(this.state.song.lyrics);
@@ -36131,8 +36154,7 @@
 	            React.createElement(
 	              'pre',
 	              { className: 'ghost-lyrics',
-	                onMouseUp: this.highlight,
-	                onMouseDown: this.removeHighlight },
+	                onMouseUp: this.highlight },
 	              this.state.song.lyrics
 	            ),
 	            React.createElement(
@@ -36142,7 +36164,8 @@
 	            ),
 	            React.createElement(
 	              'pre',
-	              { className: 'annotation-lyrics' },
+	              { className: 'annotation-lyrics noselect',
+	                onMouseDown: this.showGhostLayer },
 	              this.lyricsEls
 	            )
 	          ),
@@ -36193,8 +36216,14 @@
 	    this.setState({ annotation: nextProps.annotation });
 	  },
 	
+	  addAnimation: function addAnimation() {
+	    setTimeout(function () {
+	      $("div.annotation-body").addClass("animate-timer slider");
+	    }, 0);
+	  },
 	  componentDidMount: function componentDidMount() {
 	    this.songListener = SongStore.addListener(this._handleChange);
+	    this.addAnimation();
 	  },
 	  _handleChange: function _handleChange() {
 	    var song = SongStore.findSong(this.props.annotation.song_id);
@@ -36219,11 +36248,10 @@
 	      { className: 'annotation-body-container' },
 	      React.createElement(
 	        'div',
-	        { className: 'annotation-body shadow', style: style },
+	        { className: 'annotation-body', style: style },
 	        React.createElement(
 	          'div',
 	          { className: 'annotator-display bolded' },
-	          'Annotation By: ',
 	          this.state.annotation.username
 	        ),
 	        React.createElement(
@@ -36343,8 +36371,7 @@
 	            React.createElement(
 	              'div',
 	              { className: 'annotation-commenter', key: 1 },
-	              comment.username,
-	              ' commented:'
+	              comment.username
 	            ),
 	            React.createElement(
 	              'div',
@@ -36417,6 +36444,7 @@
 	    SongActions.createAnnotation(AnnotationInput);
 	  },
 	  render: function render() {
+	
 	    var offset = $(window).scrollTop();
 	    if (offset < 425) {
 	      offset = 425;
