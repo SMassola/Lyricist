@@ -1,5 +1,5 @@
 const React = require('react');
-const SongActions = require('../actions/song_actions.js');
+const AnnotationActions = require('../actions/annotation_actions.js');
 
 const ErrorStore = require('../stores/error_store.js');
 const AnnotationForm = React.createClass({
@@ -49,7 +49,8 @@ const AnnotationForm = React.createClass({
       start_idx: this.state.start_idx,
       end_idx: this.state.end_idx
     };
-    SongActions.createAnnotation(AnnotationInput);
+    $('pre.highlight-lyrics').html(this.props.lyrics);
+    AnnotationActions.createAnnotation(AnnotationInput);
   },
 
   render() {
@@ -84,8 +85,6 @@ const AnnotationForm = React.createClass({
             </textarea>
             <input className="submit-annotation" type="submit" value="Add Annotation"/>
           </div>
-          <div className='triangle-border'></div>
-          <div className="triangle"></div>
         </form>
       </div>
     );

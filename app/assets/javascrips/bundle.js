@@ -35504,7 +35504,6 @@
 	var SongConstants = {
 		SONGS_RECEIVED: "SONGS_RECEIVED",
 		SONG_RECEIVED: "SONG_RECEIVED",
-		ANNOTATION_RECEIVED: "ANNOTATION_RECEIVED",
 		SONG_COMMENT_RECEIVED: "SONG_COMMENT_RECEIVED",
 		ANNOTATION_COMMENT_RECEIVED: "ANNOTATION_COMMENT_RECEIVED",
 		SONGS_SEARCHED: "SONGS_SEARCHED"
@@ -35551,15 +35550,6 @@
 	    AppDispatcher.dispatch({
 	      actionType: SongConstants.SONG_RECEIVED,
 	      song: song
-	    });
-	  },
-	  createAnnotation: function createAnnotation(annotation) {
-	    SongApiUtil.createAnnotation(annotation, this.receiveAnnotation, ErrorActions.setErrors.bind(null, 'creating_annotation'));
-	  },
-	  receiveAnnotation: function receiveAnnotation(annotation) {
-	    AppDispatcher.dispatch({
-	      actionType: SongConstants.ANNOTATION_RECEIVED,
-	      annotation: annotation
 	    });
 	  },
 	  createSong: function createSong(song) {
@@ -35630,20 +35620,6 @@
 	      url: "api/songs",
 	      type: "POST",
 	      data: { song: song },
-	      success: function success(resp) {
-	        successCB(resp);
-	      },
-	      error: function error(resp) {
-	        var errors = resp.responseJSON;
-	        errorCB(errors);
-	      }
-	    });
-	  },
-	  createAnnotation: function createAnnotation(annotation, successCB, errorCB) {
-	    $.ajax({
-	      url: "api/songs/" + annotation.song_id + "/annotations",
-	      type: "POST",
-	      data: { annotation: annotation },
 	      success: function success(resp) {
 	        successCB(resp);
 	      },
@@ -35851,10 +35827,6 @@
 	      setSong(payload.song);
 	      SongStore.__emitChange();
 	      break;
-	    case SongConstants.ANNOTATION_RECEIVED:
-	      addAnnotation(payload.annotation);
-	      SongStore.__emitChange();
-	      break;
 	    case SongConstants.SONG_COMMENT_RECEIVED:
 	      addSongComment(payload.comment);
 	      SongStore.__emitChange();
@@ -35931,10 +35903,6 @@
 	  _songs[song.id] = song;
 	}
 	
-	function addAnnotation(annotation) {
-	  SongStore.findSong(annotation.song_id).annotations.push(annotation);
-	}
-	
 	function addSongComment(comment) {
 	  SongStore.findSong(comment.commentable_id).comments.push(comment);
 	}
@@ -35985,6 +35953,7 @@
 	
 	var React = __webpack_require__(1);
 	
+	var AnnotationStore = __webpack_require__(307);
 	var SongStore = __webpack_require__(291);
 	var SessionStore = __webpack_require__(262);
 	
@@ -36014,10 +35983,23 @@
 	  componentDidMount: function componentDidMount() {
 	    $('pre.ghost-lyrics').hide();
 	    this.songListener = SongStore.addListener(this._handleChange);
+	    this.annotationListener = AnnotationStore.addListener(this._handleAnnotationChange);
 	    SongActions.fetchSong(parseInt(this.props.params.id));
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
 	    this.songListener.remove();
+	    this.annotationListener.remove();
+	  },
+	  _handleAnnotationChange: function _handleAnnotationChange() {
+	    var annotations = this.state.song.annotations;
+	    var annotation = annotations[annotations.length - 1];
+	    console.log(annotation.id);
+	    this.setState({
+	      renderForm: false,
+	      currentAnnotation: annotations[annotations.length - 1],
+	      renderAnnotationBody: true
+	    });
+	    $("span#" + annotation.id).addClass("selected-annotation");
 	  },
 	  _handleChange: function _handleChange() {
 	    var song = SongStore.findSong(parseInt(this.props.params.id));
@@ -36071,6 +36053,7 @@
 	      _this.lyricsEls.push(React.createElement(
 	        'span',
 	        {
+	          id: annotation.id,
 	          className: 'annotated annotation-link',
 	          value: annotation,
 	          onClick: _this.handleAnnotationClick,
@@ -36095,7 +36078,7 @@
 	      var tag = document.elementFromPoint(e.clientX, e.clientY);
 	      tag.click();
 	    } else {
-	      $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0, this.start) + '<span style="background-color: yellow;">' + $('pre.highlight-lyrics').html().slice(this.start, this.end) + '</span>' + $('pre.highlight-lyrics').html().slice(this.end));
+	      $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0, this.start) + '<span style="background-color: rgba(75, 0, 130, 0.3);">' + $('pre.highlight-lyrics').html().slice(this.start, this.end) + '</span>' + $('pre.highlight-lyrics').html().slice(this.end));
 	      $('.annotated').removeClass("selected-annotation");
 	      this.setState({ currentAnnotation: null, renderAnnotationBody: false, renderForm: true });
 	    }
@@ -36178,6 +36161,7 @@
 	          this.state.renderAnnotationBody ? React.createElement(AnnotationBody, {
 	            annotation: this.state.currentAnnotation }) : React.createElement('div', null),
 	          this.state.renderForm ? React.createElement(AnnotationForm, {
+	            lyrics: this.state.song.lyrics,
 	            songId: this.state.song.id,
 	            userId: SessionStore.currentUser().id,
 	            startIdx: this.start,
@@ -36394,7 +36378,7 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var SongActions = __webpack_require__(286);
+	var AnnotationActions = __webpack_require__(308);
 	
 	var ErrorStore = __webpack_require__(281);
 	var AnnotationForm = React.createClass({
@@ -36441,7 +36425,8 @@
 	      start_idx: this.state.start_idx,
 	      end_idx: this.state.end_idx
 	    };
-	    SongActions.createAnnotation(AnnotationInput);
+	    $('pre.highlight-lyrics').html(this.props.lyrics);
+	    AnnotationActions.createAnnotation(AnnotationInput);
 	  },
 	  render: function render() {
 	
@@ -36488,9 +36473,7 @@
 	            placeholder: 'What do you think...?',
 	            value: this.state.body }),
 	          React.createElement('input', { className: 'submit-annotation', type: 'submit', value: 'Add Annotation' })
-	        ),
-	        React.createElement('div', { className: 'triangle-border' }),
-	        React.createElement('div', { className: 'triangle' })
+	        )
 	      )
 	    );
 	  }
@@ -37072,6 +37055,95 @@
 	};
 	
 	module.exports = AlbumApiUtil;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AppDispatcher = __webpack_require__(254);
+	var Store = __webpack_require__(263).Store;
+	var AnnotationConstants = __webpack_require__(285);
+	var AnnotationActions = __webpack_require__(286);
+	var SongStore = __webpack_require__(291);
+	
+	var AnnotationStore = new Store(AppDispatcher);
+	
+	AnnotationStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case AnnotationConstants.ANNOTATION_RECEIVED:
+	      addAnnotation(payload.annotation);
+	      AnnotationStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	function addAnnotation(annotation) {
+	  SongStore.findSong(annotation.song_id).annotations.push(annotation);
+	}
+	
+	module.exports = AnnotationStore;
+
+/***/ },
+/* 308 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AnnotationApiUtil = __webpack_require__(309);
+	var AnnotationConstants = __webpack_require__(310);
+	var AppDispatcher = __webpack_require__(254);
+	var ErrorActions = __webpack_require__(260);
+	
+	var AnnotationActions = {
+	  createAnnotation: function createAnnotation(annotation) {
+	    AnnotationApiUtil.createAnnotation(annotation, this.receiveAnnotation, ErrorActions.setErrors.bind(null, 'creating_annotation'));
+	  },
+	  receiveAnnotation: function receiveAnnotation(annotation) {
+	    AppDispatcher.dispatch({
+	      actionType: AnnotationConstants.ANNOTATION_RECEIVED,
+	      annotation: annotation
+	    });
+	  }
+	};
+	
+	module.exports = AnnotationActions;
+
+/***/ },
+/* 309 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var AnnotationApiUtil = {
+	  createAnnotation: function createAnnotation(annotation, successCB, errorCB) {
+	    $.ajax({
+	      url: "api/songs/" + annotation.song_id + "/annotations",
+	      type: "POST",
+	      data: { annotation: annotation },
+	      success: function success(resp) {
+	        successCB(resp);
+	      },
+	      error: function error(resp) {
+	        var errors = resp.responseJSON;
+	        errorCB(errors);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = AnnotationApiUtil;
+
+/***/ },
+/* 310 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var AnnotationConstants = {
+	  ANNOTATION_RECEIVED: "ANNOTATION_RECEIVED"
+	};
 
 /***/ }
 /******/ ]);

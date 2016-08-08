@@ -38,20 +38,6 @@ const SongActions = {
     });
   },
 
-  createAnnotation(annotation) {
-    SongApiUtil.createAnnotation(
-      annotation,
-      this.receiveAnnotation,
-      ErrorActions.setErrors.bind(null, 'creating_annotation'));
-  },
-
-  receiveAnnotation(annotation) {
-    AppDispatcher.dispatch({
-      actionType: SongConstants.ANNOTATION_RECEIVED,
-      annotation: annotation
-    });
-  },
-
   createSong(song) {
     SongApiUtil.createSong(
       song,

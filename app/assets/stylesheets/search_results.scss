@@ -17,6 +17,7 @@
 
 .search-index-item {
   position: relative;
+  padding: 5px;
 }
 
 .songs-search-results {
@@ -28,6 +29,6 @@
   cursor: pointer;
 }
 
-.search-index-item {
-  padding: 5px;
+.search-index-item:hover {
+  background: gray;
 }

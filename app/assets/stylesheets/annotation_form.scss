@@ -7,13 +7,13 @@
   padding: 0 !important;
   font: inherit;
   cursor: pointer;
-  border: 2px solid black;
-  color: black;
+  border: 2px solid #b19cd9;
+  color: #b19cd9;
   background: white;
 }
 
 .submit-annotation:hover {
-  background: black;
+  background: #b19cd9;
   color: white;
   border: white;
 }
@@ -35,28 +35,22 @@
 }
 
 .annotation-form {
-  color: white;
   transform: translate(-10%);
   -webkit-transform: translate(-10%);
   position: absolute;
   margin: 20px;
-  width: 450px;
+  width: 30%;
   height: 225px;
   display: flex;
   flex-direction: column;
-  border-radius: 50px;
-  background: linear-gradient(0deg, #5a8f00, #5a8f00 30%, #b8db29)
-  // background: #6ABEDB, linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5) %30, rgba(0,0,0,0));
-  // border-right: 10px solid #6abedb;
-  // border-top: 10px solid #6abedb;
-  // border-left: 1px solid #6abedb;
-  // border-bottom: 1px solid #6abedb;
+  border-left: 10px solid #B19CD9;
 }
 
 .annotation-form > h1 {
   letter-spacing: 1px;
   margin: 10px 40px 10px 20px;
-  font-size: 30px;
+  font-size: 26px;
+  font-weight: bold;
 }
 
 .annotation-error-container {
@@ -108,12 +102,6 @@
   z-index: -2;
 }
 
-.shadow {
-  -moz-box-shadow:    3px 3px 5px 6px #ccc;
-  -webkit-box-shadow: 3px 3px 5px 6px #ccc;
-  box-shadow:         3px 3px 5px 6px #ccc;
-}
-
 .annotation-body-container {
   z-index: 5;
 }
@@ -124,7 +112,7 @@
   position: absolute;
   background-color: white;
   margin: 20px;
-  width: 450px;
+  width: 30%;
   display: flex;
   flex-direction: column;
   border-left: 10px solid #6abedb;

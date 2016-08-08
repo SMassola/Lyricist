@@ -1,7 +1,7 @@
 # Lyricist
 
-[Heroku link][heroku]
-[heroku]: www.lyricist.us/
+[Lyricist][heroku]
+[heroku]: http://www.lyricist.us/
 
 ![preview]
 [preview]:	./app/assets/images/Homepage.png

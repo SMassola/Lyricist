@@ -1,5 +1,6 @@
 const React = require('react');
 
+const AnnotationStore = require('../stores/annotation_store.js');
 const SongStore = require('../stores/song_store.js');
 const SessionStore = require('../stores/session_store.js');
 
@@ -30,11 +31,25 @@ const SongShow = React.createClass({
   componentDidMount () {
     $('pre.ghost-lyrics').hide();
     this.songListener = SongStore.addListener(this._handleChange);
+    this.annotationListener = AnnotationStore.addListener(this._handleAnnotationChange);
     SongActions.fetchSong(parseInt(this.props.params.id));
   },
 
   componentWillUnmount () {
     this.songListener.remove();
+    this.annotationListener.remove();
+  },
+
+  _handleAnnotationChange() {
+    let annotations = this.state.song.annotations;
+    let annotation = annotations[annotations.length - 1];
+    console.log(annotation.id);
+    this.setState({
+      renderForm: false,
+      currentAnnotation: annotations[annotations.length - 1],
+      renderAnnotationBody: true
+    });
+    $("span#" + annotation.id).addClass("selected-annotation");
   },
 
   _handleChange () {
@@ -92,6 +107,7 @@ const SongShow = React.createClass({
         lyrics.slice(flagIdx, annotation.start_idx));
       this.lyricsEls.push(
       <span
+        id={annotation.id}
         className="annotated annotation-link"
         value={annotation}
         onClick={this.handleAnnotationClick}
@@ -116,7 +132,7 @@ const SongShow = React.createClass({
       tag.click();
     } else {
       $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0,this.start)
-      + '<span style="background-color: yellow;">'
+      + '<span style="background-color: rgba(75, 0, 130, 0.3);">'
       + $('pre.highlight-lyrics').html().slice(this.start,this.end) + '</span>'
       + $('pre.highlight-lyrics').html().slice(this.end));
       $('.annotated').removeClass("selected-annotation");
@@ -192,6 +208,7 @@ const SongShow = React.createClass({
               :<div></div>}
             {this.state.renderForm ?
               <AnnotationForm
+                lyrics={this.state.song.lyrics}
                 songId={this.state.song.id}
                 userId={SessionStore.currentUser().id}
                 startIdx={this.start}

@@ -18,10 +18,6 @@ SongStore.__onDispatch = function(payload) {
       setSong(payload.song);
       SongStore.__emitChange();
       break;
-    case SongConstants.ANNOTATION_RECEIVED:
-      addAnnotation(payload.annotation);
-      SongStore.__emitChange();
-      break;
     case SongConstants.SONG_COMMENT_RECEIVED:
       addSongComment(payload.comment);
       SongStore.__emitChange();
@@ -95,10 +91,6 @@ function resetAllSongs(songs) {
 
 function setSong(song) {
   _songs[song.id] = song;
-}
-
-function addAnnotation(annotation) {
-  SongStore.findSong(annotation.song_id).annotations.push(annotation);
 }
 
 function addSongComment(comment) {

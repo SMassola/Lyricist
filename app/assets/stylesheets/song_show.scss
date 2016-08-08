@@ -34,12 +34,13 @@
 }
 
 .lyrics-container {
-  width: 55%;
+  width: 100%;
+  margin-left: 20px;
 }
 
 .song-lyrics-title {
   font-size: 28px;
-  margin: 20px;
+  margin: 20px 0px;
 }
 
 pre {
@@ -55,20 +56,22 @@ a {
 
 .ghost-lyrics {
   position: absolute;
-  margin-left: 20px;
   z-index: 2;
   color: transparent;
+  white-space: pre-wrap;
+  max-width: 40%;
 }
 
 .ghost-lyrics::selection {
-  background: yellow;
+  background-color: rgba(177, 156, 217, 0.5);
   color: black;
 }
 
 .annotation-lyrics {
   position: relative;
-  margin-left: 20px;
   z-index: 1;
+  white-space: pre-wrap;
+  max-width: 100%;
 }
 
 .lyrics::selection {
@@ -78,9 +81,10 @@ a {
 .highlight-lyrics {
   pointer-events: none;
   position: absolute;
-  margin-left: 20px;
   z-index: 0;
   color: transparent;
+  white-space: pre-wrap;
+  max-width: 40%;
 }
 
 .highlight-lyrics::selection {
@@ -89,11 +93,11 @@ a {
 
 .annotated {
   position: relative;
-  background-color: #6ABEDB;
+  background-color: rgba(128, 128, 128, 0.3)
 }
 
 .annotated:hover {
-  background-color: green;
+  background-color: rgba(0, 170, 255, 1);
   cursor: pointer;
 }
 
@@ -102,12 +106,12 @@ a {
 }
 
 .song-lyrics-and-comments {
-  min-width: 55%;
-  max-width: 55%;
+  min-width: 50%;
+  max-width: 50%;
 }
 
 .selected-annotation {
-  background: green;
+  background: rgba(0, 170, 255, 1);
 }
 
 .noselect {
