@@ -16,6 +16,7 @@ const Upvotes = React.createClass({
 
   componentDidMount() {
     this.upvoteListener = UpvoteStore.addListener(this._handleChange);
+    this.setState({voteCount: this.props.annotation.upvotes});
   },
 
   _handleChange() {
@@ -24,29 +25,28 @@ const Upvotes = React.createClass({
   },
 
   _handleUpvote() {
-    let vote = UpvoteStore.findUpvote(SessionStore.currentUser()["id"],
-      this.props.annotation);
+    let vote = UpvoteStore.findUpvote(
+      SessionStore.currentUser()["id"],
+      this.props.annotation
+    );
     let upvote;
-    console.log(vote);
     if (vote) {
-      console.log("destroy");
-      console.log(vote);
       UpvoteActions.destroyAnnotationUpvote(vote);
     } else {
       upvote = {
         annotation_id: this.props.annotation.id,
         value: 1
       };
-
       UpvoteActions.createAnnotationUpvote(upvote);
     }
   },
 
   _handleDownvote() {
-    let vote = UpvoteStore.findUpvote(SessionStore.currentUser()["id"],
-      this.props.annotation);
+    let vote = UpvoteStore.findUpvote(
+      SessionStore.currentUser()["id"],
+      this.props.annotation
+    );
     let upvote;
-    console.log(vote);
     if (vote) {
       upvote = {
         id: vote.id,
@@ -58,7 +58,6 @@ const Upvotes = React.createClass({
         annotation_id: this.props.annotation.id,
         value: -1
       };
-
       UpvoteActions.createAnnotationUpvote(upvote);
     }
   },

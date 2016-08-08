@@ -2,6 +2,7 @@ const React = require('react');
 const SongActions = require('../actions/song_actions.js');
 const SongStore = require('../stores/song_store.js');
 const AnnotationComments = require('./annotation_comments.jsx');
+const Upvotes = require('./upvotes.jsx');
 
 const SessionStore = require('../stores/session_store.js');
 

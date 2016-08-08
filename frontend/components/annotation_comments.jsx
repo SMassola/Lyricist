@@ -1,5 +1,5 @@
 const React = require('react');
-const SongActions = require('../actions/song_actions.js');
+const CommentActions = require('../actions/comment_actions.js');
 
 const ErrorStore = require('../stores/error_store');
 const ErrorActions = require('../actions/error_actions.js');
@@ -37,7 +37,7 @@ const AnnotationComments = React.createClass({
       body: this.state.body,
       annotation_id: this.props.annotation.id
     };
-    SongActions.createAnnotationComment(formData);
+    CommentActions.createAnnotationComment(formData);
     this.setState({body: ""});
   },
 

@@ -1,16 +1,24 @@
 const React = require('react');
-const SongActions = require('../actions/song_actions.js');
+const CommentActions = require('../actions/comment_actions.js');
+
+const CommentStore = require('../stores/comment_store.js');
 const SessionStore = require('../stores/session_store.js');
 const ErrorStore = require('../stores/error_store.js');
+
 const ErrorActions = require('../actions/error_actions.js');
 
 const SongComments = React.createClass({
 
   getInitialState() {
     return({
+      comments: this.props.comments,
       body: "",
       errors: []
     });
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({comments: nextProps.comments});
   },
 
   componentDidMount() {
@@ -24,6 +32,7 @@ const SongComments = React.createClass({
   _handleErrors() {
     this.setState({errors: ErrorStore.typeErrors("song_comments_form")});
   },
+
   _bodyChange(e) {
     e.preventDefault();
     this.setState({body: e.target.value});
@@ -35,12 +44,12 @@ const SongComments = React.createClass({
       body: this.state.body,
       song_id: this.props.songId
     };
-    SongActions.createSongComment(formData);
+    CommentActions.createSongComment(formData);
     this.setState({body: ""});
   },
 
   render() {
-    let comments = this.props.comments;
+    let comments = this.state.comments;
 
     let errs = [];
     if (this.state.errors.length > 0) {

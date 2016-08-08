@@ -1,0 +1,6 @@
+const CommentConstants = {
+	SONG_COMMENT_RECEIVED: "SONG_COMMENT_RECEIVED",
+	ANNOTATION_COMMENT_RECEIVED: "ANNOTATION_COMMENT_RECEIVED",
+};
+
+module.exports = CommentConstants;

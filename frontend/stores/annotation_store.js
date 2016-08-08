@@ -15,6 +15,14 @@ AnnotationStore.__onDispatch = function(payload) {
   }
 };
 
+AnnotationStore.findAnnotation = function(song, id) {
+  for (let i = 0 ; i < song.annotations.length ; i++) {
+    if (song.annotations[i].id === id) {
+      return song.annotations[i];
+    }
+  }
+};
+
 function addAnnotation(annotation) {
   SongStore.findSong(annotation.song_id).annotations.push(annotation);
 }

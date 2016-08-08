@@ -1,6 +1,7 @@
 const React = require('react');
 
 const AnnotationStore = require('../stores/annotation_store.js');
+const CommentStore = require('../stores/comment_store.js');
 const SongStore = require('../stores/song_store.js');
 const SessionStore = require('../stores/session_store.js');
 
@@ -32,24 +33,29 @@ const SongShow = React.createClass({
     $('pre.ghost-lyrics').hide();
     this.songListener = SongStore.addListener(this._handleChange);
     this.annotationListener = AnnotationStore.addListener(this._handleAnnotationChange);
+    this.commentListener = CommentStore.addListener(this._handleCommentChange);
     SongActions.fetchSong(parseInt(this.props.params.id));
   },
 
   componentWillUnmount () {
     this.songListener.remove();
     this.annotationListener.remove();
+    this.commentListener.remove();
   },
 
   _handleAnnotationChange() {
     let annotations = this.state.song.annotations;
     let annotation = annotations[annotations.length - 1];
-    console.log(annotation.id);
     this.setState({
       renderForm: false,
-      currentAnnotation: annotations[annotations.length - 1],
+      currentAnnotation: annotation,
       renderAnnotationBody: true
     });
     $("span#" + annotation.id).addClass("selected-annotation");
+  },
+
+  _handleCommentChange() {
+    this.setState({song: SongStore.findSong(this.props.params.id)});
   },
 
   _handleChange () {
