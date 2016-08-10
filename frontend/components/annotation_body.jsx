@@ -1,10 +1,12 @@
 const React = require('react');
-const SongActions = require('../actions/song_actions.js');
+const AnnotationActions = require('../actions/annotation_actions.js');
+
 const SongStore = require('../stores/song_store.js');
+const AnnotationStore = require('../stores/annotation_store.js');
+const SessionStore = require('../stores/session_store.js');
+
 const AnnotationComments = require('./annotation_comments.jsx');
 const Upvotes = require('./upvotes.jsx');
-
-const SessionStore = require('../stores/session_store.js');
 
 const AnnotationBody = React.createClass({
 
@@ -25,18 +27,22 @@ const AnnotationBody = React.createClass({
   },
 
   componentDidMount() {
-    this.songListener = SongStore.addListener(this._handleChange);
+    this.annotationListener = AnnotationStore.addListener(this._handleChange);
     this.addAnimation();
+  },
+
+  componentWillUnmount() {
+    this.annotationListener.remove();
   },
 
   _handleChange() {
     let song = SongStore.findSong(this.props.annotation.song_id);
-    let annotation = SongStore.findAnnotation(song, this.props.annotation.id);
+    let annotation = AnnotationStore.findAnnotation(song, this.props.annotation.id);
     this.setState({ annotation: annotation ? annotation : {} });
   },
 
-  componentWillUnmount() {
-    this.songListener.remove();
+  _handleDelete() {
+    AnnotationActions.deleteAnnotation(this.state.annotation.id);
   },
 
   render() {
@@ -56,7 +62,13 @@ const AnnotationBody = React.createClass({
             {this.state.annotation.username}
           </div>
           <div className="annotation-display">{this.state.annotation.body}</div>
-          <AnnotationComments annotation={this.state.annotation} />
+          {this.state.annotation.user_id === SessionStore.currentUser()["id"] ?
+            <button
+              className="delete-annotation"
+              onClick={this._handleDelete}>
+              DELETE
+            </button> : ""}
+          <AnnotationComments annotation={this.state.annotation}/>
         </div>
       </div>
     );

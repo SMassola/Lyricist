@@ -17,6 +17,9 @@ class Api::AnnotationsController < ApplicationController
   end
 
   def destroy
+    @annotation = Annotation.find(params[:id])
+    @annotation.destroy!
+    render :destroy
   end
 
   private

@@ -59,8 +59,8 @@
 	var Header = __webpack_require__(250);
 	var Search = __webpack_require__(290);
 	var SongShow = __webpack_require__(293);
-	var SongIndex = __webpack_require__(300);
-	var SongForm = __webpack_require__(302);
+	var SongIndex = __webpack_require__(312);
+	var SongForm = __webpack_require__(314);
 	var SessionActions = __webpack_require__(253);
 	
 	var App = React.createClass({
@@ -35849,17 +35849,17 @@
 	
 	var React = __webpack_require__(1);
 	
-	var AnnotationStore = __webpack_require__(307);
-	var CommentStore = __webpack_require__(315);
+	var AnnotationStore = __webpack_require__(294);
+	var CommentStore = __webpack_require__(295);
 	var SongStore = __webpack_require__(291);
 	var SessionStore = __webpack_require__(262);
 	
 	var SongActions = __webpack_require__(286);
-	var AnnotationBody = __webpack_require__(294);
-	var AnnotationForm = __webpack_require__(296);
-	var SongDetails = __webpack_require__(297);
-	var AlbumArt = __webpack_require__(298);
-	var SongComments = __webpack_require__(299);
+	var AnnotationBody = __webpack_require__(299);
+	var AnnotationForm = __webpack_require__(305);
+	var SongDetails = __webpack_require__(309);
+	var AlbumArt = __webpack_require__(310);
+	var SongComments = __webpack_require__(311);
 	var hashHistory = __webpack_require__(188).hashHistory;
 	
 	var SongShow = React.createClass({
@@ -35890,14 +35890,22 @@
 	    this.commentListener.remove();
 	  },
 	  _handleAnnotationChange: function _handleAnnotationChange() {
-	    var annotations = this.state.song.annotations;
-	    var annotation = annotations[annotations.length - 1];
-	    this.setState({
-	      renderForm: false,
-	      currentAnnotation: annotation,
-	      renderAnnotationBody: true
-	    });
-	    $("span#" + annotation.id).addClass("selected-annotation");
+	    if (this.state.song.annotations.length && !this.state.currentAnnotation) {
+	      var annotations = this.state.song.annotations;
+	      var annotation = annotations[annotations.length - 1];
+	      this.setState({
+	        renderForm: false,
+	        currentAnnotation: annotation,
+	        renderAnnotationBody: true
+	      });
+	      $("span#" + annotation.id).addClass("selected-annotation");
+	    } else {
+	      this.setState({
+	        renderForm: false,
+	        currentAnnotation: null,
+	        renderAnnotationBody: false
+	      });
+	    }
 	  },
 	  _handleCommentChange: function _handleCommentChange() {
 	    this.setState({ song: SongStore.findSong(this.props.params.id) });
@@ -36081,13 +36089,207 @@
 
 	'use strict';
 	
-	var React = __webpack_require__(1);
-	var SongActions = __webpack_require__(286);
+	var AppDispatcher = __webpack_require__(254);
+	var Store = __webpack_require__(263).Store;
+	var AnnotationConstants = __webpack_require__(308);
+	var AnnotationActions = __webpack_require__(306);
 	var SongStore = __webpack_require__(291);
-	var AnnotationComments = __webpack_require__(295);
-	var Upvotes = __webpack_require__(311);
 	
+	var AnnotationStore = new Store(AppDispatcher);
+	
+	var _annotations = {};
+	
+	AnnotationStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case AnnotationConstants.ANNOTATION_RECEIVED:
+	      addAnnotation(payload.annotation);
+	      AnnotationStore.__emitChange();
+	      break;
+	    case AnnotationConstants.ANNOTATION_REMOVED:
+	      removeAnnotation(payload.annotaiton);
+	      AnnotationStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	AnnotationStore.all = function () {
+	  return Object.keys(_annotations).map(function (id) {
+	    return _annotations[id];
+	  });
+	};
+	
+	AnnotationStore.findAnnotation = function (song, id) {
+	  for (var i = 0; i < song.annotations.length; i++) {
+	    if (song.annotations[i].id === id) {
+	      return song.annotations[i];
+	    }
+	  }
+	};
+	
+	function addAnnotation(annotation) {
+	  SongStore.findSong(annotation.song_id).annotations.push(annotation);
+	}
+	
+	function ObjectIndex(song, annotation) {
+	  for (var i = 0; i < song.annotations.length; i++) {
+	    if (song.annotations[i].id === annotation.id) {
+	      return i;
+	    }
+	  }
+	  return -1;
+	}
+	
+	function removeAnnotation(annotation) {
+	  var song = SongStore.findSong(annotation.song_id);
+	  var annotationIndex = ObjectIndex(song, annotation);
+	  song.annotations.splice(annotationIndex, 1);
+	}
+	
+	module.exports = AnnotationStore;
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AppDispatcher = __webpack_require__(254);
+	var Store = __webpack_require__(263).Store;
+	
+	var AnnotationStore = __webpack_require__(294);
+	var SongStore = __webpack_require__(291);
+	
+	var CommentConstants = __webpack_require__(296);
+	var CommentActions = __webpack_require__(297);
+	var UpvoteConstants = __webpack_require__(280);
+	
+	var CommentStore = new Store(AppDispatcher);
+	
+	CommentStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case CommentConstants.SONG_COMMENT_RECEIVED:
+	      addSongComment(payload.comment);
+	      CommentStore.__emitChange();
+	      break;
+	    case CommentConstants.ANNOTATION_COMMENT_RECEIVED:
+	      addAnnotationComment(payload.comment);
+	      CommentStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	function addSongComment(comment) {
+	  SongStore.findSong(comment.commentable_id).comments.push(comment);
+	}
+	
+	function addAnnotationComment(comment) {
+	  var annotation = AnnotationStore.findAnnotation(SongStore.findSong(comment.commentable.song_id), comment.commentable_id);
+	  annotation.comments.push(comment);
+	}
+	
+	module.exports = CommentStore;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var CommentConstants = {
+		SONG_COMMENT_RECEIVED: "SONG_COMMENT_RECEIVED",
+		ANNOTATION_COMMENT_RECEIVED: "ANNOTATION_COMMENT_RECEIVED"
+	};
+	
+	module.exports = CommentConstants;
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var CommentApiUtil = __webpack_require__(298);
+	var CommentConstants = __webpack_require__(296);
+	var AppDispatcher = __webpack_require__(254);
+	var ErrorActions = __webpack_require__(260);
+	
+	var CommentActions = {
+	  createSongComment: function createSongComment(comment) {
+	    CommentApiUtil.createSongComment(comment, this.receiveSongComment, ErrorActions.setErrors.bind(null, 'song_comments_form'));
+	  },
+	  receiveSongComment: function receiveSongComment(comment) {
+	    AppDispatcher.dispatch({
+	      actionType: CommentConstants.SONG_COMMENT_RECEIVED,
+	      comment: comment
+	    });
+	  },
+	  createAnnotationComment: function createAnnotationComment(comment) {
+	    CommentApiUtil.createAnnotationComment(comment, this.receiveAnnotationComment, ErrorActions.setErrors.bind(null, 'annotation_comments_form'));
+	  },
+	  receiveAnnotationComment: function receiveAnnotationComment(comment) {
+	    AppDispatcher.dispatch({
+	      actionType: CommentConstants.ANNOTATION_COMMENT_RECEIVED,
+	      comment: comment
+	    });
+	  }
+	};
+	
+	module.exports = CommentActions;
+
+/***/ },
+/* 298 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var CommentApiUtil = {
+	  createSongComment: function createSongComment(comment, successCB, errorCB) {
+	    $.ajax({
+	      url: "api/songs/" + comment.song_id + "/comments",
+	      type: "POST",
+	      data: { comment: comment },
+	      success: function success(resp) {
+	        successCB(resp);
+	      },
+	      error: function error(resp) {
+	        var errors = resp.responseJSON;
+	        errorCB(errors);
+	      }
+	    });
+	  },
+	  createAnnotationComment: function createAnnotationComment(comment, successCB, errorCB) {
+	    $.ajax({
+	      url: "api/annotations/" + comment.annotation_id + "/comments",
+	      type: "POST",
+	      data: { comment: comment },
+	      success: function success(resp) {
+	        successCB(resp);
+	      },
+	      error: function error(resp) {
+	        var errors = resp.responseJSON;
+	        errorCB(errors);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = CommentApiUtil;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var AnnotationActions = __webpack_require__(306);
+	
+	var SongStore = __webpack_require__(291);
+	var AnnotationStore = __webpack_require__(294);
 	var SessionStore = __webpack_require__(262);
+	
+	var AnnotationComments = __webpack_require__(300);
+	var Upvotes = __webpack_require__(301);
 	
 	var AnnotationBody = React.createClass({
 	  displayName: 'AnnotationBody',
@@ -36108,16 +36310,19 @@
 	    }, 0);
 	  },
 	  componentDidMount: function componentDidMount() {
-	    this.songListener = SongStore.addListener(this._handleChange);
+	    this.annotationListener = AnnotationStore.addListener(this._handleChange);
 	    this.addAnimation();
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.annotationListener.remove();
 	  },
 	  _handleChange: function _handleChange() {
 	    var song = SongStore.findSong(this.props.annotation.song_id);
-	    var annotation = SongStore.findAnnotation(song, this.props.annotation.id);
+	    var annotation = AnnotationStore.findAnnotation(song, this.props.annotation.id);
 	    this.setState({ annotation: annotation ? annotation : {} });
 	  },
-	  componentWillUnmount: function componentWillUnmount() {
-	    this.songListener.remove();
+	  _handleDelete: function _handleDelete() {
+	    AnnotationActions.deleteAnnotation(this.state.annotation.id);
 	  },
 	  render: function render() {
 	    var offset = $(window).scrollTop();
@@ -36145,6 +36350,13 @@
 	          { className: 'annotation-display' },
 	          this.state.annotation.body
 	        ),
+	        this.state.annotation.user_id === SessionStore.currentUser()["id"] ? React.createElement(
+	          'button',
+	          {
+	            className: 'delete-annotation',
+	            onClick: this._handleDelete },
+	          'DELETE'
+	        ) : "",
 	        React.createElement(AnnotationComments, { annotation: this.state.annotation })
 	      )
 	    );
@@ -36154,13 +36366,13 @@
 	module.exports = AnnotationBody;
 
 /***/ },
-/* 295 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var CommentActions = __webpack_require__(317);
+	var CommentActions = __webpack_require__(297);
 	
 	var ErrorStore = __webpack_require__(281);
 	var ErrorActions = __webpack_require__(260);
@@ -36274,13 +36486,236 @@
 	module.exports = AnnotationComments;
 
 /***/ },
-/* 296 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var AnnotationActions = __webpack_require__(308);
+	var UpvoteActions = __webpack_require__(302);
+	var UpvoteStore = __webpack_require__(304);
+	var SongStore = __webpack_require__(291);
+	var SessionStore = __webpack_require__(262);
+	var ErrorStore = __webpack_require__(281);
+	var ErrorActions = __webpack_require__(260);
+	
+	var Upvotes = React.createClass({
+	  displayName: 'Upvotes',
+	  getInitialState: function getInitialState() {
+	    return {
+	      voteCount: this.props.annotation.upvotes.reduce(function (prev, curr) {
+	        return prev.value + curr.value;
+	      }, 0)
+	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.upvoteListener = UpvoteStore.addListener(this._handleChange);
+	    this.setState({ voteCount: this.props.annotation.upvotes });
+	  },
+	  _handleChange: function _handleChange() {
+	    var count = this.props.annotation.upvotes.reduce(function (prev, curr) {
+	      return prev.value + curr.value;
+	    }, 0);
+	    this.setState({ voteCount: count });
+	  },
+	  _handleUpvote: function _handleUpvote() {
+	    var vote = UpvoteStore.findUpvote(SessionStore.currentUser()["id"], this.props.annotation);
+	    var upvote = void 0;
+	    if (vote) {
+	      UpvoteActions.destroyAnnotationUpvote(vote);
+	    } else {
+	      upvote = {
+	        annotation_id: this.props.annotation.id,
+	        value: 1
+	      };
+	      UpvoteActions.createAnnotationUpvote(upvote);
+	    }
+	  },
+	  _handleDownvote: function _handleDownvote() {
+	    var vote = UpvoteStore.findUpvote(SessionStore.currentUser()["id"], this.props.annotation);
+	    var upvote = void 0;
+	    if (vote) {
+	      upvote = {
+	        id: vote.id,
+	        annotation_id: this.props.annotation.id
+	      };
+	      UpvoteActions.destroyAnnotationUpvote(upvote);
+	    } else {
+	      upvote = {
+	        annotation_id: this.props.annotation.id,
+	        value: -1
+	      };
+	      UpvoteActions.createAnnotationUpvote(upvote);
+	    }
+	  },
+	  _Upvote: function _Upvote() {
+	
+	    var data = { annotation_id: this.props.annotation.id, value: 1 };
+	    var currentUser = SessionStore.currentUser();
+	    if (currentUser) {
+	      var currentUserUpvotes = currentUser.upvoted_annotations;
+	
+	      if (currentUserUpvotes.indexOf(this.props.annotation.id) !== -1) {
+	        UpvoteActions.destroyAnnotationUpvote(data);
+	      } else {
+	        UpvoteActions.createAnnotationUpvote(data);
+	      }
+	    }
+	  },
+	  _Downvote: function _Downvote() {
+	    var data = { annotation_id: this.props.annotation.id, value: -1 };
+	    var currentUser = SessionStore.currentUser();
+	    if (currentUser) {
+	      var currentUserUpvotes = currentUser.upvoted_annotations;
+	
+	      if (currentUserUpvotes.indexOf(this.props.annotation.id) !== -1) {
+	        UpvoteActions.destroyAnnotationUpvote(data);
+	      } else {
+	        UpvoteActions.createAnnotationUpvote(data);
+	      }
+	    }
+	  },
+	  render: function render() {
+	    if (!this.props.annotation) {
+	      return;
+	    } else {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'div',
+	          { onClick: this._handleUpvote },
+	          'Upvote'
+	        ),
+	        this.state.voteCount,
+	        React.createElement(
+	          'div',
+	          { onClick: this._handleDownvote },
+	          'Downvote'
+	        )
+	      );
+	    }
+	  }
+	});
+	
+	module.exports = Upvotes;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var UpvoteApiUtil = __webpack_require__(303);
+	var UpvoteConstants = __webpack_require__(280);
+	var AppDispatcher = __webpack_require__(254);
+	var ErrorActions = __webpack_require__(260);
+	
+	module.exports = {
+	  createAnnotationUpvote: function createAnnotationUpvote(upvote) {
+	    UpvoteApiUtil.createAnnotationUpvote(upvote, this.receiveUpvote);
+	  },
+	  destroyAnnotationUpvote: function destroyAnnotationUpvote(upvote) {
+	    UpvoteApiUtil.destroyAnnotationUpvote(upvote, this.destroyUpvote);
+	  },
+	  receiveUpvote: function receiveUpvote(upvote) {
+	    AppDispatcher.dispatch({
+	      upvote: upvote,
+	      actionType: UpvoteConstants.CREATED_UPVOTE
+	    });
+	  },
+	  destroyUpvote: function destroyUpvote(upvote) {
+	    AppDispatcher.dispatch({
+	      upvote: upvote,
+	      actionType: UpvoteConstants.DESTROYED_UPVOTE
+	    });
+	  }
+	};
+
+/***/ },
+/* 303 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var UpvoteApiUtil = {
+	  destroyAnnotationUpvote: function destroyAnnotationUpvote(upvote, successCB) {
+	    $.ajax({
+	      url: "api/upvotes/" + upvote.id,
+	      type: "DELETE",
+	      data: { upvote: upvote },
+	      success: function success(resp) {
+	        successCB(resp);
+	      }
+	    });
+	  },
+	  createAnnotationUpvote: function createAnnotationUpvote(upvote, successCB) {
+	    $.ajax({
+	      url: "api/upvotes",
+	      type: "POST",
+	      data: { upvote: upvote },
+	      success: function success(resp) {
+	        successCB(resp);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = UpvoteApiUtil;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AppDispatcher = __webpack_require__(254);
+	var Store = __webpack_require__(263).Store;
+	var UpvoteConstants = __webpack_require__(280);
+	
+	var UpvoteStore = new Store(AppDispatcher);
+	
+	var _upvotes = {};
+	
+	UpvoteStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case UpvoteConstants.CREATED_UPVOTE:
+	      setUpvote(payload.upvote);
+	      UpvoteStore.__emitChange();
+	      break;
+	    case UpvoteConstants.DESTROYED_UPVOTE:
+	      destroyUpvote(payload.upvote);
+	      UpvoteStore.__emitChange();
+	  }
+	};
+	
+	UpvoteStore.findUpvote = function (userId, annotation) {
+	  for (var i = 0; i < annotation.upvotes.length; i++) {
+	    if (annotation.upvotes[i].user_id === userId) {
+	      return annotation.upvotes[i];
+	    }
+	  }
+	  return null;
+	};
+	
+	function setUpvote(upvote) {
+	  _upvotes[upvote.id] = upvote;
+	}
+	
+	function destroyUpvote(upvote) {
+	  delete _upvotes[upvote.id];
+	}
+	
+	module.exports = UpvoteStore;
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var AnnotationActions = __webpack_require__(306);
 	
 	var ErrorStore = __webpack_require__(281);
 	var AnnotationForm = React.createClass({
@@ -36384,7 +36819,88 @@
 	module.exports = AnnotationForm;
 
 /***/ },
-/* 297 */
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AnnotationApiUtil = __webpack_require__(307);
+	var AnnotationConstants = __webpack_require__(308);
+	var AppDispatcher = __webpack_require__(254);
+	var ErrorActions = __webpack_require__(260);
+	
+	var AnnotationActions = {
+	  createAnnotation: function createAnnotation(annotation) {
+	    AnnotationApiUtil.createAnnotation(annotation, this.receiveAnnotation, ErrorActions.setErrors.bind(null, 'creating_annotation'));
+	  },
+	  receiveAnnotation: function receiveAnnotation(annotation) {
+	    AppDispatcher.dispatch({
+	      actionType: AnnotationConstants.ANNOTATION_RECEIVED,
+	      annotation: annotation
+	    });
+	  },
+	  deleteAnnotation: function deleteAnnotation(id) {
+	    AnnotationApiUtil.deleteAnnotation(id, this.removeAnnotation);
+	  },
+	  removeAnnotation: function removeAnnotation(annotation) {
+	    AppDispatcher.dispatch({
+	      actionType: AnnotationConstants.ANNOTATION_REMOVED,
+	      annotaiton: annotation
+	    });
+	  }
+	};
+	
+	module.exports = AnnotationActions;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var AnnotationApiUtil = {
+	  createAnnotation: function createAnnotation(annotation, successCB, errorCB) {
+	    $.ajax({
+	      url: "api/songs/" + annotation.song_id + "/annotations",
+	      type: "POST",
+	      data: { annotation: annotation },
+	      success: function success(resp) {
+	        successCB(resp);
+	      },
+	      error: function error(resp) {
+	        var errors = resp.responseJSON;
+	        errorCB(errors);
+	      }
+	    });
+	  },
+	  deleteAnnotation: function deleteAnnotation(id, successCB) {
+	    $.ajax({
+	      url: "api/annotations/" + id + "/",
+	      type: "DELETE",
+	      success: function success(resp) {
+	        successCB(resp);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = AnnotationApiUtil;
+
+/***/ },
+/* 308 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var AnnotationConstants = {
+	  ANNOTATION_RECEIVED: "ANNOTATION_RECEIVED",
+	  ANNOTATION_REMOVED: "ANNOTATION_REMOVED"
+	};
+	
+	module.exports = AnnotationConstants;
+
+/***/ },
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36422,7 +36938,7 @@
 	});
 
 /***/ },
-/* 298 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36449,15 +36965,15 @@
 	});
 
 /***/ },
-/* 299 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var CommentActions = __webpack_require__(317);
+	var CommentActions = __webpack_require__(297);
 	
-	var CommentStore = __webpack_require__(315);
+	var CommentStore = __webpack_require__(295);
 	var SessionStore = __webpack_require__(262);
 	var ErrorStore = __webpack_require__(281);
 	
@@ -36578,7 +37094,7 @@
 	module.exports = SongComments;
 
 /***/ },
-/* 300 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36586,7 +37102,7 @@
 	var React = __webpack_require__(1);
 	var SongStore = __webpack_require__(291);
 	var SongActions = __webpack_require__(286);
-	var SongIndexItem = __webpack_require__(301);
+	var SongIndexItem = __webpack_require__(313);
 	
 	var SongIndex = React.createClass({
 	  displayName: 'SongIndex',
@@ -36635,13 +37151,13 @@
 	module.exports = SongIndex;
 
 /***/ },
-/* 301 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var AlbumArt = __webpack_require__(298);
+	var AlbumArt = __webpack_require__(310);
 	var hashHistory = __webpack_require__(188).hashHistory;
 	
 	module.exports = React.createClass({
@@ -36698,7 +37214,7 @@
 	});
 
 /***/ },
-/* 302 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36707,7 +37223,7 @@
 	var ReactRouter = __webpack_require__(188);
 	
 	var SongActions = __webpack_require__(286);
-	var ArtistActions = __webpack_require__(303);
+	var ArtistActions = __webpack_require__(315);
 	
 	var ErrorStore = __webpack_require__(281);
 	var SessionStore = __webpack_require__(262);
@@ -36875,15 +37391,15 @@
 	module.exports = SongForm;
 
 /***/ },
-/* 303 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var ArtistApiUtil = __webpack_require__(304);
+	var ArtistApiUtil = __webpack_require__(316);
 	var AppDispatcher = __webpack_require__(254);
 	
-	var AlbumActions = __webpack_require__(305);
+	var AlbumActions = __webpack_require__(317);
 	var ErrorActions = __webpack_require__(260);
 	
 	var ArtistActions = {
@@ -36895,7 +37411,7 @@
 	module.exports = ArtistActions;
 
 /***/ },
-/* 304 */
+/* 316 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36922,12 +37438,12 @@
 	module.exports = ArtistApiUtil;
 
 /***/ },
-/* 305 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var AlbumApiUtil = __webpack_require__(306);
+	var AlbumApiUtil = __webpack_require__(318);
 	var AppDispatcher = __webpack_require__(254);
 	
 	var SongActions = __webpack_require__(286);
@@ -36942,7 +37458,7 @@
 	module.exports = AlbumActions;
 
 /***/ },
-/* 306 */
+/* 318 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36967,454 +37483,6 @@
 	};
 	
 	module.exports = AlbumApiUtil;
-
-/***/ },
-/* 307 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var AppDispatcher = __webpack_require__(254);
-	var Store = __webpack_require__(263).Store;
-	var AnnotationConstants = __webpack_require__(285);
-	var AnnotationActions = __webpack_require__(286);
-	var SongStore = __webpack_require__(291);
-	
-	var AnnotationStore = new Store(AppDispatcher);
-	
-	AnnotationStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case AnnotationConstants.ANNOTATION_RECEIVED:
-	      addAnnotation(payload.annotation);
-	      AnnotationStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	AnnotationStore.findAnnotation = function (song, id) {
-	  for (var i = 0; i < song.annotations.length; i++) {
-	    if (song.annotations[i].id === id) {
-	      return song.annotations[i];
-	    }
-	  }
-	};
-	
-	function addAnnotation(annotation) {
-	  SongStore.findSong(annotation.song_id).annotations.push(annotation);
-	}
-	
-	module.exports = AnnotationStore;
-
-/***/ },
-/* 308 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var AnnotationApiUtil = __webpack_require__(309);
-	var AnnotationConstants = __webpack_require__(310);
-	var AppDispatcher = __webpack_require__(254);
-	var ErrorActions = __webpack_require__(260);
-	
-	var AnnotationActions = {
-	  createAnnotation: function createAnnotation(annotation) {
-	    AnnotationApiUtil.createAnnotation(annotation, this.receiveAnnotation, ErrorActions.setErrors.bind(null, 'creating_annotation'));
-	  },
-	  receiveAnnotation: function receiveAnnotation(annotation) {
-	    AppDispatcher.dispatch({
-	      actionType: AnnotationConstants.ANNOTATION_RECEIVED,
-	      annotation: annotation
-	    });
-	  }
-	};
-	
-	module.exports = AnnotationActions;
-
-/***/ },
-/* 309 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var AnnotationApiUtil = {
-	  createAnnotation: function createAnnotation(annotation, successCB, errorCB) {
-	    $.ajax({
-	      url: "api/songs/" + annotation.song_id + "/annotations",
-	      type: "POST",
-	      data: { annotation: annotation },
-	      success: function success(resp) {
-	        successCB(resp);
-	      },
-	      error: function error(resp) {
-	        var errors = resp.responseJSON;
-	        errorCB(errors);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = AnnotationApiUtil;
-
-/***/ },
-/* 310 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var AnnotationConstants = {
-	  ANNOTATION_RECEIVED: "ANNOTATION_RECEIVED"
-	};
-
-/***/ },
-/* 311 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var UpvoteActions = __webpack_require__(312);
-	var UpvoteStore = __webpack_require__(314);
-	var SongStore = __webpack_require__(291);
-	var SessionStore = __webpack_require__(262);
-	var ErrorStore = __webpack_require__(281);
-	var ErrorActions = __webpack_require__(260);
-	
-	var Upvotes = React.createClass({
-	  displayName: 'Upvotes',
-	  getInitialState: function getInitialState() {
-	    return {
-	      voteCount: this.props.annotation.upvotes.reduce(function (prev, curr) {
-	        return prev.value + curr.value;
-	      }, 0)
-	    };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.upvoteListener = UpvoteStore.addListener(this._handleChange);
-	    this.setState({ voteCount: this.props.annotation.upvotes });
-	  },
-	  _handleChange: function _handleChange() {
-	    var count = this.props.annotation.upvotes.reduce(function (prev, curr) {
-	      return prev.value + curr.value;
-	    }, 0);
-	    this.setState({ voteCount: count });
-	  },
-	  _handleUpvote: function _handleUpvote() {
-	    var vote = UpvoteStore.findUpvote(SessionStore.currentUser()["id"], this.props.annotation);
-	    var upvote = void 0;
-	    if (vote) {
-	      UpvoteActions.destroyAnnotationUpvote(vote);
-	    } else {
-	      upvote = {
-	        annotation_id: this.props.annotation.id,
-	        value: 1
-	      };
-	      UpvoteActions.createAnnotationUpvote(upvote);
-	    }
-	  },
-	  _handleDownvote: function _handleDownvote() {
-	    var vote = UpvoteStore.findUpvote(SessionStore.currentUser()["id"], this.props.annotation);
-	    var upvote = void 0;
-	    if (vote) {
-	      upvote = {
-	        id: vote.id,
-	        annotation_id: this.props.annotation.id
-	      };
-	      UpvoteActions.destroyAnnotationUpvote(upvote);
-	    } else {
-	      upvote = {
-	        annotation_id: this.props.annotation.id,
-	        value: -1
-	      };
-	      UpvoteActions.createAnnotationUpvote(upvote);
-	    }
-	  },
-	  _Upvote: function _Upvote() {
-	
-	    var data = { annotation_id: this.props.annotation.id, value: 1 };
-	    var currentUser = SessionStore.currentUser();
-	    if (currentUser) {
-	      var currentUserUpvotes = currentUser.upvoted_annotations;
-	
-	      if (currentUserUpvotes.indexOf(this.props.annotation.id) !== -1) {
-	        UpvoteActions.destroyAnnotationUpvote(data);
-	      } else {
-	        UpvoteActions.createAnnotationUpvote(data);
-	      }
-	    }
-	  },
-	  _Downvote: function _Downvote() {
-	    var data = { annotation_id: this.props.annotation.id, value: -1 };
-	    var currentUser = SessionStore.currentUser();
-	    if (currentUser) {
-	      var currentUserUpvotes = currentUser.upvoted_annotations;
-	
-	      if (currentUserUpvotes.indexOf(this.props.annotation.id) !== -1) {
-	        UpvoteActions.destroyAnnotationUpvote(data);
-	      } else {
-	        UpvoteActions.createAnnotationUpvote(data);
-	      }
-	    }
-	  },
-	  render: function render() {
-	    if (!this.props.annotation) {
-	      return;
-	    } else {
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'div',
-	          { onClick: this._handleUpvote },
-	          'Upvote'
-	        ),
-	        this.state.voteCount,
-	        React.createElement(
-	          'div',
-	          { onClick: this._handleDownvote },
-	          'Downvote'
-	        )
-	      );
-	    }
-	  }
-	});
-	
-	module.exports = Upvotes;
-
-/***/ },
-/* 312 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var UpvoteApiUtil = __webpack_require__(313);
-	var UpvoteConstants = __webpack_require__(280);
-	var AppDispatcher = __webpack_require__(254);
-	var ErrorActions = __webpack_require__(260);
-	
-	module.exports = {
-	  createAnnotationUpvote: function createAnnotationUpvote(upvote) {
-	    UpvoteApiUtil.createAnnotationUpvote(upvote, this.receiveUpvote);
-	  },
-	  destroyAnnotationUpvote: function destroyAnnotationUpvote(upvote) {
-	    UpvoteApiUtil.destroyAnnotationUpvote(upvote, this.destroyUpvote);
-	  },
-	  receiveUpvote: function receiveUpvote(upvote) {
-	    AppDispatcher.dispatch({
-	      upvote: upvote,
-	      actionType: UpvoteConstants.CREATED_UPVOTE
-	    });
-	  },
-	  destroyUpvote: function destroyUpvote(upvote) {
-	    AppDispatcher.dispatch({
-	      upvote: upvote,
-	      actionType: UpvoteConstants.DESTROYED_UPVOTE
-	    });
-	  }
-	};
-
-/***/ },
-/* 313 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var UpvoteApiUtil = {
-	  destroyAnnotationUpvote: function destroyAnnotationUpvote(upvote, successCB) {
-	    $.ajax({
-	      url: "api/upvotes/" + upvote.id,
-	      type: "DELETE",
-	      data: { upvote: upvote },
-	      success: function success(resp) {
-	        successCB(resp);
-	      }
-	    });
-	  },
-	  createAnnotationUpvote: function createAnnotationUpvote(upvote, successCB) {
-	    $.ajax({
-	      url: "api/upvotes",
-	      type: "POST",
-	      data: { upvote: upvote },
-	      success: function success(resp) {
-	        successCB(resp);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = UpvoteApiUtil;
-
-/***/ },
-/* 314 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var AppDispatcher = __webpack_require__(254);
-	var Store = __webpack_require__(263).Store;
-	var UpvoteConstants = __webpack_require__(280);
-	
-	var UpvoteStore = new Store(AppDispatcher);
-	
-	var _upvotes = {};
-	
-	UpvoteStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case UpvoteConstants.CREATED_UPVOTE:
-	      setUpvote(payload.upvote);
-	      UpvoteStore.__emitChange();
-	      break;
-	    case UpvoteConstants.DESTROYED_UPVOTE:
-	      destroyUpvote(payload.upvote);
-	      UpvoteStore.__emitChange();
-	  }
-	};
-	
-	UpvoteStore.findUpvote = function (userId, annotation) {
-	  for (var i = 0; i < annotation.upvotes.length; i++) {
-	    if (annotation.upvotes[i].user_id === userId) {
-	      return annotation.upvotes[i];
-	    }
-	  }
-	  return null;
-	};
-	
-	function setUpvote(upvote) {
-	  _upvotes[upvote.id] = upvote;
-	}
-	
-	function destroyUpvote(upvote) {
-	  delete _upvotes[upvote.id];
-	}
-	
-	module.exports = UpvoteStore;
-
-/***/ },
-/* 315 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var AppDispatcher = __webpack_require__(254);
-	var Store = __webpack_require__(263).Store;
-	
-	var AnnotationStore = __webpack_require__(307);
-	var SongStore = __webpack_require__(291);
-	
-	var CommentConstants = __webpack_require__(316);
-	var CommentActions = __webpack_require__(317);
-	var UpvoteConstants = __webpack_require__(280);
-	
-	var CommentStore = new Store(AppDispatcher);
-	
-	CommentStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case CommentConstants.SONG_COMMENT_RECEIVED:
-	      addSongComment(payload.comment);
-	      CommentStore.__emitChange();
-	      break;
-	    case CommentConstants.ANNOTATION_COMMENT_RECEIVED:
-	      addAnnotationComment(payload.comment);
-	      CommentStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	function addSongComment(comment) {
-	  SongStore.findSong(comment.commentable_id).comments.push(comment);
-	}
-	
-	function addAnnotationComment(comment) {
-	  var annotation = AnnotationStore.findAnnotation(SongStore.findSong(comment.commentable.song_id), comment.commentable_id);
-	  annotation.comments.push(comment);
-	}
-	
-	module.exports = CommentStore;
-
-/***/ },
-/* 316 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var CommentConstants = {
-		SONG_COMMENT_RECEIVED: "SONG_COMMENT_RECEIVED",
-		ANNOTATION_COMMENT_RECEIVED: "ANNOTATION_COMMENT_RECEIVED"
-	};
-	
-	module.exports = CommentConstants;
-
-/***/ },
-/* 317 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var CommentApiUtil = __webpack_require__(318);
-	var CommentConstants = __webpack_require__(316);
-	var AppDispatcher = __webpack_require__(254);
-	var ErrorActions = __webpack_require__(260);
-	
-	var CommentActions = {
-	  createSongComment: function createSongComment(comment) {
-	    CommentApiUtil.createSongComment(comment, this.receiveSongComment, ErrorActions.setErrors.bind(null, 'song_comments_form'));
-	  },
-	  receiveSongComment: function receiveSongComment(comment) {
-	    AppDispatcher.dispatch({
-	      actionType: CommentConstants.SONG_COMMENT_RECEIVED,
-	      comment: comment
-	    });
-	  },
-	  createAnnotationComment: function createAnnotationComment(comment) {
-	    CommentApiUtil.createAnnotationComment(comment, this.receiveAnnotationComment, ErrorActions.setErrors.bind(null, 'annotation_comments_form'));
-	  },
-	  receiveAnnotationComment: function receiveAnnotationComment(comment) {
-	    AppDispatcher.dispatch({
-	      actionType: CommentConstants.ANNOTATION_COMMENT_RECEIVED,
-	      comment: comment
-	    });
-	  }
-	};
-	
-	module.exports = CommentActions;
-
-/***/ },
-/* 318 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var CommentApiUtil = {
-	  createSongComment: function createSongComment(comment, successCB, errorCB) {
-	    $.ajax({
-	      url: "api/songs/" + comment.song_id + "/comments",
-	      type: "POST",
-	      data: { comment: comment },
-	      success: function success(resp) {
-	        successCB(resp);
-	      },
-	      error: function error(resp) {
-	        var errors = resp.responseJSON;
-	        errorCB(errors);
-	      }
-	    });
-	  },
-	  createAnnotationComment: function createAnnotationComment(comment, successCB, errorCB) {
-	    $.ajax({
-	      url: "api/annotations/" + comment.annotation_id + "/comments",
-	      type: "POST",
-	      data: { comment: comment },
-	      success: function success(resp) {
-	        successCB(resp);
-	      },
-	      error: function error(resp) {
-	        var errors = resp.responseJSON;
-	        errorCB(errors);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = CommentApiUtil;
 
 /***/ }
 /******/ ]);

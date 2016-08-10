@@ -44,14 +44,22 @@ const SongShow = React.createClass({
   },
 
   _handleAnnotationChange() {
-    let annotations = this.state.song.annotations;
-    let annotation = annotations[annotations.length - 1];
-    this.setState({
-      renderForm: false,
-      currentAnnotation: annotation,
-      renderAnnotationBody: true
-    });
-    $("span#" + annotation.id).addClass("selected-annotation");
+    if (this.state.song.annotations.length && !this.state.currentAnnotation) {
+      let annotations = this.state.song.annotations;
+      let annotation = annotations[annotations.length - 1];
+      this.setState({
+        renderForm: false,
+        currentAnnotation: annotation,
+        renderAnnotationBody: true
+      });
+      $("span#" + annotation.id).addClass("selected-annotation");
+    } else {
+      this.setState({
+        renderForm: false,
+        currentAnnotation: null,
+        renderAnnotationBody: false
+      });
+    }
   },
 
   _handleCommentChange() {

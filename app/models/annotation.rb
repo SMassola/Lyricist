@@ -12,7 +12,7 @@ class Annotation < ActiveRecord::Base
     through: :upvotes,
     source: :user
 
-  has_many :comments, as: :commentable
+  has_many :comments, as: :commentable, dependent: :destroy
   belongs_to :song
   belongs_to :user
 

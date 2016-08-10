@@ -13,6 +13,16 @@ const AnnotationApiUtil = {
       }
     });
   },
+
+  deleteAnnotation(id, successCB) {
+    $.ajax({
+      url: `api/annotations/${id}/`,
+      type: "DELETE",
+      success: function(resp) {
+        successCB(resp);
+      }
+    });
+  }
 };
 
 module.exports = AnnotationApiUtil;

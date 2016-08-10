@@ -17,6 +17,20 @@ const AnnotationActions = {
       annotation: annotation
     });
   },
+
+  deleteAnnotation(id) {
+    AnnotationApiUtil.deleteAnnotation(
+      id,
+      this.removeAnnotation
+    );
+  },
+
+  removeAnnotation(annotation) {
+    AppDispatcher.dispatch({
+      actionType: AnnotationConstants.ANNOTATION_REMOVED,
+      annotaiton: annotation
+    });
+  }
 };
 
 module.exports = AnnotationActions;

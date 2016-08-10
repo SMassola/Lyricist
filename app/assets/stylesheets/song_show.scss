@@ -47,6 +47,7 @@ pre {
   font-weight: 300;
   font-family: 'Nunito';
   font-size: 20px;
+  line-height: 150%;
 }
 
 a {
@@ -97,7 +98,7 @@ a {
 }
 
 .annotated:hover {
-  background-color: rgba(0, 170, 255, 1);
+  background-color: rgba(177, 156, 217, 0.5);
   cursor: pointer;
 }
 
@@ -110,8 +111,8 @@ a {
   max-width: 50%;
 }
 
-.selected-annotation {
-  background: rgba(0, 170, 255, 1);
+.selected-annotation, .selected-annotation:hover {
+  background: rgba(106, 190, 219, 1);
 }
 
 .noselect {
