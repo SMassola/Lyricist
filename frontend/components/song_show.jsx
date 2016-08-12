@@ -26,7 +26,11 @@ const SongShow = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    this.setState({song: SongActions.fetchSong(parseInt(nextProps.params.id))});
+    this.setState({
+      song: SongActions.fetchSong(parseInt(nextProps.params.id)),
+      renderAnnotationBody: false,
+      currentAnnotation: null
+    });
   },
 
   componentDidMount () {

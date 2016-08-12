@@ -35875,7 +35875,11 @@
 	    };
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    this.setState({ song: SongActions.fetchSong(parseInt(nextProps.params.id)) });
+	    this.setState({
+	      song: SongActions.fetchSong(parseInt(nextProps.params.id)),
+	      renderAnnotationBody: false,
+	      currentAnnotation: null
+	    });
 	  },
 	  componentDidMount: function componentDidMount() {
 	    $('pre.ghost-lyrics').hide();
