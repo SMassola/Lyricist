@@ -2,6 +2,7 @@ const React = require('react');
 const AnnotationActions = require('../actions/annotation_actions.js');
 
 const SongStore = require('../stores/song_store.js');
+const CommentStore = require('../stores/comment_store.js');
 const AnnotationStore = require('../stores/annotation_store.js');
 const SessionStore = require('../stores/session_store.js');
 
@@ -12,7 +13,7 @@ const AnnotationBody = React.createClass({
 
   getInitialState() {
     return({
-      annotation: this.props.annotation
+      annotation: this.props.annotation,
     });
   },
 
@@ -61,7 +62,7 @@ const AnnotationBody = React.createClass({
           <div className="annotator-display bolded">
             {this.state.annotation.username}
           </div>
-          <div className="annotation-display">{this.state.annotation.body}</div>
+          <pre className="annotation-display">{this.state.annotation.body}</pre>
           {this.state.annotation.user_id === SessionStore.currentUser()["id"] ?
             <button
               className="delete-annotation"

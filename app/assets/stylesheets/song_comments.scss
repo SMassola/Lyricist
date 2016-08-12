@@ -1,17 +1,16 @@
 .song-comment-form-and-display {
   font-family: sans-serif;
-  margin: 20px;
+  margin: 10px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 80%;
-  max-width: 80%;
-  border: 1px solid #fcfcfc;
+  width: 100%;
+  border: 3px solid gray;
+  border-right: 3px solid gray;
 }
 
 .song-comment-form {
   width: 100%;
-  background: #fcfcfc;
 }
 
 .song-comments-container {
@@ -21,6 +20,8 @@
 }
 
 .song-comment-form-title {
+  font-size: 24px;
+  font-weight: lighter;
   font-family: sans-serif;
   margin: 20px;
 }
@@ -39,8 +40,6 @@
 }
 
 .song-comment-input-fields {
-  border-radius: 10px;
-
 }
 
 .song-comment-textarea {
@@ -56,15 +55,26 @@
   background: white;
 }
 
-.song-comment-details-container:nth-child(even) {
-  background: #fcfcfc;
+.song-comment-details-container {
+  background: white;
+  position:relative;
+}
+
+.song-comment-details-container::before {
+  content: "";
+  position: absolute;
+  left: 1%;
+  width: 98%;
+  border-top: 1px solid orange;
 }
 
 .song-commenter {
+  font-size: 14px;
   padding-top: 10px;
   margin-bottom: 5px;
   margin-left: 10px;
   font-weight: bold;
+  text-decoration: underline;
 }
 
 .song-comment {

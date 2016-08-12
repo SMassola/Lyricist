@@ -63,7 +63,17 @@ const SongShow = React.createClass({
   },
 
   _handleCommentChange() {
-    this.setState({song: SongStore.findSong(this.props.params.id)});
+    this.setState({
+      song: SongStore.findSong(this.props.params.id)
+    });
+
+    if (this.state.currentAnnotation) {
+      this.setState({
+        currentAnnotation: AnnotationStore.findAnnotation(
+          this.state.song,
+          this.state.currentAnnotation.id)
+      });
+    }
   },
 
   _handleChange () {

@@ -189,7 +189,7 @@ A brave new world",
   year: 2009,
   user_id: User.find_by_username("Guest").id,
   album_id: Album.find_by_name("This Is War").id,
-  image_url: "https://upload.wikimedia.org/wikipedia/en/8/88/30STM_%E2%80%94_This_Is_War.jpg"
+  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/v1470936279/This_Is_War_cpdrck.jpg"
 )
 
 Song.create!(
@@ -292,7 +292,7 @@ Get down girl go head
   year: 2005,
   user_id: User.find_by_username("Guest").id,
   album_id: Album.find_by_name("Late Registration").id,
-  image_url: "https://upload.wikimedia.org/wikipedia/en/f/f4/Late_registration_cd_cover.jpg"
+  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/v1470940156/Late_Registration_huze2t.jpg"
 )
 
 Song.create!(
@@ -351,7 +351,7 @@ Dear No one, this is your love song",
   year: 2015,
   user_id: User.find_by_username("Guest").id,
   album_id: Album.find_by_name("Unbreakable Smile").id,
-  image_url: "http://assets.rollingstone.com/assets/2015/media/206940/_original/1440433173/1035x1035-MI0003895399.jpg"
+  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/v1470943776/Unbreakable_Smile_avtmsv.png"
 )
 
 Song.create!(
@@ -414,7 +414,7 @@ You and I",
   year: 2009,
   user_id: User.find_by_username("Guest").id,
   album_id: Album.find_by_name("21st Century Breakdown").id,
-  image_url: "https://upload.wikimedia.org/wikipedia/en/c/c8/Green_Day_-_21st_Century_Breakdown_cover.jpg"
+  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/c_scale,w_300/v1470943775/21st_Century_Breakdown_m5wgzf.jpg"
 )
 
 Song.create!(
@@ -486,7 +486,7 @@ Resistance!",
   year: 2009,
   user_id: User.find_by_username("Guest").id,
   album_id: Album.find_by_name("The Resistance").id,
-  image_url: "https://upload.wikimedia.org/wikipedia/en/8/8a/Theresistance.jpg"
+  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/c_scale,h_300,w_300/v1470943775/The_Resistance_zugsht.jpg"
 )
 
 Song.create!(
@@ -531,7 +531,7 @@ Feeling my faith erode",
   year: 2003,
   user_id: User.find_by_username("Guest").id,
   album_id: Album.find_by_name("Absolution").id,
-  image_url: "https://upload.wikimedia.org/wikipedia/en/b/b4/Muse_-_Absolution_Cover_UK.jpg"
+  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/v1470943776/Absolution_hb9ab9.jpg"
 )
 
 Song.create!(
@@ -612,7 +612,7 @@ Ever since I left the city",
   year: 2015,
   user_id: User.find_by_username("Guest").id,
   album_id: Album.find_by_name("Views").id,
-  image_url: "http://cdn4.pitchfork.com/albums/23176/2e5f0170.jpg"
+  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/c_scale,w_300/v1470943775/Views_jovspk.jpg"
 )
 
 Song.create!(
@@ -682,7 +682,7 @@ No, it don't fade away",
   year: 1984,
   user_id: User.find_by_username("Guest").id,
   album_id: Album.find_by_name("Tour de Force").id,
-  image_url: "https://images-na.ssl-images-amazon.com/images/I/510dUazuk3L.jpg"
+  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/c_scale,w_300/v1470943775/Tour_De_Force_ceqmzj.jpg"
 )
 
 Song.create!(
@@ -771,11 +771,11 @@ Back from the dead tonight!",
   year: 2016,
   user_id: User.find_by_username("Guest").id,
   album_id: Album.find_by_name("Unleashed").id,
-  image_url: "http://loudwire.com/files/2016/05/music-artistlogo.jpg"
+  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/c_scale,w_300/v1470944229/Unleashed_yflyyp.jpg"
 )
 
 Song.create!(
-  title: "Uncomfortably Numb",
+  title: "Comfortably Numb",
   lyrics:
 "Hello,
 Is there anybody in there?
@@ -830,7 +830,7 @@ I have become comfortably numb.",
     year: 1979,
     user_id: User.find_by_username("Guest").id,
     album_id: Album.find_by_name("The Wall").id,
-    image_url: "http://www.progarchives.com/progressive_rock_discography_covers/364/cover_2530151082009.jpg"
+    image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/v1470943775/The_Wall_lhy7is.jpg"
 )
 
 Song.create!(
@@ -876,37 +876,92 @@ I lost myself, I lost myself",
   year: 1997,
   user_id: User.find_by_username("Guest").id,
   album_id: Album.find_by_name("OK Computer").id,
-  image_url: "https://images-na.ssl-images-amazon.com/images/I/61SYxGXYCkL.jpg"
+  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/c_scale,w_300/v1470943775/OK_Computer_uimwur.jpg"
 )
 
 Annotation.create!(
-  body: "SICK",
-  start_idx: 678,
-  end_idx: 840,
-  user_id: User.find_by_username("Guest").id,
-  song_id: Song.find_by_title("This Is War").id
-)
-
-Annotation.create!(
-  body: "Best part of the entire song!",
-  start_idx: 262,
+  body: "Anything can happen in war, but no matter what, you have to always keep on fighting and persevere. Wars test people’s character. The stronger survives while the weaker falls, and usually the good guys always fall victim to the bad guys.\n\nNotice the juxtaposition of oxymorons here:\n\ntruth and lie\nlive and die",
+  start_idx: 130,
   end_idx: 291,
   user_id: User.find_by_username("Guest").id,
   song_id: Song.find_by_title("This Is War").id
 )
 
 Annotation.create!(
-  body: "LOL!",
-  start_idx: 4,
-  end_idx: 12,
+  body: "A gold digger is a woman who dates rich men in an attempt to live lavishly or get rich themselves\n\nThe woman Kanye is talking about isn’t exactly that because she doesn’t specifically go after rich men, she just refuses to date men that are poor\n\nIt’s possible that Kanye is mocking the woman by quoting her, to imply that she is actually a gold digger but refuses to admit it. This would be an example of Roman irony\n\nPer MTV, the song was originally “meant to appear on Shawnna’s 2004 debut, Worth Tha Weight. West had tailor-made the now-famous ‘Gold Digger’ hook for the female MC to spit in the first person: ‘I’m not sayin’ I’m a gold digger, but I ain’t messin' with no broke niggas …‘”",
+  start_idx: 125,
+  end_idx: 223,
   user_id: User.find_by_username("Guest").id,
   song_id: Song.find_by_title("Gold Digger").id
 )
 
 Annotation.create!(
-  body: "GET DOWN!",
-  start_idx: 50,
-  end_idx: 75,
+  body: "Before his rise to fame, Drake was just an average guy living in the suburban part of Toronto. Back then he had a girl that adored him, but his stardom slowly tarnished their relationship as she no longer gives him any attention.\n\nThis girl is most likely his former Canadian flame Nebby whom he has mentioned in songs such as “Look What You’ve Done” and “Best I Ever Had.” Regardless of what she needed, Drake would drop everything when she’d call, especially if it was at night.\n\nDrake stops and starts in the intro, perhaps choking up with sadness at the loss he’s experiencing. Also, in the third line of the chorus, Drake omits the “you used to…” anacrusis, turning the nostalgic, regretful tone into a more demanding one, with an imperative.",
+  start_idx: 0,
+  end_idx: 184,
   user_id: User.find_by_username("Guest").id,
-  song_id: Song.find_by_title("Gold Digger").id
+  song_id: Song.find_by_title("Hotline Bling").id
+)
+
+Annotation.create!(
+  body: "Even though she likes being independent, she wouldn’t mind having a partner.\n\nTori’s a Christian and directly references God, she even said:\n\n\"There was a lot of Christian music growing up in my house.\"\n\nShe content with the fact that God will give her somebody someday, so for now, she’ll be patient.",
+  start_idx: 905,
+  end_idx: 1021,
+  user_id: User.find_by_username("Guest").id,
+  song_id: Song.find_by_title("Dear No One").id
+)
+
+Annotation.create!(
+  body: "That's a really bad stutter!",
+  start_idx: 0,
+  end_idx: 51,
+  user_id: User.find_by_username("Guest").id,
+  song_id: Song.find_by_title("Back From The Dead").id
+)
+
+Annotation.create!(
+  body: "Despite its laid back attitude, the song, and this particular phrase has a sneering, almost violent aggression. After calling out for the arrest of the “man” and “girl” in the first two verses, Yorke then taunts them, uttering the karmic phrase, “this is what you get.”",
+  start_idx: 199,
+  end_idx: 292,
+  user_id: User.find_by_username("Guest").id,
+  song_id: Song.find_by_title("Karma Police").id
+)
+
+Annotation.create!(
+  body: "Once that obsession has fully taken root, we can sometimes lose touch with reality and the things that matter most. We then become empty, emotionless husks, merely shadows of our former selves.",
+  start_idx: 239,
+  end_idx: 346,
+  user_id: User.find_by_username("Guest").id,
+  song_id: Song.find_by_title("Hysteria").id
+)
+
+Annotation.create!(
+  body: "Pink is completely out of it- he is drugged, enclosed inside himself and unable to function. He is needed to play the show, and the doctors are trying to get some sort of response out of his blank state.\n\n‘Nod’ is a reference to dozing off when high on opiates (morphine, heroin, oxycodone etc).",
+  start_idx: 0,
+  end_idx: 87,
+  user_id: User.find_by_username("Guest").id,
+  song_id: Song.find_by_title("Comfortably Numb").id
+)
+
+Annotation.create!(
+  body: "A 21 gun salute is primarily used in military ceremonies as a way of honoring those who have fallen. This chorus assures that while there is a time for fighting, there is also a time for surrender and its better to make peace than to continue strife. “Lay down your arms” refers to lowering a weapon.",
+  start_idx: 254,
+  end_idx: 303,
+  user_id: User.find_by_username("Guest").id,
+  song_id: Song.find_by_title("21 Guns").id
+)
+
+Annotation.create!(
+  body: "This is a reference to one of Bellamy’s favourite books, “1984” by George Orwell. 1984 contains a secret police known as ‘the thought police’ whose job was to prevent ‘thinkcrime’, more commonly ‘thoughtcrime’, which was simply any thought or action the totalitarian English Socialism, more commonly ‘Ingsoc’, Party did not approve of, such of love or political interest. Orwell described your only free space as “the few cubic inches inside your skull”, which is the only place what one would consider ‘the truth’ could be hidden. In this case, and throughout the album, Bellamy compares life in today’s capitalist world as very similar to Orwell’s dystopian Oceania, Eastasia or of course, Eurasia.",
+  start_idx: 768,
+  end_idx: 866,
+  user_id: User.find_by_username("Guest").id,
+  song_id: Song.find_by_title("Resistance").id
+)
+
+Comment.create!(
+  body: "What an epic song!",
+  user_id: User.find_by_username("Guest").id,
+  commentable: Song.find_by_title("This Is War"),
+  commentable_id: Song.find_by_title("This Is War").id
 )

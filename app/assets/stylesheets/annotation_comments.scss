@@ -1,6 +1,6 @@
 .annotation-comment-form-and-display {
   font-family: sans-serif;
-  margin: 20px;
+  margin: 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,7 +22,9 @@
 
 .annotation-comment-form-title {
   font-family: sans-serif;
-  margin: 20px;
+  margin: 10px;
+  font-size: 24px;
+  font-weight: lighter;
 }
 
 .error-box {
@@ -39,18 +41,15 @@
 }
 
 .annotation-comment-input-fields {
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
+  margin: 10px;
 }
 
 .annotation-comment-textarea {
-  border-radius: 5px;
   margin: auto;
   height: 100%;
   resize: none;
   font-size: 18px;
-  width: 90%;
+  width: 100%;
 }
 
 .annotation-comment-details-container {
@@ -81,7 +80,7 @@
   width: 140px;
   height: 40px;
   color: #6ABEDB;
-  margin: 15px 0 15px 20px;
+  margin: 10px;
   background: white;
   padding:0!important;
   font: inherit;

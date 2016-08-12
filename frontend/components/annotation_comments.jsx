@@ -8,9 +8,14 @@ const AnnotationComments = React.createClass({
 
   getInitialState() {
     return({
+      comments: this.props.annotation.comments,
       body: "",
       errors: []
     });
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({comments: nextProps.annotation.comments});
   },
 
   componentDidMount() {
@@ -42,7 +47,7 @@ const AnnotationComments = React.createClass({
   },
 
   render() {
-    let comments = this.props.annotation.comments;
+    let comments = this.state.comments;
 
     let errs = [];
     if (this.state.errors.length > 0) {
@@ -56,7 +61,7 @@ const AnnotationComments = React.createClass({
     return(
     <div className="annotation-comment-form-and-display">
       <form onSubmit={this._handleSubmit} className="annotation-comment-form">
-        <h3 className="annotation-comment-form-title">Comments</h3>
+        <div className="annotation-comment-form-title">Leave a Reply</div>
         <div className="error-box">
           <div className="annotation-comments-error-container">
             {errs.map((error) => {

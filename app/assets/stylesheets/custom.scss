@@ -21,13 +21,14 @@ textarea {
 
 .splash-container {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),
-  image-url("Astronaut.jpg");
+  url("http://res.cloudinary.com/deeucxgdi/image/upload/v1470962809/Astronaut_sjnedn.jpg");
   background-attachment: fixed;
   background-size: cover;
   height: 90vh;
   width: 100%;
   position: relative;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .splash {

@@ -35908,7 +35908,15 @@
 	    }
 	  },
 	  _handleCommentChange: function _handleCommentChange() {
-	    this.setState({ song: SongStore.findSong(this.props.params.id) });
+	    this.setState({
+	      song: SongStore.findSong(this.props.params.id)
+	    });
+	
+	    if (this.state.currentAnnotation) {
+	      this.setState({
+	        currentAnnotation: AnnotationStore.findAnnotation(this.state.song, this.state.currentAnnotation.id)
+	      });
+	    }
 	  },
 	  _handleChange: function _handleChange() {
 	    var song = SongStore.findSong(parseInt(this.props.params.id));
@@ -36285,6 +36293,7 @@
 	var AnnotationActions = __webpack_require__(306);
 	
 	var SongStore = __webpack_require__(291);
+	var CommentStore = __webpack_require__(295);
 	var AnnotationStore = __webpack_require__(294);
 	var SessionStore = __webpack_require__(262);
 	
@@ -36346,7 +36355,7 @@
 	          this.state.annotation.username
 	        ),
 	        React.createElement(
-	          'div',
+	          'pre',
 	          { className: 'annotation-display' },
 	          this.state.annotation.body
 	        ),
@@ -36381,9 +36390,13 @@
 	  displayName: 'AnnotationComments',
 	  getInitialState: function getInitialState() {
 	    return {
+	      comments: this.props.annotation.comments,
 	      body: "",
 	      errors: []
 	    };
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    this.setState({ comments: nextProps.annotation.comments });
 	  },
 	  componentDidMount: function componentDidMount() {
 	    this.errorListener = ErrorStore.addListener(this._handleErrors);
@@ -36409,7 +36422,7 @@
 	    this.setState({ body: "" });
 	  },
 	  render: function render() {
-	    var comments = this.props.annotation.comments;
+	    var comments = this.state.comments;
 	
 	    var errs = [];
 	    if (this.state.errors.length > 0) {
@@ -36427,9 +36440,9 @@
 	        'form',
 	        { onSubmit: this._handleSubmit, className: 'annotation-comment-form' },
 	        React.createElement(
-	          'h3',
+	          'div',
 	          { className: 'annotation-comment-form-title' },
-	          'Comments'
+	          'Leave a Reply'
 	        ),
 	        React.createElement(
 	          'div',
@@ -37034,9 +37047,9 @@
 	        'form',
 	        { onSubmit: this._handleSubmit, className: 'song-comment-form' },
 	        React.createElement(
-	          'h3',
+	          'div',
 	          { className: 'song-comment-form-title' },
-	          'Comments'
+	          'Leave A Comment'
 	        ),
 	        React.createElement(
 	          'div',
@@ -37076,8 +37089,7 @@
 	            React.createElement(
 	              'div',
 	              { className: 'song-commenter', key: 1 },
-	              comment.username,
-	              ' commented:'
+	              comment.username
 	            ),
 	            React.createElement(
 	              'div',

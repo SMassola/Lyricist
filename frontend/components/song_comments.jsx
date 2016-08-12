@@ -62,7 +62,7 @@ const SongComments = React.createClass({
     return(
     <div className="song-comment-form-and-display">
       <form onSubmit={this._handleSubmit} className="song-comment-form">
-        <h3 className="song-comment-form-title">Comments</h3>
+        <div className="song-comment-form-title">Leave A Comment</div>
         <div className="error-box">
           <div className="song-comments-error-container">
             {errs.map((error) => {
@@ -87,7 +87,7 @@ const SongComments = React.createClass({
           return(
             <div key={comment.id} className="song-comment-details-container">
               <div className="song-commenter" key={1}>
-                 {comment.username} commented:
+                 {comment.username}
               </div>
               <div className="song-comment" key={2}>{comment.body}</div>
             </div>);

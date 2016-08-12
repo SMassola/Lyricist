@@ -25,8 +25,8 @@
 }
 
 .animate-timer.slider {
-  transform: translate(0%);
-  -webkit-transform: translate(0%);
+  transform: translateX(0%);
+  -webkit-transform: translateX(0%);
 }
 
 .animate-timer {
@@ -35,8 +35,8 @@
 }
 
 .annotation-form {
-  transform: translate(-10%);
-  -webkit-transform: translate(-10%);
+  transform: translateX(-10%);
+  -webkit-transform: translateX(-10%);
   position: absolute;
   margin: 20px;
   width: 30%;
@@ -48,9 +48,9 @@
 
 .annotation-form > h1 {
   letter-spacing: 1px;
-  margin: 10px 40px 10px 20px;
+  margin: 15px 40px 15px 20px;
   font-size: 26px;
-  font-weight: bold;
+  font-weight: lighter;
 }
 
 .annotation-error-container {
@@ -67,7 +67,6 @@
   margin: 0px 20px;
   font-size: 18px;
   resize: none;
-  border-radius: 5px;
   border: 1px solid black;
 }
 
@@ -76,39 +75,13 @@
   width: 50px;
 }
 
-.triangle-border {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  transform: translate(-50px, 50px) rotate(45deg);
-  width: 0px;
-  height: 0px;
-  border-left: 50px solid transparent;
-  border-right: 50px solid transparent;
-  border-top: 100px solid #5a8f00;
-  z-index: -1;
-}
-
-.triangle {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  transform: translate(-50px, 50px) rotate(45deg);
-  width: 0;
-  height: 0;
-  border-left: 50px solid transparent;
-  border-right: 50px solid transparent;
-  border-top: 100px solid #5a8f00;
-  z-index: -2;
-}
-
 .annotation-body-container {
   z-index: 5;
 }
 
 .annotation-body {
-  transform: translate(-10%);
-  -webkit-transform: translate(-10%);
+  transform: translateX(-10%);
+  -webkit-transform: translateX(-10%);
   position: absolute;
   background-color: white;
   margin: 20px;
@@ -129,6 +102,7 @@
   margin: 10px;
   font-family: sans-serif;
   font-size: 18px;
+  white-space: pre-wrap;
 }
 
 .bolded {
@@ -137,7 +111,6 @@
 
 .annotation-comment-form {
   width: 100%;
-  height: 200px;
   display: flex;
   flex-direction: column;
 }
@@ -153,7 +126,7 @@
 .delete-annotation {
   width: 140px;
   height: 40px;
-  margin: 15px 0 15px 20px;
+  margin: 10px;
   padding: 0 !important;
   font: inherit;
   cursor: pointer;
