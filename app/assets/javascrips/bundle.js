@@ -35850,13 +35850,13 @@
 	var React = __webpack_require__(1);
 	
 	var AnnotationStore = __webpack_require__(294);
-	var CommentStore = __webpack_require__(295);
+	var CommentStore = __webpack_require__(298);
 	var SongStore = __webpack_require__(291);
 	var SessionStore = __webpack_require__(262);
 	
 	var SongActions = __webpack_require__(286);
-	var AnnotationBody = __webpack_require__(299);
-	var AnnotationForm = __webpack_require__(305);
+	var AnnotationBody = __webpack_require__(302);
+	var AnnotationForm = __webpack_require__(308);
 	var SongDetails = __webpack_require__(309);
 	var AlbumArt = __webpack_require__(310);
 	var SongComments = __webpack_require__(311);
@@ -36103,8 +36103,8 @@
 	
 	var AppDispatcher = __webpack_require__(254);
 	var Store = __webpack_require__(263).Store;
-	var AnnotationConstants = __webpack_require__(308);
-	var AnnotationActions = __webpack_require__(306);
+	var AnnotationConstants = __webpack_require__(295);
+	var AnnotationActions = __webpack_require__(296);
 	var SongStore = __webpack_require__(291);
 	
 	var AnnotationStore = new Store(AppDispatcher);
@@ -36161,6 +36161,87 @@
 
 /***/ },
 /* 295 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var AnnotationConstants = {
+	  ANNOTATION_RECEIVED: "ANNOTATION_RECEIVED",
+	  ANNOTATION_REMOVED: "ANNOTATION_REMOVED"
+	};
+	
+	module.exports = AnnotationConstants;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AnnotationApiUtil = __webpack_require__(297);
+	var AnnotationConstants = __webpack_require__(295);
+	var AppDispatcher = __webpack_require__(254);
+	var ErrorActions = __webpack_require__(260);
+	
+	var AnnotationActions = {
+	  createAnnotation: function createAnnotation(annotation) {
+	    AnnotationApiUtil.createAnnotation(annotation, this.receiveAnnotation, ErrorActions.setErrors.bind(null, 'creating_annotation'));
+	  },
+	  receiveAnnotation: function receiveAnnotation(annotation) {
+	    AppDispatcher.dispatch({
+	      actionType: AnnotationConstants.ANNOTATION_RECEIVED,
+	      annotation: annotation
+	    });
+	  },
+	  deleteAnnotation: function deleteAnnotation(id) {
+	    AnnotationApiUtil.deleteAnnotation(id, this.removeAnnotation);
+	  },
+	  removeAnnotation: function removeAnnotation(annotation) {
+	    AppDispatcher.dispatch({
+	      actionType: AnnotationConstants.ANNOTATION_REMOVED,
+	      annotaiton: annotation
+	    });
+	  }
+	};
+	
+	module.exports = AnnotationActions;
+
+/***/ },
+/* 297 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var AnnotationApiUtil = {
+	  createAnnotation: function createAnnotation(annotation, successCB, errorCB) {
+	    $.ajax({
+	      url: "api/songs/" + annotation.song_id + "/annotations",
+	      type: "POST",
+	      data: { annotation: annotation },
+	      success: function success(resp) {
+	        successCB(resp);
+	      },
+	      error: function error(resp) {
+	        var errors = resp.responseJSON;
+	        errorCB(errors);
+	      }
+	    });
+	  },
+	  deleteAnnotation: function deleteAnnotation(id, successCB) {
+	    $.ajax({
+	      url: "api/annotations/" + id + "/",
+	      type: "DELETE",
+	      success: function success(resp) {
+	        successCB(resp);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = AnnotationApiUtil;
+
+/***/ },
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36171,8 +36252,8 @@
 	var AnnotationStore = __webpack_require__(294);
 	var SongStore = __webpack_require__(291);
 	
-	var CommentConstants = __webpack_require__(296);
-	var CommentActions = __webpack_require__(297);
+	var CommentConstants = __webpack_require__(299);
+	var CommentActions = __webpack_require__(300);
 	var UpvoteConstants = __webpack_require__(280);
 	
 	var CommentStore = new Store(AppDispatcher);
@@ -36202,7 +36283,7 @@
 	module.exports = CommentStore;
 
 /***/ },
-/* 296 */
+/* 299 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36215,13 +36296,13 @@
 	module.exports = CommentConstants;
 
 /***/ },
-/* 297 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var CommentApiUtil = __webpack_require__(298);
-	var CommentConstants = __webpack_require__(296);
+	var CommentApiUtil = __webpack_require__(301);
+	var CommentConstants = __webpack_require__(299);
 	var AppDispatcher = __webpack_require__(254);
 	var ErrorActions = __webpack_require__(260);
 	
@@ -36249,7 +36330,7 @@
 	module.exports = CommentActions;
 
 /***/ },
-/* 298 */
+/* 301 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36288,21 +36369,21 @@
 	module.exports = CommentApiUtil;
 
 /***/ },
-/* 299 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var AnnotationActions = __webpack_require__(306);
+	var AnnotationActions = __webpack_require__(296);
 	
 	var SongStore = __webpack_require__(291);
-	var CommentStore = __webpack_require__(295);
+	var CommentStore = __webpack_require__(298);
 	var AnnotationStore = __webpack_require__(294);
 	var SessionStore = __webpack_require__(262);
 	
-	var AnnotationComments = __webpack_require__(300);
-	var Upvotes = __webpack_require__(301);
+	var AnnotationComments = __webpack_require__(303);
+	var Upvotes = __webpack_require__(304);
 	
 	var AnnotationBody = React.createClass({
 	  displayName: 'AnnotationBody',
@@ -36379,13 +36460,13 @@
 	module.exports = AnnotationBody;
 
 /***/ },
-/* 300 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var CommentActions = __webpack_require__(297);
+	var CommentActions = __webpack_require__(300);
 	
 	var ErrorStore = __webpack_require__(281);
 	var ErrorActions = __webpack_require__(260);
@@ -36503,14 +36584,14 @@
 	module.exports = AnnotationComments;
 
 /***/ },
-/* 301 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var UpvoteActions = __webpack_require__(302);
-	var UpvoteStore = __webpack_require__(304);
+	var UpvoteActions = __webpack_require__(305);
+	var UpvoteStore = __webpack_require__(307);
 	var SongStore = __webpack_require__(291);
 	var SessionStore = __webpack_require__(262);
 	var ErrorStore = __webpack_require__(281);
@@ -36618,12 +36699,12 @@
 	module.exports = Upvotes;
 
 /***/ },
-/* 302 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var UpvoteApiUtil = __webpack_require__(303);
+	var UpvoteApiUtil = __webpack_require__(306);
 	var UpvoteConstants = __webpack_require__(280);
 	var AppDispatcher = __webpack_require__(254);
 	var ErrorActions = __webpack_require__(260);
@@ -36650,7 +36731,7 @@
 	};
 
 /***/ },
-/* 303 */
+/* 306 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36681,7 +36762,7 @@
 	module.exports = UpvoteApiUtil;
 
 /***/ },
-/* 304 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36726,13 +36807,13 @@
 	module.exports = UpvoteStore;
 
 /***/ },
-/* 305 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var AnnotationActions = __webpack_require__(306);
+	var AnnotationActions = __webpack_require__(296);
 	
 	var ErrorStore = __webpack_require__(281);
 	var AnnotationForm = React.createClass({
@@ -36836,87 +36917,6 @@
 	module.exports = AnnotationForm;
 
 /***/ },
-/* 306 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var AnnotationApiUtil = __webpack_require__(307);
-	var AnnotationConstants = __webpack_require__(308);
-	var AppDispatcher = __webpack_require__(254);
-	var ErrorActions = __webpack_require__(260);
-	
-	var AnnotationActions = {
-	  createAnnotation: function createAnnotation(annotation) {
-	    AnnotationApiUtil.createAnnotation(annotation, this.receiveAnnotation, ErrorActions.setErrors.bind(null, 'creating_annotation'));
-	  },
-	  receiveAnnotation: function receiveAnnotation(annotation) {
-	    AppDispatcher.dispatch({
-	      actionType: AnnotationConstants.ANNOTATION_RECEIVED,
-	      annotation: annotation
-	    });
-	  },
-	  deleteAnnotation: function deleteAnnotation(id) {
-	    AnnotationApiUtil.deleteAnnotation(id, this.removeAnnotation);
-	  },
-	  removeAnnotation: function removeAnnotation(annotation) {
-	    AppDispatcher.dispatch({
-	      actionType: AnnotationConstants.ANNOTATION_REMOVED,
-	      annotaiton: annotation
-	    });
-	  }
-	};
-	
-	module.exports = AnnotationActions;
-
-/***/ },
-/* 307 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var AnnotationApiUtil = {
-	  createAnnotation: function createAnnotation(annotation, successCB, errorCB) {
-	    $.ajax({
-	      url: "api/songs/" + annotation.song_id + "/annotations",
-	      type: "POST",
-	      data: { annotation: annotation },
-	      success: function success(resp) {
-	        successCB(resp);
-	      },
-	      error: function error(resp) {
-	        var errors = resp.responseJSON;
-	        errorCB(errors);
-	      }
-	    });
-	  },
-	  deleteAnnotation: function deleteAnnotation(id, successCB) {
-	    $.ajax({
-	      url: "api/annotations/" + id + "/",
-	      type: "DELETE",
-	      success: function success(resp) {
-	        successCB(resp);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = AnnotationApiUtil;
-
-/***/ },
-/* 308 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var AnnotationConstants = {
-	  ANNOTATION_RECEIVED: "ANNOTATION_RECEIVED",
-	  ANNOTATION_REMOVED: "ANNOTATION_REMOVED"
-	};
-	
-	module.exports = AnnotationConstants;
-
-/***/ },
 /* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -36988,9 +36988,9 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var CommentActions = __webpack_require__(297);
+	var CommentActions = __webpack_require__(300);
 	
-	var CommentStore = __webpack_require__(295);
+	var CommentStore = __webpack_require__(298);
 	var SessionStore = __webpack_require__(262);
 	var ErrorStore = __webpack_require__(281);
 	
@@ -37296,22 +37296,22 @@
 	  _albumDescriptionChange: function _albumDescriptionChange(e) {
 	    this.setState({ albumDescription: e.target.value });
 	  },
-	  _urlChange: function _urlChange(e) {
-	    this.setState({ url: e.target.value });
+	  _urlChange: function _urlChange(url) {
+	    this.setState({ url: url });
+	  },
+	  _handleUpload: function _handleUpload(e) {
+	    var _this = this;
+	
+	    e.preventDefault();
+	    window.cloudinary.openUploadWidget(window.cloudinary_options, function (error, images) {
+	      if (error === null) {
+	        var alt_url = images[0].url.slice(0, 49) + "h_300,w_300/" + images[0].url.slice(49);
+	        _this._urlChange(alt_url);
+	      }
+	    });
 	  },
 	  _handleSubmit: function _handleSubmit(e) {
 	    e.preventDefault();
-	    // let artist = {name: this.state.artistName};
-	    // let album = {name: this.state.albumName, artist_id: this.state.artist_id};
-	    // let song = {
-	    //   title: this.state.title,
-	    //   lyrics: this.state.lyrics,
-	    //   year: this.state.year,
-	    //   user_id: SessionStore.currentUser()["id"],
-	    //   album_id: this.state.album_id,
-	    //   image_url: this.state.url
-	    // };
-	    // ArtistActions.createArtistAlbumSong(artist, album, song);
 	    var song = {
 	      title: this.state.title,
 	      lyrics: this.state.lyrics,
@@ -37336,9 +37336,9 @@
 	        'form',
 	        { className: 'song-form', onSubmit: this._handleSubmit },
 	        React.createElement(
-	          'h1',
+	          'div',
 	          { className: 'song-form-title' },
-	          'Add a New Song to the Lyricist Library'
+	          'Add Song'
 	        ),
 	        React.createElement(
 	          'div',
@@ -37386,12 +37386,11 @@
 	              onChange: this._albumNameChange,
 	              className: 'album-input' })
 	          ),
-	          React.createElement('input', {
-	            type: 'text',
-	            placeholder: 'Image URL (optional)',
-	            value: this.state.url || "",
-	            onChange: this._urlChange,
-	            className: 'url-input' })
+	          React.createElement(
+	            'button',
+	            { className: 'url-input', onClick: this._handleUpload },
+	            'Upload Image'
+	          )
 	        ),
 	        React.createElement('textarea', { onChange: this._lyricsChange,
 	          className: 'lyrics-textarea',

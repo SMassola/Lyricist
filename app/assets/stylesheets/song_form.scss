@@ -1,4 +1,9 @@
+@import url(https://fonts.googleapis.com/css?family=Assistant);
+
+
 .song-form-container {
+  font-family: 'Assistant', sans-serif;
+  background-color: #FAFAFA;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -6,64 +11,86 @@
 }
 
 .song-form {
-    width: 80%;
+    padding: 10px;
+    width: 400px;
+    background: #e91e63;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
 }
 
+.song-form-title {
+  color: white;
+  padding: 10px;
+  font-size: 18px;
+}
+
 .small-inputs {
+  padding: 10px;
   display:flex;
   flex-direction: column;
-  width: 100%;
-  margin: 10px;
+  width: 250px;
 }
 
 .smaller-inputs {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 
 .song-title-input {
+  padding: 1px;
+  margin: 10px 0;
   font-size: 20px;
 }
 
 .song-year-input {
+  padding: 1px;
+  margin: 10px 0;
   font-size: 20px;
 }
 
 .lyrics-textarea {
+  margin: 10px;
   font-size: 20px;
   resize: none;
   height: 600px;
-  width: 100%;
+  width: 80%;
 }
 
 .artist-input {
+  padding: 1px;
+  margin: 10px 0;
   font-size: 20px;
 }
 
 .album-input {
+  padding: 1px;
+  margin: 10px 0;
   font-size: 20px;
 }
 
 .url-input {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-size: 20px;
+  margin: 10px 0;
+  font-size: 16px;
+  height: 40px;
+  width: 150px;
+  color: white;
+  background: red;
+  border: 1px solid white;
+
 }
 
 .submit-to-lyricist {
   width: 140px;
   height: 40px;
   color: white;
-  margin: 5px;
+  margin: 10px;
   background: red;
-  padding:0!important;
+  padding: 10px;
   font: inherit;
   cursor: pointer;
-  border: none;
+  border: 1px solid white;
 
 }
 
@@ -71,7 +98,6 @@
   background: white;
   color: red;
   border: 1px solid red;
-  margin: 5px;
   cursor: pointer;
 }
 

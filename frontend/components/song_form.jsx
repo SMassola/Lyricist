@@ -64,22 +64,25 @@ const SongForm = React.createClass({
   _albumDescriptionChange(e) {
     this.setState({albumDescription: e.target.value});
   },
-  _urlChange(e) {
-    this.setState({url: e.target.value});
+  _urlChange(url) {
+    this.setState({url: url});
   },
+
+  _handleUpload(e) {
+    e.preventDefault();
+    window.cloudinary.openUploadWidget(
+      window.cloudinary_options,
+      (error, images) => {
+        if (error === null) {
+          let alt_url = images[0].url.slice(0, 49) + "h_300,w_300/" + images[0].url.slice(49);
+          this._urlChange(alt_url);
+        }
+      }
+    );
+  },
+
   _handleSubmit(e) {
     e.preventDefault();
-    // let artist = {name: this.state.artistName};
-    // let album = {name: this.state.albumName, artist_id: this.state.artist_id};
-    // let song = {
-    //   title: this.state.title,
-    //   lyrics: this.state.lyrics,
-    //   year: this.state.year,
-    //   user_id: SessionStore.currentUser()["id"],
-    //   album_id: this.state.album_id,
-    //   image_url: this.state.url
-    // };
-    // ArtistActions.createArtistAlbumSong(artist, album, song);
     let song = {
       title: this.state.title,
       lyrics: this.state.lyrics,
@@ -101,7 +104,7 @@ const SongForm = React.createClass({
     return(
       <div className="song-form-container">
         <form className="song-form" onSubmit={this._handleSubmit}>
-          <h1 className="song-form-title">Add a New Song to the Lyricist Library</h1>
+          <div className="song-form-title">Add Song</div>
           <div className="song-form-error-box">
             <div className="song-form-error-container">
               {errs.map((error) => {
@@ -136,12 +139,7 @@ const SongForm = React.createClass({
                 onChange={this._albumNameChange}
                 className="album-input" />
             </div>
-            <input
-              type="text"
-              placeholder="Image URL (optional)"
-              value={this.state.url || ""}
-              onChange={this._urlChange}
-              className="url-input" />
+            <button className="url-input" onClick={this._handleUpload}>Upload Image</button>
           </div>
           <textarea onChange={this._lyricsChange}
             className="lyrics-textarea"
