@@ -47,13 +47,13 @@ const Header = React.createClass({
     return (
       <div>
         <button
-        className="nav-links"
+        className="log-links"
         id="log-in-button"
         onClick={this._handleClick.bind(this, true)}>
         Log In
       </button>
       <button
-        className="nav-links"
+        className="log-links"
         id="sign-up-button"
         onClick={this._handleClick.bind(this, false)}>
         Sign Up
@@ -65,7 +65,7 @@ const Header = React.createClass({
     return (
       <div>
         <button
-          className="nav-links"
+          className="log-links"
           onClick={this._handleLogout}>
           Log Out
         </button>

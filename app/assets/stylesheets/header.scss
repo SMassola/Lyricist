@@ -6,11 +6,17 @@
 }
 
 .header {
+  position: relative;
   display: flex;
   height: 50px;
   background-color: #222;
   justify-content: space-between;
   border-bottom: 1px solid black;
+}
+
+.head-title-container {
+  display: block;
+  margin: 0 auto;
 }
 
 .head-title {
@@ -25,6 +31,9 @@
 }
 
 .header-logistics {
+  position: absolute;
+  right: 0px;
+  top: 0px;
   display: flex;
   height: 100%;
   justify-content: center;
@@ -48,7 +57,7 @@
 }
 
 .navbar {
-  background: #6ABEDB;
+  background: #e91e63;
   height: 25px;
   color: white;
   display: flex;
@@ -56,7 +65,7 @@
   align-items: center;
 }
 
-.nav-links {
+.log-links, .nav-links {
   height: 100%;
   background:none;
   color: white;
@@ -66,8 +75,13 @@
   font: inherit;
   cursor: pointer;
   outline: none;
+  transition: all 0.2s ease-in-out;
 }
 
-.nav-links:hover {
+.log-links:hover {
    color: #c0c0c0;
+ }
+
+ .nav-links:hover {
+   color: black;
  }

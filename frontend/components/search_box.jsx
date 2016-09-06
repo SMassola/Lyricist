@@ -12,7 +12,7 @@ const SongsSearchBox = React.createClass({
         <input
           className="search-box"
           onInput={this._onInput}
-          placeholder="Search by song title or lyrics"/>
+          placeholder="Search by song or lyrics"/>
     );
   }
 });

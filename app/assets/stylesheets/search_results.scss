@@ -1,17 +1,19 @@
 .search-container {
+  position: absolute;
+  left: 10px;
+  top: 10px;
   display: flex;
   flex-direction: column;
   width: 400px;
   color: white;
-  padding-left: 10px;
-  padding-right: 10px;
   z-index: 10;
 }
 
 .search-box {
-  min-height: 28px;
-  margin-top: 11px;
-  font-size: 20px;
+  height: 30px;
+  width: 400px;
+  font-size: 17px;
+  padding-left: 1px;
   z-index: 10;
 }
 
@@ -21,7 +23,6 @@
 }
 
 .songs-search-results {
-  border: 1px solid orange;
   background: #222;
   color: white;
 }

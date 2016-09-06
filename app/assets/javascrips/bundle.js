@@ -27964,7 +27964,7 @@
 	      React.createElement(
 	        'button',
 	        {
-	          className: 'nav-links',
+	          className: 'log-links',
 	          id: 'log-in-button',
 	          onClick: this._handleClick.bind(this, true) },
 	        'Log In'
@@ -27972,7 +27972,7 @@
 	      React.createElement(
 	        'button',
 	        {
-	          className: 'nav-links',
+	          className: 'log-links',
 	          id: 'sign-up-button',
 	          onClick: this._handleClick.bind(this, false) },
 	        'Sign Up'
@@ -27986,7 +27986,7 @@
 	      React.createElement(
 	        'button',
 	        {
-	          className: 'nav-links',
+	          className: 'log-links',
 	          onClick: this._handleLogout },
 	        'Log Out'
 	      )
@@ -35669,7 +35669,7 @@
 	    return React.createElement('input', {
 	      className: 'search-box',
 	      onInput: this._onInput,
-	      placeholder: 'Search by song title or lyrics' });
+	      placeholder: 'Search by song or lyrics' });
 	  }
 	});
 	
@@ -36972,7 +36972,7 @@
 	        React.createElement(
 	          "div",
 	          { className: "song-album" },
-	          "Album: ",
+	          "A track off the album ",
 	          this.props.album.name
 	        )
 	      );
