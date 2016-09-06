@@ -25,7 +25,7 @@
   font-size: 20px;
   background: white;
   width: 60%;
-  color: black;
+  color: gray;
   height: 80px;
   display: flex;
   justify-content: space-between;
@@ -37,9 +37,10 @@
 
 .song-item-details-container:hover {
   cursor: pointer;
+  color: black;
   background: whitesmoke;
   border-left: 6px solid black;
-  transition: border-left 0.15s ease;
+  transition: all 0.15s ease-in-out;
   overflow: hidden;
 }
 
@@ -52,7 +53,7 @@
   flex-direction: column;
   text-align: left;
   justify-content: center;
-  width: 50%;
+  width: 100%;
 }
 
 .song-index {
@@ -68,8 +69,8 @@
 
 .song-index-title {
   font-family: "Roboto";
-  color: black;
-  font-size: 30px;
+  color: gray;
+  font-size: 16px;
   margin: 20px;
 }
 
@@ -82,7 +83,6 @@
 
 .song-item-artist {
   margin-left: 30px;
-  font-weight: semi-bold;
 }
 
 .clip-art-container {

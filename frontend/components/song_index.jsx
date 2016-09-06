@@ -28,7 +28,7 @@ const SongIndex = React.createClass({
     return(
       <div className="song-index-container">
         <div className="song-index">
-          <div className="song-index-title">All Songs On Lyricist:</div>
+          <div className="song-index-title">Songs To Discover On Lyricist</div>
           {songs.map((song) => {
             return(
               <SongIndexItem

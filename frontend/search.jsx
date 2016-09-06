@@ -27,18 +27,18 @@ const Search = React.createClass({
   render() {
     let songs = this.state.songs;
     return(
-      <div>
+      <div className="home">
         <header className="splash-container">
           <div className="splash">
-            <h2>Lyricist</h2>
-            <p>Annotate Your Songs</p>
+            <div className="splash-title">Do You Hear the Difference?</div>
+            <div className="splash-caption">Lyricist is a lyrics catalog enabled by you</div>
           </div>
           <div className="search-bar">
             <h1 className="search-area"></h1>
           </div>
         </header>
         <main className="main-page">
-          <h2>Lyricist Gallery</h2>
+          <div className="gallery-title">Fresh On Lyricist</div>
           <div className="gallery-container">
             {songs.map((song) => {
               return(

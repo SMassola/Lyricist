@@ -35707,7 +35707,7 @@
 	    var songs = this.state.songs;
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'home' },
 	      React.createElement(
 	        'header',
 	        { className: 'splash-container' },
@@ -35715,14 +35715,14 @@
 	          'div',
 	          { className: 'splash' },
 	          React.createElement(
-	            'h2',
-	            null,
-	            'Lyricist'
+	            'div',
+	            { className: 'splash-title' },
+	            'Do You Hear the Difference?'
 	          ),
 	          React.createElement(
-	            'p',
-	            null,
-	            'Annotate Your Songs'
+	            'div',
+	            { className: 'splash-caption' },
+	            'Lyricist is a lyrics catalog enabled by you'
 	          )
 	        ),
 	        React.createElement(
@@ -35735,9 +35735,9 @@
 	        'main',
 	        { className: 'main-page' },
 	        React.createElement(
-	          'h2',
-	          null,
-	          'Lyricist Gallery'
+	          'div',
+	          { className: 'gallery-title' },
+	          'Fresh On Lyricist'
 	        ),
 	        React.createElement(
 	          'div',
@@ -37151,7 +37151,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'song-index-title' },
-	          'All Songs On Lyricist:'
+	          'Songs To Discover On Lyricist'
 	        ),
 	        songs.map(function (song) {
 	          return React.createElement(SongIndexItem, {
