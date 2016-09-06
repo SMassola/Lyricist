@@ -189,6 +189,11 @@ const SongShow = React.createClass({
   },
 
   render () {
+    let style = {
+      backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),' +
+                       'linear-gradient(180deg, transparent, black),' +
+                       'url(' + this.state.song.image_url + ')'
+    };
     if (!this.state.song) {
       return null;
     }
@@ -197,7 +202,7 @@ const SongShow = React.createClass({
     }
     return (
       <div className="showpage">
-        <div className="show-splash">
+        <div className="show-splash" style={style}>
           <SongDetails
             title={this.state.song.title}
             artist={this.state.song.artist}
@@ -209,7 +214,7 @@ const SongShow = React.createClass({
           <div className="song-lyrics-and-comments">
             <div className="lyrics-container" id="song-container">
 
-              <h3 className="song-lyrics-title">{this.state.song.title}</h3>
+              <div className="song-lyrics-title">{this.state.song.title} Lyrics</div>
 
               <pre className="ghost-lyrics"
                 onMouseUp={this.highlight}>

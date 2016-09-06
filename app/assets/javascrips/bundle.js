@@ -36022,6 +36022,9 @@
 	    this.setState({ renderForm: false });
 	  },
 	  render: function render() {
+	    var style = {
+	      backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),' + 'linear-gradient(180deg, transparent, black),' + 'url(' + this.state.song.image_url + ')'
+	    };
 	    if (!this.state.song) {
 	      return null;
 	    }
@@ -36033,7 +36036,7 @@
 	      { className: 'showpage' },
 	      React.createElement(
 	        'div',
-	        { className: 'show-splash' },
+	        { className: 'show-splash', style: style },
 	        React.createElement(SongDetails, {
 	          title: this.state.song.title,
 	          artist: this.state.song.artist,
@@ -36051,9 +36054,10 @@
 	            'div',
 	            { className: 'lyrics-container', id: 'song-container' },
 	            React.createElement(
-	              'h3',
+	              'div',
 	              { className: 'song-lyrics-title' },
-	              this.state.song.title
+	              this.state.song.title,
+	              ' Lyrics'
 	            ),
 	            React.createElement(
 	              'pre',
