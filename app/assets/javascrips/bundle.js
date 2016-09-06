@@ -37286,7 +37286,8 @@
 	      artistName: null,
 	      albumName: null,
 	      artist_id: null,
-	      errors: []
+	      errors: [],
+	      thumbnail: false
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
@@ -37334,7 +37335,9 @@
 	    window.cloudinary.openUploadWidget(window.cloudinary_options, function (error, images) {
 	      if (error === null) {
 	        var alt_url = images[0].url.slice(0, 49) + "h_300,w_300/" + images[0].url.slice(49);
+	        var thumbnail_url = images[0].url.slice(0, 49) + "h_60,w_60/" + images[0].url.slice(49);
 	        _this._urlChange(alt_url);
+	        _this.setState({ thumbnail: thumbnail_url });
 	      }
 	    });
 	  },
@@ -37353,6 +37356,10 @@
 	    SongActions.createSong(song);
 	  },
 	  render: function render() {
+	    var style = {
+	      backgroundImage: 'url(' + this.state.thumbnail + ')'
+	    };
+	
 	    var errs = [];
 	    if (this.state.errors.length > 0) {
 	      errs = this.state.errors.shift().split(',');
@@ -37415,9 +37422,14 @@
 	              className: 'album-input' })
 	          ),
 	          React.createElement(
-	            'button',
-	            { className: 'url-input', onClick: this._handleUpload },
-	            'Upload Image'
+	            'div',
+	            { className: 'image-inputs' },
+	            React.createElement(
+	              'button',
+	              { className: 'url-input', onClick: this._handleUpload },
+	              'Upload Image'
+	            ),
+	            this.state.thumbnail ? React.createElement('div', { className: 'thumbnail', style: style }) : ""
 	          )
 	        ),
 	        React.createElement('textarea', { onChange: this._lyricsChange,

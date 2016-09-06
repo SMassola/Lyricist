@@ -21,7 +21,8 @@ const SongForm = React.createClass({
       artistName: null,
       albumName: null,
       artist_id: null,
-      errors: []
+      errors: [],
+      thumbnail: false
     };
   },
 
@@ -75,7 +76,9 @@ const SongForm = React.createClass({
       (error, images) => {
         if (error === null) {
           let alt_url = images[0].url.slice(0, 49) + "h_300,w_300/" + images[0].url.slice(49);
+          let thumbnail_url = images[0].url.slice(0, 49) + "h_60,w_60/" + images[0].url.slice(49);
           this._urlChange(alt_url);
+          this.setState({thumbnail: thumbnail_url});
         }
       }
     );
@@ -97,6 +100,10 @@ const SongForm = React.createClass({
   },
 
   render() {
+    let style = {
+      backgroundImage: 'url(' + this.state.thumbnail + ')'
+    };
+
     let errs = [];
     if (this.state.errors.length > 0) {
       errs = this.state.errors.shift().split(',');
@@ -139,7 +146,10 @@ const SongForm = React.createClass({
                 onChange={this._albumNameChange}
                 className="album-input" />
             </div>
-            <button className="url-input" onClick={this._handleUpload}>Upload Image</button>
+            <div className="image-inputs">
+              <button className="url-input" onClick={this._handleUpload}>Upload Image</button>
+              {this.state.thumbnail ? <div className="thumbnail" style={style}></div> : ""}
+            </div>
           </div>
           <textarea onChange={this._lyricsChange}
             className="lyrics-textarea"

@@ -1,6 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Assistant);
 
-
 .song-form-container {
   font-family: 'Assistant', sans-serif;
   background-color: #FAFAFA;
@@ -30,7 +29,7 @@
   padding: 10px;
   display:flex;
   flex-direction: column;
-  width: 250px;
+  width: 275px;
 }
 
 .smaller-inputs {
@@ -71,6 +70,16 @@
   font-size: 20px;
 }
 
+.image-inputs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.thumbnail {
+  height: 60px;
+  width: 60px;
+}
+
 .url-input {
   margin: 10px 0;
   font-size: 16px;
@@ -79,8 +88,16 @@
   color: white;
   background: red;
   border: 1px solid white;
-
 }
+
+.url-input:hover {
+  background: white;
+  color: red;
+  border: 1px solid red;
+  cursor: pointer;
+}
+
+.url-input:focus {outline:0;}
 
 .submit-to-lyricist {
   width: 140px;
