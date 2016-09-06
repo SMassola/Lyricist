@@ -1,3 +1,5 @@
+@import 'https://fonts.googleapis.com/css?family=Orbitron';
+
 .home {
   background: #FAFAFA;
   display: flex;
@@ -8,7 +10,7 @@
 
 .splash-container {
   background-image:
-  url("http://files.vividscreen.info/soft/7fda126891de6eae423b6762b061fe66/Graffiti-Girl-Listening-To-Music-wide-i.jpg");
+  url("http://res.cloudinary.com/deeucxgdi/image/upload/v1473175126/Graffiti-Girl-Listening-To-Music-wide-i_qmljdg.jpg");
   background-attachment: fixed;
   background-size: cover;
   height: 60vh;
@@ -69,4 +71,37 @@
 .main-page p {
   margin: 0;
   font-size: 1.3rem;
+}
+
+.gallery-song-info-container {
+  padding: 10px;
+  background: black;
+}
+
+.gallery-item {
+  margin: 20px 0px;
+}
+
+.gallery-song-title {
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  word-wrap: normal;
+  font-size: 23px;
+  color: white
+}
+
+.gallery-song-artist {
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  font-size: 18px;
+  color: white;
+}
+
+.gallery-song-album {
+  font-family: 'Orbitron', sans-serif;
+  margin-left: 10px;
+  font-size: 18px;
+  color: white;
 }

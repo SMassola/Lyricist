@@ -1,6 +1,7 @@
 const SongStore = require('./stores/song_store.js');
 const SongActions = require('./actions/song_actions');
 const IndexAlbumArt = require('./components/index_album_art.jsx');
+const hashHistory = require('react-router').hashHistory;
 
 const React = require('react');
 
@@ -24,6 +25,10 @@ const Search = React.createClass({
     this.setState({ songs: songs ? songs : {} });
   },
 
+  _handleRedirect(id, e) {
+    hashHistory.push(`/songs/${id}`);
+  },
+
   render() {
     let songs = this.state.songs;
     return(
@@ -42,7 +47,14 @@ const Search = React.createClass({
           <div className="gallery-container">
             {songs.map((song) => {
               return(
-                <IndexAlbumArt key={song.id} id={song.id} art={song.image_url}/>
+                <div onClick={this._handleRedirect.bind(null, song.id)} className="gallery-item tint" key={song.id}>
+                  <IndexAlbumArt id={song.id} art={song.image_url}/>
+                  <div className="gallery-song-info-container">
+                    <div className="gallery-song-title">{song.title}</div>
+                    <div className="gallery-song-artist">{song.artist.name}</div>
+                    <div className="gallery-song-album">{song.album.name}</div>
+                  </div>
+                </div>
                 );
             })}
           </div>

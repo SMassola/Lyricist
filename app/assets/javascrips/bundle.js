@@ -35684,6 +35684,7 @@
 	var SongStore = __webpack_require__(291);
 	var SongActions = __webpack_require__(286);
 	var IndexAlbumArt = __webpack_require__(292);
+	var hashHistory = __webpack_require__(188).hashHistory;
 	
 	var React = __webpack_require__(1);
 	
@@ -35703,7 +35704,12 @@
 	    var songs = SongStore.allSongs();
 	    this.setState({ songs: songs ? songs : {} });
 	  },
+	  _handleRedirect: function _handleRedirect(id, e) {
+	    hashHistory.push('/songs/' + id);
+	  },
 	  render: function render() {
+	    var _this = this;
+	
 	    var songs = this.state.songs;
 	    return React.createElement(
 	      'div',
@@ -35743,7 +35749,30 @@
 	          'div',
 	          { className: 'gallery-container' },
 	          songs.map(function (song) {
-	            return React.createElement(IndexAlbumArt, { key: song.id, id: song.id, art: song.image_url });
+	            return React.createElement(
+	              'div',
+	              { onClick: _this._handleRedirect.bind(null, song.id), className: 'gallery-item tint', key: song.id },
+	              React.createElement(IndexAlbumArt, { id: song.id, art: song.image_url }),
+	              React.createElement(
+	                'div',
+	                { className: 'gallery-song-info-container' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'gallery-song-title' },
+	                  song.title
+	                ),
+	                React.createElement(
+	                  'div',
+	                  { className: 'gallery-song-artist' },
+	                  song.artist.name
+	                ),
+	                React.createElement(
+	                  'div',
+	                  { className: 'gallery-song-album' },
+	                  song.album.name
+	                )
+	              )
+	            );
 	          })
 	        )
 	      )
@@ -35817,23 +35846,18 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var hashHistory = __webpack_require__(188).hashHistory;
 	
 	module.exports = React.createClass({
 	  displayName: 'exports',
-	  _handleRedirect: function _handleRedirect() {
-	    hashHistory.push('/songs/' + this.props.id);
-	  },
 	  render: function render() {
 	    if (this.props.art) {
+	      var style = {
+	        backgroundImage: 'linear-gradient(180deg, transparent 0%, black 80%),' + 'url(' + this.props.art + ')'
+	      };
 	      return React.createElement(
 	        'div',
-	        { className: 'home-album-art-container tint', onClick: this._handleRedirect },
-	        React.createElement(
-	          'figure',
-	          { className: 'home-album-art' },
-	          React.createElement('img', { src: this.props.art })
-	        )
+	        { className: 'home-album-art-container' },
+	        React.createElement('div', { className: 'home-album-art', style: style })
 	      );
 	    } else {
 	      return null;

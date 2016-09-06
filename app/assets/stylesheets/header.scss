@@ -48,8 +48,7 @@
 }
 
 .navbar {
-
-  background: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), #6ABEDB;
+  background: #6ABEDB;
   height: 25px;
   color: white;
   display: flex;
@@ -70,7 +69,5 @@
 }
 
 .nav-links:hover {
-   color: black;
-   background: linear-gradient(0deg, transparent, white);
-   background-color: #ccc;
+   color: #c0c0c0;
  }

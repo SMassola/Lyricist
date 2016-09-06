@@ -10,15 +10,15 @@
 }
 
 .home-album-art-container {
+  background: blue;
   display: flex;
   flex-direction: row-reverse;
   flex-wrap: wrap-reverse;
   justify-content: space-around;
-  margin: 25px;
 }
 
 .home-album-art {
-  border: 5px solid whitesmoke;
+  border: 5px solid black;
   height: 300px;
   width: 300px;
 }
@@ -31,9 +31,6 @@
 
 .tint {
   position: relative;
-  float: left;
-  margin-right: 20px;
-  margin-bottom: 20px;
   cursor: pointer;
   box-shadow: rgba(0,0,0,.2) 3px 5px 5px;
 }
