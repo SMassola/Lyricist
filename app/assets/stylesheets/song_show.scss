@@ -36,7 +36,7 @@
 }
 
 .song-lyrics-title {
-  color: white;
+  color: #d4d4d4;
   font-size: 16px;
   margin: 20px 0px;
 }
@@ -55,20 +55,16 @@ a {
 
 .ghost-lyrics {
   position: absolute;
-  z-index: 2;
+  z-index: 1;
   color: transparent;
   white-space: pre-wrap;
   max-width: 40%;
 }
 
-.ghost-lyrics::selection {
-  background-color: rgba(177, 156, 217, 0.5);
-  color: black;
-}
-
-.annotation-lyrics {
+.highlight-lyrics {
+  pointer-events: none;
   position: relative;
-  z-index: 1;
+  z-index: 0;
   white-space: pre-wrap;
   max-width: 100%;
 }
@@ -77,10 +73,8 @@ a {
   background: transparent;
 }
 
-.highlight-lyrics {
-  pointer-events: none;
+.annotation-lyrics {
   position: absolute;
-  z-index: 0;
   color: transparent;
   white-space: pre-wrap;
   max-width: 40%;
@@ -91,7 +85,9 @@ a {
 }
 
 .annotated {
+  color: black;
   position: relative;
+  z-index: 3;
   background-color: rgba(128, 128, 128, 0.3)
 }
 

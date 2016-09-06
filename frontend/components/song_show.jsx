@@ -34,7 +34,6 @@ const SongShow = React.createClass({
   },
 
   componentDidMount () {
-    $('pre.ghost-lyrics').hide();
     this.songListener = SongStore.addListener(this._handleChange);
     this.annotationListener = AnnotationStore.addListener(this._handleAnnotationChange);
     this.commentListener = CommentStore.addListener(this._handleCommentChange);
@@ -139,6 +138,7 @@ const SongShow = React.createClass({
         className="annotated annotation-link"
         value={annotation}
         onClick={this.handleAnnotationClick}
+        onMouseEnter={this.removeSelection}
         key={annotation.id}>
         {lyrics.slice(annotation.start_idx, annotation.end_idx)}
       </span>);
@@ -152,12 +152,10 @@ const SongShow = React.createClass({
   highlight (e) {
     let idx1 = window.getSelection().anchorOffset;
     let idx2 = window.getSelection().focusOffset;
-    idx1 < idx2 ? [this.start, this.end] = [idx1, idx2] : [this.start, this.end] = [idx2, idx1];
+    window.getSelection().removeAllRanges();
 
+    idx1 < idx2 ? [this.start, this.end] = [idx1, idx2] : [this.start, this.end] = [idx2, idx1];
     if (this.start - this.end === 0) {
-      $('pre.ghost-lyrics').hide();
-      let tag = document.elementFromPoint(e.clientX, e.clientY);
-      tag.click();
     } else {
       $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0,this.start)
       + '<span style="background-color: rgba(75, 0, 130, 0.3);">'
@@ -166,7 +164,6 @@ const SongShow = React.createClass({
       $('.annotated').removeClass("selected-annotation");
       this.setState({currentAnnotation: null, renderAnnotationBody: false, renderForm: true});
     }
-    $('pre.ghost-lyrics').hide();
   },
 
   removeSelection() {
@@ -177,29 +174,23 @@ const SongShow = React.createClass({
     }
   },
 
-  showGhostLayer(e) {
-    this.removeSelection();
-    this.removeHighlight();
-    $('pre.ghost-lyrics').show();
-  },
-
   removeHighlight() {
     $('pre.highlight-lyrics').html(this.state.song.lyrics);
     this.setState({renderForm: false});
   },
 
   render () {
-    let style = {
-      backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),' +
-                       'linear-gradient(180deg, transparent, black),' +
-                       'url(' + this.state.song.image_url + ')'
-    };
     if (!this.state.song) {
       return null;
     }
     if (this.state.song.lyrics) {
       this.createAnnotations();
     }
+    let style = {
+      backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),' +
+                       'linear-gradient(180deg, transparent, black),' +
+                       'url(' + this.state.song.image_url + ')'
+    };
     return (
       <div className="showpage">
         <div className="show-splash" style={style}>
@@ -217,17 +208,17 @@ const SongShow = React.createClass({
               <div className="song-lyrics-title">{this.state.song.title} Lyrics</div>
 
               <pre className="ghost-lyrics"
-                onMouseUp={this.highlight}>
+                onMouseUp={this.highlight}
+                onMouseDown={this.removeHighlight}>
                 {this.state.song.lyrics}
+              </pre>
+
+              <pre className="annotation-lyrics noselect">
+                {this.lyricsEls}
               </pre>
 
               <pre className="highlight-lyrics">
                 {this.state.song.lyrics}
-              </pre>
-
-              <pre className="annotation-lyrics noselect"
-                onMouseDown={this.showGhostLayer}>
-                {this.lyricsEls}
               </pre>
 
             </div>

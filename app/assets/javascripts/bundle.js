@@ -34611,7 +34611,6 @@
 	    });
 	  },
 	  componentDidMount: function componentDidMount() {
-	    $('pre.ghost-lyrics').hide();
 	    this.songListener = SongStore.addListener(this._handleChange);
 	    this.annotationListener = AnnotationStore.addListener(this._handleAnnotationChange);
 	    this.commentListener = CommentStore.addListener(this._handleCommentChange);
@@ -34707,6 +34706,7 @@
 	          className: 'annotated annotation-link',
 	          value: annotation,
 	          onClick: _this.handleAnnotationClick,
+	          onMouseEnter: _this.removeSelection,
 	          key: annotation.id },
 	        lyrics.slice(annotation.start_idx, annotation.end_idx)
 	      ));
@@ -34721,18 +34721,14 @@
 	
 	    var idx1 = window.getSelection().anchorOffset;
 	    var idx2 = window.getSelection().focusOffset;
-	    idx1 < idx2 ? (_ref = [idx1, idx2], this.start = _ref[0], this.end = _ref[1], _ref) : (_ref2 = [idx2, idx1], this.start = _ref2[0], this.end = _ref2[1], _ref2);
+	    window.getSelection().removeAllRanges();
 	
-	    if (this.start - this.end === 0) {
-	      $('pre.ghost-lyrics').hide();
-	      var tag = document.elementFromPoint(e.clientX, e.clientY);
-	      tag.click();
-	    } else {
+	    idx1 < idx2 ? (_ref = [idx1, idx2], this.start = _ref[0], this.end = _ref[1], _ref) : (_ref2 = [idx2, idx1], this.start = _ref2[0], this.end = _ref2[1], _ref2);
+	    if (this.start - this.end === 0) {} else {
 	      $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0, this.start) + '<span style="background-color: rgba(75, 0, 130, 0.3);">' + $('pre.highlight-lyrics').html().slice(this.start, this.end) + '</span>' + $('pre.highlight-lyrics').html().slice(this.end));
 	      $('.annotated').removeClass("selected-annotation");
 	      this.setState({ currentAnnotation: null, renderAnnotationBody: false, renderForm: true });
 	    }
-	    $('pre.ghost-lyrics').hide();
 	  },
 	  removeSelection: function removeSelection() {
 	    if (document.selection) {
@@ -34741,25 +34737,20 @@
 	      window.getSelection().removeAllRanges();
 	    }
 	  },
-	  showGhostLayer: function showGhostLayer(e) {
-	    this.removeSelection();
-	    this.removeHighlight();
-	    $('pre.ghost-lyrics').show();
-	  },
 	  removeHighlight: function removeHighlight() {
 	    $('pre.highlight-lyrics').html(this.state.song.lyrics);
 	    this.setState({ renderForm: false });
 	  },
 	  render: function render() {
-	    var style = {
-	      backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),' + 'linear-gradient(180deg, transparent, black),' + 'url(' + this.state.song.image_url + ')'
-	    };
 	    if (!this.state.song) {
 	      return null;
 	    }
 	    if (this.state.song.lyrics) {
 	      this.createAnnotations();
 	    }
+	    var style = {
+	      backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),' + 'linear-gradient(180deg, transparent, black),' + 'url(' + this.state.song.image_url + ')'
+	    };
 	    return React.createElement(
 	      'div',
 	      { className: 'showpage' },
@@ -34791,19 +34782,19 @@
 	            React.createElement(
 	              'pre',
 	              { className: 'ghost-lyrics',
-	                onMouseUp: this.highlight },
+	                onMouseUp: this.highlight,
+	                onMouseDown: this.removeHighlight },
 	              this.state.song.lyrics
+	            ),
+	            React.createElement(
+	              'pre',
+	              { className: 'annotation-lyrics noselect' },
+	              this.lyricsEls
 	            ),
 	            React.createElement(
 	              'pre',
 	              { className: 'highlight-lyrics' },
 	              this.state.song.lyrics
-	            ),
-	            React.createElement(
-	              'pre',
-	              { className: 'annotation-lyrics noselect',
-	                onMouseDown: this.showGhostLayer },
-	              this.lyricsEls
 	            )
 	          ),
 	          React.createElement(SongComments, {
