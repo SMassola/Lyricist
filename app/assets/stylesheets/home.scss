@@ -79,6 +79,7 @@
 }
 
 .gallery-item {
+  background: black;
   margin: 20px 0px;
 }
 
@@ -86,6 +87,7 @@
   font-family: 'Orbitron', sans-serif;
   margin-bottom: 10px;
   margin-left: 10px;
+  margin-right: 10px;
   word-wrap: normal;
   font-size: 23px;
   color: white
@@ -95,6 +97,8 @@
   font-family: 'Orbitron', sans-serif;
   margin-bottom: 5px;
   margin-left: 10px;
+  margin-right: 10px;
+  word-wrap: normal;
   font-size: 18px;
   color: white;
 }
@@ -102,6 +106,8 @@
 .gallery-song-album {
   font-family: 'Orbitron', sans-serif;
   margin-left: 10px;
+  margin-right: 10px;
+  word-wrap: normal;
   font-size: 18px;
   color: white;
 }
