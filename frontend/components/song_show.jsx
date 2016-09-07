@@ -194,12 +194,14 @@ const SongShow = React.createClass({
     return (
       <div className="showpage">
         <div className="show-splash" style={style}>
-          <SongDetails
-            title={this.state.song.title}
-            artist={this.state.song.artist}
-            album={this.state.song.album}
-          />
-          <AlbumArt art={this.state.song.image_url}/>
+          <div className="show-details-container">
+            <SongDetails
+              title={this.state.song.title}
+              artist={this.state.song.artist}
+              album={this.state.song.album}
+              />
+            <AlbumArt art={this.state.song.image_url}/>
+          </div>
         </div>
         <div className="show-content-container">
           <div className="song-lyrics-and-comments">

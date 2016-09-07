@@ -34,14 +34,17 @@ module.exports = React.createClass({
             <div className="song-item-artist">{this.props.artist}</div>
           </div>
         </button>
-        {this.state.hovering ?
-          <div className="album-details">
-            <div className="clip-art-container">
-              <img src={this.props.art}/>
-            </div>
-          </div>
-           : ""}
       </div>
     );
   }
 });
+
+
+
+// {this.state.hovering ?
+//   <div className="album-details">
+//     <div className="clip-art-container">
+//       <img src={this.props.art}/>
+//     </div>
+//   </div>
+//   : ""}

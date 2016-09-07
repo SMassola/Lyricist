@@ -1,16 +1,19 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,900);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,700);
 
+
 .song-details-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 20px;
+  width: 500px;
 }
 
 .song-title {
   text-shadow: 2px 2px black;
   font-family: "Open Sans";
+  font-family: 'Alegreya Sans SC', sans-serif;
   font-weight: 700;
   margin-bottom: 30px;
   color: white;
@@ -20,6 +23,7 @@
 .song-artist {
   text-shadow: 2px 2px black;
   font-family: "Open Sans";
+  font-family: 'Alegreya Sans SC', sans-serif;
   font-weight: 700;
   margin-bottom: 20px;
   color: #e91e63;
@@ -29,6 +33,7 @@
 .song-album {
   text-shadow: 2px 2px black;
   font-family: "Open Sans";
+  font-family: 'Alegreya Sans SC', sans-serif;
   font-weight: 700;
   color: #e91e63;
   font-size: 18px;

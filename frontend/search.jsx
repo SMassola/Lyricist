@@ -43,7 +43,13 @@ const Search = React.createClass({
           </div>
         </header>
         <main className="main-page">
-          <div className="gallery-title">Fresh On Lyricist</div>
+          <div className="gallery-container">
+            <div className="gallery-title">Lit On Lyricist</div>
+            <div className="filler"></div>
+            <div className="filler"></div>
+            <div className="filler"></div>
+            <div className="filler"></div>
+          </div>
           <div className="gallery-container">
             {songs.map((song) => {
               return(
