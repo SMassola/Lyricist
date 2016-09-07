@@ -103,6 +103,7 @@ const SongShow = React.createClass({
   },
 
   handleAnnotationClick(e) {
+    this.removeHighlight();
     $('.annotated').removeClass("selected-annotation");
     $(e.target).addClass("selected-annotation");
     this.setState({
@@ -153,10 +154,9 @@ const SongShow = React.createClass({
     let idx1 = window.getSelection().anchorOffset;
     let idx2 = window.getSelection().focusOffset;
     window.getSelection().removeAllRanges();
-
     idx1 < idx2 ? [this.start, this.end] = [idx1, idx2] : [this.start, this.end] = [idx2, idx1];
-    if (this.start - this.end === 0) {
-    } else {
+
+    if (this.start - this.end !== 0) {
       $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0,this.start)
       + '<span style="background-color: rgba(75, 0, 130, 0.3);">'
       + $('pre.highlight-lyrics').html().slice(this.start,this.end) + '</span>'

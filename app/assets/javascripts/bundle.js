@@ -35178,6 +35178,7 @@
 	    return array;
 	  },
 	  handleAnnotationClick: function handleAnnotationClick(e) {
+	    this.removeHighlight();
 	    $('.annotated').removeClass("selected-annotation");
 	    $(e.target).addClass("selected-annotation");
 	    this.setState({
@@ -35228,9 +35229,9 @@
 	    var idx1 = window.getSelection().anchorOffset;
 	    var idx2 = window.getSelection().focusOffset;
 	    window.getSelection().removeAllRanges();
-	
 	    idx1 < idx2 ? (_ref = [idx1, idx2], this.start = _ref[0], this.end = _ref[1], _ref) : (_ref2 = [idx2, idx1], this.start = _ref2[0], this.end = _ref2[1], _ref2);
-	    if (this.start - this.end === 0) {} else {
+	
+	    if (this.start - this.end !== 0) {
 	      $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0, this.start) + '<span style="background-color: rgba(75, 0, 130, 0.3);">' + $('pre.highlight-lyrics').html().slice(this.start, this.end) + '</span>' + $('pre.highlight-lyrics').html().slice(this.end));
 	      $('.annotated').removeClass("selected-annotation");
 	      this.setState({ currentAnnotation: null, renderAnnotationBody: false, renderForm: true });
@@ -36119,11 +36120,6 @@
 	        'form',
 	        { className: 'annotation-form', style: style, onSubmit: this._handleSubmit },
 	        React.createElement(
-	          'h1',
-	          null,
-	          'Annotate'
-	        ),
-	        React.createElement(
 	          'div',
 	          { className: 'annotation-error-container' },
 	          errs.map(function (error) {
@@ -36139,9 +36135,9 @@
 	          { className: 'annotation-input-fields' },
 	          React.createElement('textarea', { onChange: this._bodyChange,
 	            className: 'annotation-textarea',
-	            placeholder: 'What do you think...?',
+	            placeholder: 'Share Your Thoughts...',
 	            value: this.state.body }),
-	          React.createElement('input', { className: 'submit-annotation', type: 'submit', value: 'Add Annotation' })
+	          React.createElement('input', { className: 'submit-annotation', type: 'submit', value: 'Annotate' })
 	        )
 	      )
 	    );

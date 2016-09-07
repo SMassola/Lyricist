@@ -35,22 +35,16 @@
 }
 
 .annotation-form {
+  background: #e9ebee;
   transform: translateX(-10%);
   -webkit-transform: translateX(-10%);
   position: absolute;
   margin: 20px;
-  width: 30%;
-  height: 225px;
+  width: 25%;
+  height: 162px;
   display: flex;
   flex-direction: column;
   border-left: 10px solid #B19CD9;
-}
-
-.annotation-form > h1 {
-  letter-spacing: 1px;
-  margin: 15px 40px 15px 20px;
-  font-size: 26px;
-  font-weight: lighter;
 }
 
 .annotation-error-container {
@@ -65,10 +59,12 @@
 .annotation-textarea {
   height: 50px;
   margin: 0px 20px;
-  font-size: 18px;
+  font-size: 16px;
   resize: none;
-  border: 1px solid black;
+  border: 2px solid gray;
 }
+
+.annotation-textarea:focus {outline: none;}
 
 .annotation-form > button {
   margin: 10px;

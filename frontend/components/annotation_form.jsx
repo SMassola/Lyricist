@@ -71,7 +71,6 @@ const AnnotationForm = React.createClass({
     return(
       <div className="annotation-form-container">
         <form className="annotation-form" style={style} onSubmit={this._handleSubmit}>
-          <h1>Annotate</h1>
           <div className="annotation-error-container">
             {errs.map((error) => {
               return(<li key={error} style={{marginLeft: "20px"}}>{error}</li>);
@@ -80,10 +79,10 @@ const AnnotationForm = React.createClass({
           <div className="annotation-input-fields">
             <textarea onChange={this._bodyChange}
               className="annotation-textarea"
-              placeholder="What do you think...?"
+              placeholder="Share Your Thoughts..."
               value={this.state.body}>
             </textarea>
-            <input className="submit-annotation" type="submit" value="Add Annotation"/>
+            <input className="submit-annotation" type="submit" value="Annotate"/>
           </div>
         </form>
       </div>
