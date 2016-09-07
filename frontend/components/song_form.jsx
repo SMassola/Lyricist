@@ -111,7 +111,10 @@ const SongForm = React.createClass({
     return(
       <div className="song-form-container">
         <form className="song-form" onSubmit={this._handleSubmit}>
-          <div className="song-form-title">Add Song</div>
+          <div className="song-form-title">
+            Add Song
+            <div className="required">* required</div>
+            </div>
           <div className="song-form-error-box">
             <div className="song-form-error-container">
               {errs.map((error) => {
@@ -121,24 +124,28 @@ const SongForm = React.createClass({
           </div>
           <div className="small-inputs">
             <div className="smaller-inputs">
-              <input
-                type="text"
-                placeholder="Song Title"
-                value={this.state.title || ""}
-                onChange={this._titleChange}
-                className="song-title-input" />
-              <input
-                type="text"
-                placeholder="Year"
-                value={this.state.year || ""}
-                onChange={this._yearChange}
-                className="song-year-input" />
+              <div>BY *</div>
               <input
                 type="text"
                 placeholder="Artist"
                 value={this.state.artistName || ""}
                 onChange={this._artistNameChange}
                 className="artist-input" />
+              <div>TITLE *</div>
+              <input
+                type="text"
+                placeholder="Song Title"
+                value={this.state.title || ""}
+                onChange={this._titleChange}
+                className="song-title-input" />
+              <div>YEAR *</div>
+              <input
+                type="text"
+                placeholder="Year"
+                value={this.state.year || ""}
+                onChange={this._yearChange}
+                className="song-year-input" />
+              <div>ALBUM *</div>
               <input
                 type="text"
                 placeholder="Album"
@@ -148,16 +155,15 @@ const SongForm = React.createClass({
             </div>
             <div className="image-inputs">
               <button className="url-input" onClick={this._handleUpload}>Upload Image</button>
-              {this.state.thumbnail ? <div className="thumbnail" style={style}></div> : ""}
+              {this.state.thumbnail ? <div className="thumbnail" style={style}></div> : <div className="thumbnail">No Image</div>}
             </div>
+            <div>LYRICS *</div>
+            <textarea onChange={this._lyricsChange}
+              className="lyrics-textarea"
+              value={this.state.body}>
+            </textarea>
+            <input className="submit-to-lyricist" type="submit" value="Add To Lyricist"/>
           </div>
-          <textarea onChange={this._lyricsChange}
-            className="lyrics-textarea"
-            placeholder="Lyrics"
-            cols="2"
-            value={this.state.body}>
-          </textarea>
-          <input className="submit-to-lyricist" type="submit" value="Add To Lyricist"/>
         </form>
       </div>
     );

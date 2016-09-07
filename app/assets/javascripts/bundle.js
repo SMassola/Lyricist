@@ -36069,7 +36069,12 @@
 	        React.createElement(
 	          'div',
 	          { className: 'song-form-title' },
-	          'Add Song'
+	          'Add Song',
+	          React.createElement(
+	            'div',
+	            { className: 'required' },
+	            '* required'
+	          )
 	        ),
 	        React.createElement(
 	          'div',
@@ -36092,24 +36097,44 @@
 	          React.createElement(
 	            'div',
 	            { className: 'smaller-inputs' },
-	            React.createElement('input', {
-	              type: 'text',
-	              placeholder: 'Song Title',
-	              value: this.state.title || "",
-	              onChange: this._titleChange,
-	              className: 'song-title-input' }),
-	            React.createElement('input', {
-	              type: 'text',
-	              placeholder: 'Year',
-	              value: this.state.year || "",
-	              onChange: this._yearChange,
-	              className: 'song-year-input' }),
+	            React.createElement(
+	              'div',
+	              null,
+	              'BY *'
+	            ),
 	            React.createElement('input', {
 	              type: 'text',
 	              placeholder: 'Artist',
 	              value: this.state.artistName || "",
 	              onChange: this._artistNameChange,
 	              className: 'artist-input' }),
+	            React.createElement(
+	              'div',
+	              null,
+	              'TITLE *'
+	            ),
+	            React.createElement('input', {
+	              type: 'text',
+	              placeholder: 'Song Title',
+	              value: this.state.title || "",
+	              onChange: this._titleChange,
+	              className: 'song-title-input' }),
+	            React.createElement(
+	              'div',
+	              null,
+	              'YEAR *'
+	            ),
+	            React.createElement('input', {
+	              type: 'text',
+	              placeholder: 'Year',
+	              value: this.state.year || "",
+	              onChange: this._yearChange,
+	              className: 'song-year-input' }),
+	            React.createElement(
+	              'div',
+	              null,
+	              'ALBUM *'
+	            ),
 	            React.createElement('input', {
 	              type: 'text',
 	              placeholder: 'Album',
@@ -36125,15 +36150,22 @@
 	              { className: 'url-input', onClick: this._handleUpload },
 	              'Upload Image'
 	            ),
-	            this.state.thumbnail ? React.createElement('div', { className: 'thumbnail', style: style }) : ""
-	          )
-	        ),
-	        React.createElement('textarea', { onChange: this._lyricsChange,
-	          className: 'lyrics-textarea',
-	          placeholder: 'Lyrics',
-	          cols: '2',
-	          value: this.state.body }),
-	        React.createElement('input', { className: 'submit-to-lyricist', type: 'submit', value: 'Add To Lyricist' })
+	            this.state.thumbnail ? React.createElement('div', { className: 'thumbnail', style: style }) : React.createElement(
+	              'div',
+	              { className: 'thumbnail' },
+	              'No Image'
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            null,
+	            'LYRICS *'
+	          ),
+	          React.createElement('textarea', { onChange: this._lyricsChange,
+	            className: 'lyrics-textarea',
+	            value: this.state.body }),
+	          React.createElement('input', { className: 'submit-to-lyricist', type: 'submit', value: 'Add To Lyricist' })
+	        )
 	      )
 	    );
 	  }
