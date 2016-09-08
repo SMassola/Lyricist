@@ -36386,7 +36386,12 @@
 	        React.createElement(
 	          'div',
 	          { className: 'song-index-title' },
-	          'Songs To Discover On Lyricist'
+	          'Songs To Discover On ',
+	          React.createElement(
+	            'span',
+	            null,
+	            'Lyricist'
+	          )
 	        ),
 	        songs.map(function (song) {
 	          return React.createElement(SongIndexItem, {
@@ -36433,9 +36438,9 @@
 	
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'song-index-item' },
 	      React.createElement(
-	        'button',
+	        'div',
 	        { className: 'song-item-details-container',
 	          onClick: this._handleClick,
 	          onMouseEnter: this._handleEnter,

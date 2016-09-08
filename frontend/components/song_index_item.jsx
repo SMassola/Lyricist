@@ -24,8 +24,8 @@ module.exports = React.createClass({
   render() {
 
     return(
-      <div>
-        <button className="song-item-details-container"
+      <div className="song-index-item">
+        <div className="song-item-details-container"
           onClick={this._handleClick}
           onMouseEnter={this._handleEnter}
           onMouseLeave={this._handleExit}>
@@ -33,7 +33,7 @@ module.exports = React.createClass({
             <div className="song-item-title">{this.props.title}</div>
             <div className="song-item-artist">{this.props.artist}</div>
           </div>
-        </button>
+        </div>
       </div>
     );
   }
