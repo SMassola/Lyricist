@@ -24,9 +24,14 @@
   color: white;
   padding: 5px;
   margin: 5px;
-  font-size: 30px;
+  font-size: 16px;
   border-bottom: 1px solid white;
   font-family: "Roboto", sans-serif;
+}
+
+.song-form-title span {
+  color: #FFEB3B;
+  text-transform: uppercase;
 }
 
 .required {

@@ -111,7 +111,7 @@ const SongForm = React.createClass({
       <div className="song-form-container">
         <form className="song-form" onSubmit={this._handleSubmit}>
           <div className="song-form-title">
-            Add Song
+            <div>Add A Song To <span>Lyricist</span></div>
             <div className="required">* required</div>
             </div>
           <div className="song-form-error-box">

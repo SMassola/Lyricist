@@ -44,7 +44,7 @@ const Search = React.createClass({
         </header>
         <main className="main-page">
           <div className="gallery-container">
-            <div className="gallery-title">Lit On Lyricist</div>
+            <div className="gallery-title">What's Trending On <span>Lyricist</span></div>
             <div className="filler"></div>
             <div className="filler"></div>
             <div className="filler"></div>

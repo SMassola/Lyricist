@@ -34959,7 +34959,12 @@
 	          React.createElement(
 	            'div',
 	            { className: 'gallery-title' },
-	            'Lit On Lyricist'
+	            'What\'s Trending On ',
+	            React.createElement(
+	              'span',
+	              null,
+	              'Lyricist'
+	            )
 	          ),
 	          React.createElement('div', { className: 'filler' }),
 	          React.createElement('div', { className: 'filler' }),
@@ -36587,7 +36592,16 @@
 	        React.createElement(
 	          'div',
 	          { className: 'song-form-title' },
-	          'Add Song',
+	          React.createElement(
+	            'div',
+	            null,
+	            'Add A Song To ',
+	            React.createElement(
+	              'span',
+	              null,
+	              'Lyricist'
+	            )
+	          ),
 	          React.createElement(
 	            'div',
 	            { className: 'required' },
