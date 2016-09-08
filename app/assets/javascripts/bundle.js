@@ -27270,6 +27270,11 @@
 	        { className: 'navbar' },
 	        React.createElement(
 	          'button',
+	          { className: 'nav-links', onClick: this._redirectHome },
+	          'Home'
+	        ),
+	        React.createElement(
+	          'button',
 	          { className: 'nav-links', onClick: this._handleIndex },
 	          'All Songs'
 	        ),

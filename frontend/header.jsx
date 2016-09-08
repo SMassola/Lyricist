@@ -118,6 +118,7 @@ const Header = React.createClass({
           </Modal>
         </div>
         <div className="navbar">
+          <button className="nav-links" onClick={this._redirectHome}>Home</button>
           <button className="nav-links" onClick={this._handleIndex}>All Songs</button>
           <button className="nav-links" onClick={this._handleSongForm}>Add Song</button>
         </div>
