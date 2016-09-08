@@ -35023,13 +35023,9 @@
 	};
 	
 	SongStore.allSongs = function () {
-	  var songs = [];
-	
-	  Object.keys(_songs).forEach(function (key) {
-	    songs.push(_songs[key]);
+	  return Object.keys(_songs).map(function (id) {
+	    return _songs[id];
 	  });
-	
-	  return songs;
 	};
 	
 	SongStore.findSong = function (id) {
@@ -36353,7 +36349,7 @@
 	var SongIndex = React.createClass({
 	  displayName: 'SongIndex',
 	  getInitialState: function getInitialState() {
-	    return { songs: [] };
+	    return { songs: SongStore.allSongs() };
 	  },
 	  componentDidMount: function componentDidMount() {
 	    this.songListener = SongStore.addListener(this._handleChange);
@@ -36363,8 +36359,7 @@
 	    this.songListener.remove();
 	  },
 	  _handleChange: function _handleChange() {
-	    var songs = SongStore.allSongs();
-	    this.setState({ songs: songs ? songs : {} });
+	    this.setState({ songs: SongStore.allSongs() });
 	  },
 	  render: function render() {
 	    var songs = this.state.songs;

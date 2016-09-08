@@ -22,13 +22,9 @@ SongStore.__onDispatch = function(payload) {
 };
 
 SongStore.allSongs = function() {
-  let songs = [];
-
-  Object.keys(_songs).forEach((key) => {
-    songs.push(_songs[key]);
+  return Object.keys(_songs).map(id => {
+    return _songs[id];
   });
-
-  return songs;
 };
 
 SongStore.findSong = function(id) {

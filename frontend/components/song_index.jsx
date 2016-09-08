@@ -6,7 +6,7 @@ const SongIndexItem = require("./song_index_item.jsx");
 const SongIndex = React.createClass({
 
   getInitialState() {
-    return {songs: []};
+    return {songs: SongStore.allSongs()};
   },
 
   componentDidMount() {
@@ -19,8 +19,7 @@ const SongIndex = React.createClass({
   },
 
   _handleChange() {
-    const songs = SongStore.allSongs();
-    this.setState({ songs: songs ? songs : {} });
+    this.setState({ songs: SongStore.allSongs()});
   },
 
   render() {
