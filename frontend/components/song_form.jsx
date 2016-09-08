@@ -22,7 +22,7 @@ const SongForm = React.createClass({
       albumName: null,
       artist_id: null,
       errors: [],
-      thumbnail: false
+      image: false
     };
   },
 
@@ -76,9 +76,8 @@ const SongForm = React.createClass({
       (error, images) => {
         if (error === null) {
           let alt_url = images[0].url.slice(0, 49) + "h_300,w_300/" + images[0].url.slice(49);
-          let thumbnail_url = images[0].url.slice(0, 49) + "h_60,w_60/" + images[0].url.slice(49);
           this._urlChange(alt_url);
-          this.setState({thumbnail: thumbnail_url});
+          this.setState({image: alt_url});
         }
       }
     );
@@ -101,7 +100,7 @@ const SongForm = React.createClass({
 
   render() {
     let style = {
-      backgroundImage: 'url(' + this.state.thumbnail + ')'
+      backgroundImage: 'url(' + this.state.image + ')'
     };
 
     let errs = [];
@@ -122,48 +121,54 @@ const SongForm = React.createClass({
               })}
             </div>
           </div>
-          <div className="small-inputs">
-            <div className="smaller-inputs">
-              <div>BY *</div>
-              <input
-                type="text"
-                placeholder="Artist"
-                value={this.state.artistName || ""}
-                onChange={this._artistNameChange}
-                className="artist-input" />
-              <div>TITLE *</div>
-              <input
-                type="text"
-                placeholder="Song Title"
-                value={this.state.title || ""}
-                onChange={this._titleChange}
-                className="song-title-input" />
-              <div>YEAR *</div>
-              <input
-                type="text"
-                placeholder="Year"
-                value={this.state.year || ""}
-                onChange={this._yearChange}
-                className="song-year-input" />
-              <div>ALBUM *</div>
-              <input
-                type="text"
-                placeholder="Album"
-                value={this.state.albumName || ""}
-                onChange={this._albumNameChange}
-                className="album-input" />
+          <div className="song-form-inputs">
+            <div className="song-form-left">
+
+              <div className="smaller-inputs">
+                <div>BY *</div>
+                <input
+                  type="text"
+                  placeholder="Artist"
+                  value={this.state.artistName || ""}
+                  onChange={this._artistNameChange}
+                  className="artist-input" />
+                <div>TITLE *</div>
+                <input
+                  type="text"
+                  placeholder="Song Title"
+                  value={this.state.title || ""}
+                  onChange={this._titleChange}
+                  className="song-title-input" />
+                <div>YEAR *</div>
+                <input
+                  type="text"
+                  placeholder="Year"
+                  value={this.state.year || ""}
+                  onChange={this._yearChange}
+                  className="song-year-input" />
+                <div>ALBUM *</div>
+                <input
+                  type="text"
+                  placeholder="Album"
+                  value={this.state.albumName || ""}
+                  onChange={this._albumNameChange}
+                  className="album-input" />
+              <div>LYRICS *</div>
+              <textarea onChange={this._lyricsChange}
+                className="lyrics-textarea"
+                value={this.state.body}>
+              </textarea>
+              <input className="submit-to-lyricist" type="submit" value="Add To Lyricist"/>
             </div>
-            <div className="image-inputs">
-              <button className="url-input" onClick={this._handleUpload}>Upload Image</button>
-              {this.state.thumbnail ? <div className="thumbnail" style={style}></div> : <div className="thumbnail">No Image</div>}
-            </div>
-            <div>LYRICS *</div>
-            <textarea onChange={this._lyricsChange}
-              className="lyrics-textarea"
-              value={this.state.body}>
-            </textarea>
-            <input className="submit-to-lyricist" type="submit" value="Add To Lyricist"/>
           </div>
+          <div className="song-form-right">
+            <div className="image-inputs">
+              <div>IMAGE</div>
+              {this.state.image ? <div className="image" style={style}></div> : <div className="image"><div>No Image</div></div>}
+              <button className="url-input" onClick={this._handleUpload}>Upload Image</button>
+            </div>
+          </div>
+        </div>
         </form>
       </div>
     );

@@ -26,6 +26,7 @@
   margin: 5px;
   font-size: 36px;
   border-bottom: 1px solid white;
+  font-family: "Roboto";
 }
 
 .required {
@@ -33,11 +34,23 @@
   font-size: 16px;
 }
 
-.small-inputs {
+.song-form-inputs {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.song-form-left {
   padding: 10px;
   display:flex;
   flex-direction: column;
   width: 50%;
+}
+
+.song-form-right {
+  padding: 10px;
+  display:flex;
+  flex-direction: column;
 }
 
 .smaller-inputs {
@@ -90,18 +103,23 @@
 
 .image-inputs {
   display: flex;
-  justify-content: left;
+  flex-direction: column;
 }
 
-.thumbnail {
+.image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: repeating-linear-gradient(
+    135deg, #606dbc, #606dbc 40px, #465298 40px, #465298 80px
+  );
+  font-size: 30px;
   padding: 7.5px;
   border: 1px solid white;
   text-align: center;
   color: white;
-  height: 60px;
-  width: 60px;
-  background: gray;
-  margin-left: 40px;
+  height: 300px;
+  width: 300px;
 }
 
 .url-input {
@@ -148,6 +166,7 @@
 
 .song-form-error-box {
   min-height: 110px;
+  margin: 0 auto;
 }
 
 .song-form-error-container {
@@ -157,4 +176,5 @@
   border-color: #ebccd1;
   color: #a94442;
   border-radius: 4px;
+  width: 100%;
 }

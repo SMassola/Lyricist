@@ -36497,7 +36497,7 @@
 	      albumName: null,
 	      artist_id: null,
 	      errors: [],
-	      thumbnail: false
+	      image: false
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
@@ -36545,9 +36545,8 @@
 	    window.cloudinary.openUploadWidget(window.cloudinary_options, function (error, images) {
 	      if (error === null) {
 	        var alt_url = images[0].url.slice(0, 49) + "h_300,w_300/" + images[0].url.slice(49);
-	        var thumbnail_url = images[0].url.slice(0, 49) + "h_60,w_60/" + images[0].url.slice(49);
 	        _this._urlChange(alt_url);
-	        _this.setState({ thumbnail: thumbnail_url });
+	        _this.setState({ image: alt_url });
 	      }
 	    });
 	  },
@@ -36567,7 +36566,7 @@
 	  },
 	  render: function render() {
 	    var style = {
-	      backgroundImage: 'url(' + this.state.thumbnail + ')'
+	      backgroundImage: 'url(' + this.state.image + ')'
 	    };
 	
 	    var errs = [];
@@ -36607,78 +36606,95 @@
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'small-inputs' },
+	          { className: 'song-form-inputs' },
 	          React.createElement(
 	            'div',
-	            { className: 'smaller-inputs' },
+	            { className: 'song-form-left' },
 	            React.createElement(
 	              'div',
-	              null,
-	              'BY *'
-	            ),
-	            React.createElement('input', {
-	              type: 'text',
-	              placeholder: 'Artist',
-	              value: this.state.artistName || "",
-	              onChange: this._artistNameChange,
-	              className: 'artist-input' }),
-	            React.createElement(
-	              'div',
-	              null,
-	              'TITLE *'
-	            ),
-	            React.createElement('input', {
-	              type: 'text',
-	              placeholder: 'Song Title',
-	              value: this.state.title || "",
-	              onChange: this._titleChange,
-	              className: 'song-title-input' }),
-	            React.createElement(
-	              'div',
-	              null,
-	              'YEAR *'
-	            ),
-	            React.createElement('input', {
-	              type: 'text',
-	              placeholder: 'Year',
-	              value: this.state.year || "",
-	              onChange: this._yearChange,
-	              className: 'song-year-input' }),
-	            React.createElement(
-	              'div',
-	              null,
-	              'ALBUM *'
-	            ),
-	            React.createElement('input', {
-	              type: 'text',
-	              placeholder: 'Album',
-	              value: this.state.albumName || "",
-	              onChange: this._albumNameChange,
-	              className: 'album-input' })
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'image-inputs' },
-	            React.createElement(
-	              'button',
-	              { className: 'url-input', onClick: this._handleUpload },
-	              'Upload Image'
-	            ),
-	            this.state.thumbnail ? React.createElement('div', { className: 'thumbnail', style: style }) : React.createElement(
-	              'div',
-	              { className: 'thumbnail' },
-	              'No Image'
+	              { className: 'smaller-inputs' },
+	              React.createElement(
+	                'div',
+	                null,
+	                'BY *'
+	              ),
+	              React.createElement('input', {
+	                type: 'text',
+	                placeholder: 'Artist',
+	                value: this.state.artistName || "",
+	                onChange: this._artistNameChange,
+	                className: 'artist-input' }),
+	              React.createElement(
+	                'div',
+	                null,
+	                'TITLE *'
+	              ),
+	              React.createElement('input', {
+	                type: 'text',
+	                placeholder: 'Song Title',
+	                value: this.state.title || "",
+	                onChange: this._titleChange,
+	                className: 'song-title-input' }),
+	              React.createElement(
+	                'div',
+	                null,
+	                'YEAR *'
+	              ),
+	              React.createElement('input', {
+	                type: 'text',
+	                placeholder: 'Year',
+	                value: this.state.year || "",
+	                onChange: this._yearChange,
+	                className: 'song-year-input' }),
+	              React.createElement(
+	                'div',
+	                null,
+	                'ALBUM *'
+	              ),
+	              React.createElement('input', {
+	                type: 'text',
+	                placeholder: 'Album',
+	                value: this.state.albumName || "",
+	                onChange: this._albumNameChange,
+	                className: 'album-input' }),
+	              React.createElement(
+	                'div',
+	                null,
+	                'LYRICS *'
+	              ),
+	              React.createElement('textarea', { onChange: this._lyricsChange,
+	                className: 'lyrics-textarea',
+	                value: this.state.body }),
+	              React.createElement('input', { className: 'submit-to-lyricist', type: 'submit', value: 'Add To Lyricist' })
 	            )
 	          ),
 	          React.createElement(
 	            'div',
-	            null,
-	            'LYRICS *'
-	          ),
-	          React.createElement('textarea', { onChange: this._lyricsChange,
-	            className: 'lyrics-textarea',
-	            value: this.state.body }),
-	          React.createElement('input', { className: 'submit-to-lyricist', type: 'submit', value: 'Add To Lyricist' })
+	            { className: 'song-form-right' },
+	            React.createElement(
+	              'div',
+	              { className: 'image-inputs' },
+	              React.createElement(
+	                'div',
+	                null,
+	                'IMAGE'
+	              ),
+	              this.state.image ? React.createElement('div', { className: 'image', style: style }) : React.createElement(
+	                'div',
+	                { className: 'image' },
+	                React.createElement(
+	                  'div',
+	                  null,
+	                  'No Image'
+	                )
+	              ),
+	              React.createElement(
+	                'button',
+	                { className: 'url-input', onClick: this._handleUpload },
+	                'Upload Image'
+	              )
+	            )
+	          )
 	        )
 	      )
 	    );
