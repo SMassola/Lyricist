@@ -34936,7 +34936,12 @@
 	          React.createElement(
 	            'div',
 	            { className: 'splash-caption' },
-	            'Lyricist is a lyrics catalog enabled by you'
+	            React.createElement(
+	              'span',
+	              null,
+	              'Lyricist'
+	            ),
+	            ' is a lyrics catalog enabled by you'
 	          )
 	        ),
 	        React.createElement(
@@ -36176,7 +36181,11 @@
 	          "div",
 	          { className: "song-album" },
 	          "A track off the album ",
-	          this.props.album.name
+	          React.createElement(
+	            "span",
+	            null,
+	            this.props.album.name
+	          )
 	        )
 	      );
 	    } else {

@@ -26,7 +26,7 @@
   font-family: 'Alegreya Sans SC', sans-serif;
   font-weight: 700;
   margin-bottom: 20px;
-  color: #e91e63;
+  color: #ffeb3b;
   font-size: 34px;
 }
 
@@ -35,8 +35,12 @@
   font-family: "Open Sans";
   font-family: 'Alegreya Sans SC', sans-serif;
   font-weight: 700;
-  color: #e91e63;
+  color: white;
   font-size: 22px;
+}
+
+.song-album > span {
+  color: #ffeb3b;
 }
 
 .album-art-container {

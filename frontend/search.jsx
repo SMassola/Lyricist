@@ -36,7 +36,7 @@ const Search = React.createClass({
         <header className="splash-container">
           <div className="splash">
             <div className="splash-title">Do You Hear the Difference?</div>
-            <div className="splash-caption">Lyricist is a lyrics catalog enabled by you</div>
+            <div className="splash-caption"><span>Lyricist</span> is a lyrics catalog enabled by you</div>
           </div>
           <div className="search-bar">
             <h1 className="search-area"></h1>

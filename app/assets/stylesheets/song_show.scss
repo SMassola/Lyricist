@@ -49,18 +49,6 @@
   margin-left: 20px;
 }
 
-pre {
-  font-weight: 300;
-  font-family: 'Nunito';
-  font-size: 20px;
-  line-height: 150%;
-}
-
-a {
-  text-decoration: none;
-  color: black;
-}
-
 .ghost-lyrics {
   padding: 20px;
   position: absolute;
@@ -74,6 +62,7 @@ a {
   padding: 20px;
   pointer-events: none;
   position: relative;
+  color: transparent;
   z-index: 0;
   white-space: pre-wrap;
   max-width: 100%;
@@ -86,7 +75,7 @@ a {
 .annotation-lyrics {
   padding: 20px;
   position: absolute;
-  color: transparent;
+  color: #222;
   white-space: pre-wrap;
   max-width: 40%;
 }
