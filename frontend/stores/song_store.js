@@ -39,6 +39,10 @@ function resetAllSongs(songs) {
   });
 }
 
+SongStore.latestAddition = function() {
+  return Object.keys(_songs)[-1];
+};
+
 function setSong(song) {
   _songs[song.id] = song;
 }

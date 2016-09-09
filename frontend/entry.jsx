@@ -3,8 +3,8 @@ const ReactDOM = require('react-dom');
 const Modal = require('react-modal');
 
 const ReactRouter = require('react-router');
-const Router = ReactRouter.Router;
 const Route = ReactRouter.Route;
+const Router = ReactRouter.Router;
 const IndexRoute = ReactRouter.IndexRoute;
 const hashHistory = ReactRouter.hashHistory;
 
@@ -29,8 +29,8 @@ const App = React.createClass({
 const routes = (
   <Route path="/" component={App}>
     <IndexRoute component={Search} />
-    <Route path="songs/new" component={SongForm} />
     <Route path="songs" component={SongIndex} />
+    <Route path="songs/new" component={SongForm} />
     <Route path="songs/:id" component={SongShow} />
   </Route>
 );

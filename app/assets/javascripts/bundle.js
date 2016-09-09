@@ -51,8 +51,8 @@
 	var Modal = __webpack_require__(168);
 	
 	var ReactRouter = __webpack_require__(188);
-	var Router = ReactRouter.Router;
 	var Route = ReactRouter.Route;
+	var Router = ReactRouter.Router;
 	var IndexRoute = ReactRouter.IndexRoute;
 	var hashHistory = ReactRouter.hashHistory;
 	
@@ -79,8 +79,8 @@
 	  Route,
 	  { path: '/', component: App },
 	  React.createElement(IndexRoute, { component: Search }),
-	  React.createElement(Route, { path: 'songs/new', component: SongForm }),
 	  React.createElement(Route, { path: 'songs', component: SongIndex }),
+	  React.createElement(Route, { path: 'songs/new', component: SongForm }),
 	  React.createElement(Route, { path: 'songs/:id', component: SongShow })
 	);
 	
@@ -27125,7 +27125,9 @@
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(168);
 	var ModalStyle = __webpack_require__(243);
+	
 	var hashHistory = __webpack_require__(188).hashHistory;
+	var Link = __webpack_require__(188).Link;
 	
 	var LoginForm = __webpack_require__(244);
 	var SignupForm = __webpack_require__(274);
@@ -35055,6 +35057,10 @@
 	  });
 	}
 	
+	SongStore.latestAddition = function () {
+	  return Object.keys(_songs)[-1];
+	};
+	
 	function setSong(song) {
 	  _songs[song.id] = song;
 	}
@@ -36406,8 +36412,7 @@
 	            artist: song.artist.name,
 	            art: song.image_url,
 	            albumDescription: song.album.body });
-	        }),
-	        React.createElement('div', { className: 'buffer' })
+	        })
 	      )
 	    );
 	  }
@@ -36511,15 +36516,18 @@
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    this.songListener = SongStore.addListener(this._handleChange);
+	    this.songListener = SongStore.addListener(this._handleRedirect);
 	    this.errorListener = ErrorStore.addListener(this._handleErrors);
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
 	    this.errorListener.remove();
 	    this.songListener.remove();
 	  },
-	  _handleChange: function _handleChange() {
-	    hashHistory.push("/songs");
+	  _handleRedirect: function _handleRedirect() {
+	    var song = SongStore.latestAddition();
+	    if (song) {
+	      hashHistory.push('/songs/' + song.id);
+	    }
 	  },
 	  _handleErrors: function _handleErrors() {
 	    this.setState({ errors: ErrorStore.typeErrors("song_form") });
@@ -36554,7 +36562,7 @@
 	    e.preventDefault();
 	    window.cloudinary.openUploadWidget(window.cloudinary_options, function (error, images) {
 	      if (error === null) {
-	        var alt_url = images[0].url.slice(0, 49) + "h_300,w_300/" + images[0].url.slice(49);
+	        var alt_url = images[0].url.slice(0, 49) + "q_80,h_300,w_300/" + images[0].url.slice(49);
 	        _this._urlChange(alt_url);
 	        _this.setState({ image: alt_url });
 	      }

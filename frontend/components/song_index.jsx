@@ -39,7 +39,6 @@ const SongIndex = React.createClass({
                 albumDescription={song.album.body}/>
               );
           })}
-          <div className="buffer"></div>
         </div>
       </div>);
   }

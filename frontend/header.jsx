@@ -1,7 +1,9 @@
 const React = require('react');
 const Modal = require('react-modal');
 const ModalStyle = require('./modal_style.js');
+
 const hashHistory = require('react-router').hashHistory;
+const Link = require('react-router').Link;
 
 const LoginForm = require('./components/login_form.jsx');
 const SignupForm = require('./components/signup_form.jsx');
@@ -47,18 +49,19 @@ const Header = React.createClass({
     return (
       <div>
         <button
-        className="log-links"
-        id="log-in-button"
-        onClick={this._handleClick.bind(this, true)}>
-        Log In
-      </button>
-      <button
-        className="log-links"
-        id="sign-up-button"
-        onClick={this._handleClick.bind(this, false)}>
-        Sign Up
-      </button>
-    </div>);
+          className="log-links"
+          id="log-in-button"
+          onClick={this._handleClick.bind(this, true)}>
+          Log In
+        </button>
+        <button
+          className="log-links"
+          id="sign-up-button"
+          onClick={this._handleClick.bind(this, false)}>
+          Sign Up
+        </button>
+      </div>
+    );
   },
 
   logOutLink() {
