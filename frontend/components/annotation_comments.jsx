@@ -1,4 +1,6 @@
 const React = require('react');
+const LogPrompt = require('./log_prompt');
+
 const CommentActions = require('../actions/comment_actions.js');
 
 const ErrorStore = require('../stores/error_store');
@@ -60,8 +62,7 @@ const AnnotationComments = React.createClass({
 
     return(
     <div className="annotation-comment-form-and-display">
-      <form onSubmit={this._handleSubmit} className="annotation-comment-form">
-        <div className="annotation-comment-form-title">Leave a Reply</div>
+      <form className="annotation-comment-form">
         <div className="error-box">
           <div className="annotation-comments-error-container">
             {errs.map((error) => {
@@ -72,14 +73,15 @@ const AnnotationComments = React.createClass({
         <div className="annotation-comment-input-fields">
           <textarea onChange={this._bodyChange}
             className="annotation-comment-textarea"
-            placeholder="Add A Comment Here..."
+            placeholder="Write A Comment..."
             value={this.state.body}>
           </textarea>
         </div>
-        <input
+        {this.props.user ? <input
           className="submit-annotation-comment"
           type="submit"
-          value="Add Comment"/>
+          value="Submit"
+          onClick={this._handleSubmit} /> : <LogPrompt action="Comment" />}
       </form>
       <div className="annotation-comments-container">
         {comments.map((comment) => {

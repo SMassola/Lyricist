@@ -67,9 +67,11 @@ const AnnotationBody = React.createClass({
             <button
               className="delete-annotation"
               onClick={this._handleDelete}>
-              DELETE
+              Delete
             </button> : ""}
-          <AnnotationComments annotation={this.state.annotation}/>
+          <AnnotationComments
+            user={SessionStore.currentUser()["id"]}
+            annotation={this.state.annotation} />
         </div>
       </div>
     );

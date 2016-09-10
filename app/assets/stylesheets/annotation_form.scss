@@ -44,7 +44,7 @@
   height: 162px;
   display: flex;
   flex-direction: column;
-  border-left: 10px solid #B19CD9;
+  border-left: 6px solid #B19CD9;
 }
 
 .annotation-error-container {
@@ -82,9 +82,7 @@
   background-color: white;
   margin: 20px;
   width: 35%;
-  display: flex;
-  flex-direction: column;
-  border-left: 10px solid #6abedb;
+  border-left: 6px solid #6abedb;
 }
 
 .annotator-display {
@@ -104,12 +102,6 @@
   font-weight: bold;
 }
 
-.annotation-comment-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
 .annotation-input-fields {
   width: 100%;
   position: absolute;
@@ -119,10 +111,8 @@
 }
 
 .delete-annotation {
-  width: 140px;
-  height: 40px;
-  margin: 10px;
-  padding: 0 !important;
+  margin: 0px 10px;
+  padding: 5px 10px;
   font: inherit;
   cursor: pointer;
   border: 2px solid rgba(128, 128, 128, 1);
@@ -133,5 +123,5 @@
 .delete-annotation:hover {
   background: rgba(128, 128, 128, 1);
   color: white;
-  border: white;
+  border: 2px solid rgba(128, 128, 128, 1);
 }

@@ -37,8 +37,6 @@ const SessionActions = {
     AppDispatcher.dispatch({
       actionType: SessionConstants.LOGOUT
     });
-
-    hashHistory.push("/");
   }
 
 };

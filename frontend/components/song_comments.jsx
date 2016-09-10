@@ -1,5 +1,5 @@
 const React = require('react');
-const Prompt = require('./prompt.jsx');
+const LogPrompt = require('./log_prompt.jsx');
 
 const CommentActions = require('../actions/comment_actions.js');
 
@@ -82,7 +82,7 @@ const SongComments = React.createClass({
           className="submit-song-comment"
           type="submit"
           onClick={this._handleSubmit}
-          value="Submit" /> : <Prompt action="Comment" />}
+          value="Submit" /> : <LogPrompt action="Comment" />}
       </form>
       <div className="song-comments-container">
         {comments.map((comment) => {

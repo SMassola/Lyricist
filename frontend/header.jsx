@@ -15,9 +15,22 @@ const Header = React.createClass({
 
   getInitialState() {
     return({
+      user: this.currentUser(),
       modalOpen: false,
       signIn: false
     });
+  },
+
+  componentDidMount() {
+    this.sessionListener = SessionStore.addListener(this._handleUser);
+  },
+
+  componentDidUnMount() {
+    this.sessionListener.remove();
+  },
+
+  _handleUser() {
+    this.setState({user: this.currentUser()});
   },
 
   _handleClick(bool) {
@@ -101,10 +114,10 @@ const Header = React.createClass({
 
           <div className="header-logistics">
             <div className="head-user">
-              {this.isUserLoggedIn() ? "Logged in as: " + this.currentUser() : ""}
+              {this.state.user ? "Logged in as: " + this.currentUser() : ""}
             </div>
             <div className="head-links">
-              {this.isUserLoggedIn() ? this.logOutLink() : this.logInLinks()}
+              {this.state.user ? this.logOutLink() : this.logInLinks()}
             </div>
           </div>
 

@@ -59,8 +59,8 @@
 	var Header = __webpack_require__(242);
 	var Search = __webpack_require__(282);
 	var SongShow = __webpack_require__(285);
-	var SongIndex = __webpack_require__(304);
-	var SongForm = __webpack_require__(306);
+	var SongIndex = __webpack_require__(305);
+	var SongForm = __webpack_require__(307);
 	var SessionActions = __webpack_require__(245);
 	
 	var App = React.createClass({
@@ -27139,9 +27139,19 @@
 	  displayName: 'Header',
 	  getInitialState: function getInitialState() {
 	    return {
+	      user: this.currentUser(),
 	      modalOpen: false,
 	      signIn: false
 	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.sessionListener = SessionStore.addListener(this._handleUser);
+	  },
+	  componentDidUnMount: function componentDidUnMount() {
+	    this.sessionListener.remove();
+	  },
+	  _handleUser: function _handleUser() {
+	    this.setState({ user: this.currentUser() });
 	  },
 	  _handleClick: function _handleClick(bool) {
 	    this.setState({ modalOpen: true, signIn: bool });
@@ -27231,12 +27241,12 @@
 	          React.createElement(
 	            'div',
 	            { className: 'head-user' },
-	            this.isUserLoggedIn() ? "Logged in as: " + this.currentUser() : ""
+	            this.state.user ? "Logged in as: " + this.currentUser() : ""
 	          ),
 	          React.createElement(
 	            'div',
 	            { className: 'head-links' },
-	            this.isUserLoggedIn() ? this.logOutLink() : this.logInLinks()
+	            this.state.user ? this.logOutLink() : this.logInLinks()
 	          )
 	        ),
 	        React.createElement(
@@ -27488,8 +27498,6 @@
 	    AppDispatcher.dispatch({
 	      actionType: SessionConstants.LOGOUT
 	    });
-	
-	    hashHistory.push("/");
 	  }
 	};
 	
@@ -35115,7 +35123,7 @@
 	var SongDetails = __webpack_require__(301);
 	var AlbumArt = __webpack_require__(302);
 	var SongComments = __webpack_require__(303);
-	var Prompt = __webpack_require__(311);
+	var LogPrompt = __webpack_require__(313);
 	
 	var SongShow = React.createClass({
 	  displayName: 'SongShow',
@@ -35292,7 +35300,7 @@
 	      songId: this.state.song.id,
 	      userId: SessionStore.currentUser().id,
 	      startIdx: this.start,
-	      endIdx: this.end }) : React.createElement(Prompt, { action: 'Annotate' });
+	      endIdx: this.end }) : React.createElement(LogPrompt, { action: 'Annotate' });
 	
 	    return React.createElement(
 	      'div',
@@ -35717,9 +35725,11 @@
 	          {
 	            className: 'delete-annotation',
 	            onClick: this._handleDelete },
-	          'DELETE'
+	          'Delete'
 	        ) : "",
-	        React.createElement(AnnotationComments, { annotation: this.state.annotation })
+	        React.createElement(AnnotationComments, {
+	          user: SessionStore.currentUser()["id"],
+	          annotation: this.state.annotation })
 	      )
 	    );
 	  }
@@ -35734,6 +35744,8 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
+	var LogPrompt = __webpack_require__(313);
+	
 	var CommentActions = __webpack_require__(292);
 	
 	var ErrorStore = __webpack_require__(273);
@@ -35791,12 +35803,7 @@
 	      { className: 'annotation-comment-form-and-display' },
 	      React.createElement(
 	        'form',
-	        { onSubmit: this._handleSubmit, className: 'annotation-comment-form' },
-	        React.createElement(
-	          'div',
-	          { className: 'annotation-comment-form-title' },
-	          'Leave a Reply'
-	        ),
+	        { className: 'annotation-comment-form' },
 	        React.createElement(
 	          'div',
 	          { className: 'error-box' },
@@ -35817,13 +35824,14 @@
 	          { className: 'annotation-comment-input-fields' },
 	          React.createElement('textarea', { onChange: this._bodyChange,
 	            className: 'annotation-comment-textarea',
-	            placeholder: 'Add A Comment Here...',
+	            placeholder: 'Write A Comment...',
 	            value: this.state.body })
 	        ),
-	        React.createElement('input', {
+	        this.props.user ? React.createElement('input', {
 	          className: 'submit-annotation-comment',
 	          type: 'submit',
-	          value: 'Add Comment' })
+	          value: 'Submit',
+	          onClick: this._handleSubmit }) : React.createElement(LogPrompt, { action: 'Comment' })
 	      ),
 	      React.createElement(
 	        'div',
@@ -36255,7 +36263,7 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var Prompt = __webpack_require__(311);
+	var LogPrompt = __webpack_require__(313);
 	
 	var CommentActions = __webpack_require__(292);
 	
@@ -36346,7 +36354,7 @@
 	          className: 'submit-song-comment',
 	          type: 'submit',
 	          onClick: this._handleSubmit,
-	          value: 'Submit' }) : React.createElement(Prompt, { action: 'Comment' })
+	          value: 'Submit' }) : React.createElement(LogPrompt, { action: 'Comment' })
 	      ),
 	      React.createElement(
 	        'div',
@@ -36375,7 +36383,8 @@
 	module.exports = SongComments;
 
 /***/ },
-/* 304 */
+/* 304 */,
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36383,7 +36392,7 @@
 	var React = __webpack_require__(1);
 	var SongStore = __webpack_require__(283);
 	var SongActions = __webpack_require__(278);
-	var SongIndexItem = __webpack_require__(305);
+	var SongIndexItem = __webpack_require__(306);
 	
 	var SongIndex = React.createClass({
 	  displayName: 'SongIndex',
@@ -36435,7 +36444,7 @@
 	module.exports = SongIndex;
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36497,7 +36506,7 @@
 	//   : ""}
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36506,7 +36515,7 @@
 	var ReactRouter = __webpack_require__(188);
 	
 	var SongActions = __webpack_require__(278);
-	var ArtistActions = __webpack_require__(307);
+	var ArtistActions = __webpack_require__(308);
 	
 	var ErrorStore = __webpack_require__(273);
 	var SessionStore = __webpack_require__(254);
@@ -36576,7 +36585,7 @@
 	    e.preventDefault();
 	    window.cloudinary.openUploadWidget(window.cloudinary_options, function (error, images) {
 	      if (error === null) {
-	        var alt_url = images[0].url.slice(0, 49) + "q_80,h_300,w_300/" + images[0].url.slice(49);
+	        var alt_url = images[0].url.slice(0, 49) + "h_300,w_300/" + images[0].url.slice(49);
 	        _this._urlChange(alt_url);
 	        _this.setState({ image: alt_url });
 	      }
@@ -36745,15 +36754,15 @@
 	module.exports = SongForm;
 
 /***/ },
-/* 307 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var ArtistApiUtil = __webpack_require__(308);
+	var ArtistApiUtil = __webpack_require__(309);
 	var AppDispatcher = __webpack_require__(246);
 	
-	var AlbumActions = __webpack_require__(309);
+	var AlbumActions = __webpack_require__(310);
 	var ErrorActions = __webpack_require__(252);
 	
 	var ArtistActions = {
@@ -36765,7 +36774,7 @@
 	module.exports = ArtistActions;
 
 /***/ },
-/* 308 */
+/* 309 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36792,12 +36801,12 @@
 	module.exports = ArtistApiUtil;
 
 /***/ },
-/* 309 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var AlbumApiUtil = __webpack_require__(310);
+	var AlbumApiUtil = __webpack_require__(311);
 	var AppDispatcher = __webpack_require__(246);
 	
 	var SongActions = __webpack_require__(278);
@@ -36812,7 +36821,7 @@
 	module.exports = AlbumActions;
 
 /***/ },
-/* 310 */
+/* 311 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36839,7 +36848,8 @@
 	module.exports = AlbumApiUtil;
 
 /***/ },
-/* 311 */
+/* 312 */,
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

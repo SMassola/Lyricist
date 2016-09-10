@@ -78,7 +78,7 @@ const SongForm = React.createClass({
       window.cloudinary_options,
       (error, images) => {
         if (error === null) {
-          let alt_url = images[0].url.slice(0, 49) + "q_80,h_300,w_300/" + images[0].url.slice(49);
+          let alt_url = images[0].url.slice(0, 49) + "h_300,w_300/" + images[0].url.slice(49);
           this._urlChange(alt_url);
           this.setState({image: alt_url});
         }

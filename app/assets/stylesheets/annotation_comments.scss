@@ -1,23 +1,23 @@
 .annotation-comment-form-and-display {
   font-family: sans-serif;
-  margin: 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 100%;
-  max-width: 100%;
-  border: 1px solid #fcfcfc;
+  margin: 10px;
+  background: #F7F7F7;
 }
 
 .annotation-comment-form {
   width: 100%;
-  background: #fcfcfc;
+  background: #F7F7F7;
+  padding: 10px;
 }
 
 .annotation-comments-container {
   width: 100%;
   display: flex;
   flex-direction: column-reverse;
+  padding: 10px;
 }
 
 .annotation-comment-form-title {
@@ -36,58 +36,51 @@
   border-radius: 4px;
 }
 
-.annotation-comment-input-fields {
-  margin: 10px;
-}
-
 .annotation-comment-textarea {
-  margin: auto;
-  height: 100%;
-  resize: none;
-  font-size: 18px;
+  height: 30px;
+  font-size: 16px;
   width: 100%;
 }
 
 .annotation-comment-details-container {
+  position: relative;
+  background: #F7F7F7;
   width: 100%;
-  min-height: 100px;
-  background: white;
 }
 
-.annotation-comment-details-container:nth-child(even) {
-  background: #fcfcfc;
+.annotation-comment-details-container:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  border-top: 1px solid skyblue;
 }
 
 .annotation-commenter {
+  margin: 10px 0;
+  text-transform: uppercase;
   font-size: 14px;
-  padding-top: 10px;
-  margin-bottom: 5px;
-  margin-left: 10px;
   font-weight: bold;
-  text-decoration: underline;
 }
 
 .annotation-comment {
-  margin-left: 10px;
-  padding-bottom: 5px;
+  margin: 10px 0;
+  font-family: "Assistant", sans-serif;
 }
 
 .submit-annotation-comment {
-  width: 140px;
-  height: 40px;
-  color: #6ABEDB;
-  margin: 10px;
-  background: white;
-  padding:0!important;
+  margin: 10px 0px;
+  padding: 5px 10px;
   font: inherit;
   cursor: pointer;
-  border: 2px solid #6ABEDB;
+  border: 2px solid limegreen;
+  color: limegreen;
+  background: white;
 }
 
 .submit-annotation-comment:hover {
   color: white;
-  background: #6ABEDB;
-  border: 2px solid white;
+  background: limegreen;
+  border: 2px solid limegreen;
 }
 
 .submit-annotation-comment:focus {

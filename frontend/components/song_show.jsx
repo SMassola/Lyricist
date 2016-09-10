@@ -13,7 +13,7 @@ const AnnotationForm = require('./annotation_form.jsx');
 const SongDetails = require("./song_details.jsx");
 const AlbumArt = require("./album_art.jsx");
 const SongComments = require("./song_comments.jsx");
-const Prompt = require("./prompt.jsx");
+const LogPrompt = require("./log_prompt.jsx");
 
 const SongShow = React.createClass({
   getInitialState () {
@@ -209,7 +209,7 @@ const SongShow = React.createClass({
       songId={this.state.song.id}
       userId={SessionStore.currentUser().id}
       startIdx={this.start}
-      endIdx={this.end} /> : <Prompt action="Annotate"/>;
+      endIdx={this.end} /> : <LogPrompt action="Annotate"/>;
 
     return (
       <div className="showpage">
