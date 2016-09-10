@@ -1,0 +1,49 @@
+.login-prompt-container {
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+}
+
+.login-prompt {
+  font-family: "Assistant";
+  font-size: 16px;
+  background: #F5f5f5;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.log-in-button {
+  font-family: "Assistant";
+  margin: 5px;
+  font-size: 16px;
+  height: 25px;
+  width: 200px;
+  background: white;
+  border: 1px solid limegreen;
+}
+
+.log-in-button:hover {
+  background: limegreen;
+  color: white;
+}
+
+.sign-up-button {
+  font-family: "Assistant";
+  margin: 5px;
+  font-size: 16px;
+  height: 25px;
+  width: 200px;
+  background: white;
+  border: 1px solid skyblue;
+}
+
+.sign-up-button:hover {
+  background: skyblue;
+  color: white;
+}
+
+.log-in-button:focus, .sign-up-button:focus {
+  outline: none;
+}

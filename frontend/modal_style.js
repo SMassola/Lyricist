@@ -5,7 +5,8 @@ module.exports = {
     left              : 0,
     right             : 0,
     bottom            : 0,
-    backgroundColor   : 'rgba(255, 255, 255, 0.75)'
+    backgroundColor   : 'rgba(255, 255, 255, 0.75)',
+    zIndex            : '5'
   },
   content : {
     color                      : 'black',
@@ -26,7 +27,7 @@ module.exports = {
     opacity                    : '0',
     transition                 : 'opacity 1s',
     display                    : 'flex',
-    flexDirection              : 'column'
+    flexDirection              : 'column',
   }
 
 };

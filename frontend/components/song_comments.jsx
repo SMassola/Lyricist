@@ -1,4 +1,6 @@
 const React = require('react');
+const Prompt = require('./prompt.jsx');
+
 const CommentActions = require('../actions/comment_actions.js');
 
 const CommentStore = require('../stores/comment_store.js');
@@ -13,7 +15,7 @@ const SongComments = React.createClass({
     return({
       comments: this.props.comments,
       body: "",
-      errors: []
+      errors: [],
     });
   },
 
@@ -61,8 +63,7 @@ const SongComments = React.createClass({
     }
     return(
     <div className="song-comment-form-and-display">
-      <form onSubmit={this._handleSubmit} className="song-comment-form">
-        <div className="song-comment-form-title">Leave A Comment</div>
+      <form className="song-comment-form">
         <div className="error-box">
           <div className="song-comments-error-container">
             {errs.map((error) => {
@@ -73,14 +74,15 @@ const SongComments = React.createClass({
         <div className="song-comment-input-fields">
           <textarea onChange={this._bodyChange}
             className="song-comment-textarea"
-            placeholder="Add A Comment Here..."
+            placeholder="Write A Comment..."
             value={this.state.body}>
           </textarea>
         </div>
-        <input
+        {this.props.user ? <input
           className="submit-song-comment"
           type="submit"
-          value="Add Comment"/>
+          onClick={this._handleSubmit}
+          value="Submit" /> : <Prompt action="Comment" />}
       </form>
       <div className="song-comments-container">
         {comments.map((comment) => {

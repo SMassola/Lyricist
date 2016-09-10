@@ -35,7 +35,7 @@
 }
 
 .float {
-  float: right;
+  width: 50%;
 }
 
 .lyrics-container {
@@ -43,6 +43,7 @@
 }
 
 .song-lyrics-title {
+  text-transform: uppercase;
   color: #d4d4d4;
   font-size: 16px;
   margin-top: 20px;

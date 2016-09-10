@@ -1,4 +1,5 @@
 const React = require('react');
+const hashHistory = require('react-router').hashHistory;
 
 const AnnotationStore = require('../stores/annotation_store.js');
 const CommentStore = require('../stores/comment_store.js');
@@ -6,12 +7,13 @@ const SongStore = require('../stores/song_store.js');
 const SessionStore = require('../stores/session_store.js');
 
 const SongActions = require('../actions/song_actions.js');
+
 const AnnotationBody = require('./annotation_body.jsx');
 const AnnotationForm = require('./annotation_form.jsx');
 const SongDetails = require("./song_details.jsx");
 const AlbumArt = require("./album_art.jsx");
 const SongComments = require("./song_comments.jsx");
-const hashHistory = require('react-router').hashHistory;
+const Prompt = require("./prompt.jsx");
 
 const SongShow = React.createClass({
   getInitialState () {
@@ -21,7 +23,8 @@ const SongShow = React.createClass({
       renderForm: false,
       renderAnnotationBody: false,
       currentAnnotation: null,
-      errors: []
+      errors: [],
+      currentUser: SessionStore.currentUser().id,
     });
   },
 
@@ -34,6 +37,7 @@ const SongShow = React.createClass({
   },
 
   componentDidMount () {
+    this.sessionListener = SessionStore.addListener(this._handleUser);
     this.songListener = SongStore.addListener(this._handleChange);
     this.annotationListener = AnnotationStore.addListener(this._handleAnnotationChange);
     this.commentListener = CommentStore.addListener(this._handleCommentChange);
@@ -41,6 +45,7 @@ const SongShow = React.createClass({
   },
 
   componentWillUnmount () {
+    this.sessionListener.remove();
     this.songListener.remove();
     this.annotationListener.remove();
     this.commentListener.remove();
@@ -63,6 +68,12 @@ const SongShow = React.createClass({
         renderAnnotationBody: false
       });
     }
+  },
+
+  _handleUser() {
+    this.setState({
+      currentUser: SessionStore.currentUser().id
+    });
   },
 
   _handleCommentChange() {
@@ -158,8 +169,8 @@ const SongShow = React.createClass({
 
     if (this.start - this.end !== 0) {
       $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0,this.start)
-      + '<span style="background-color: rgba(75, 0, 130, 0.3);">'
-      + $('pre.highlight-lyrics').html().slice(this.start,this.end) + '</span>'
+      + '<span class="highlighted" style="background-color: rgba(75, 0, 130, 0.3);">'
+      + $('pre.highlight-lyrics').html().slice(this.start, this.end) + '</span>'
       + $('pre.highlight-lyrics').html().slice(this.end));
       $('.annotated').removeClass("selected-annotation");
       this.setState({currentAnnotation: null, renderAnnotationBody: false, renderForm: true});
@@ -191,6 +202,15 @@ const SongShow = React.createClass({
                        'linear-gradient(180deg, transparent, black),' +
                        'url(' + this.state.song.image_url + ')'
     };
+
+    let form = this.state.currentUser ?
+    <AnnotationForm
+      lyrics={this.state.song.lyrics}
+      songId={this.state.song.id}
+      userId={SessionStore.currentUser().id}
+      startIdx={this.start}
+      endIdx={this.end} /> : <Prompt action="Annotate"/>;
+
     return (
       <div className="showpage">
         <div className="show-splash" style={style}>
@@ -225,21 +245,16 @@ const SongShow = React.createClass({
 
             </div>
             <SongComments
-              comments={this.state.song.comments} songId={this.state.song.id}/>
+              comments={this.state.song.comments}
+              songId={this.state.song.id}
+              user={this.state.currentUser} />
           </div>
+
           <div className="float">
             {this.state.renderAnnotationBody ?
               <AnnotationBody
-                annotation={this.state.currentAnnotation} />
-              :<div></div>}
-            {this.state.renderForm ?
-              <AnnotationForm
-                lyrics={this.state.song.lyrics}
-                songId={this.state.song.id}
-                userId={SessionStore.currentUser().id}
-                startIdx={this.start}
-                endIdx={this.end} />
-              :<div></div>}
+                annotation={this.state.currentAnnotation} /> : ""}
+            {this.state.renderForm ? form : ""}
           </div>
         </div>
       </div>

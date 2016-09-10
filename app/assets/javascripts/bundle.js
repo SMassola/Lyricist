@@ -27305,7 +27305,8 @@
 	    left: 0,
 	    right: 0,
 	    bottom: 0,
-	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+	    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+	    zIndex: '5'
 	  },
 	  content: {
 	    color: 'black',
@@ -35100,6 +35101,7 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
+	var hashHistory = __webpack_require__(188).hashHistory;
 	
 	var AnnotationStore = __webpack_require__(286);
 	var CommentStore = __webpack_require__(290);
@@ -35107,12 +35109,13 @@
 	var SessionStore = __webpack_require__(254);
 	
 	var SongActions = __webpack_require__(278);
+	
 	var AnnotationBody = __webpack_require__(294);
 	var AnnotationForm = __webpack_require__(300);
 	var SongDetails = __webpack_require__(301);
 	var AlbumArt = __webpack_require__(302);
 	var SongComments = __webpack_require__(303);
-	var hashHistory = __webpack_require__(188).hashHistory;
+	var Prompt = __webpack_require__(311);
 	
 	var SongShow = React.createClass({
 	  displayName: 'SongShow',
@@ -35123,7 +35126,8 @@
 	      renderForm: false,
 	      renderAnnotationBody: false,
 	      currentAnnotation: null,
-	      errors: []
+	      errors: [],
+	      currentUser: SessionStore.currentUser().id
 	    };
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -35134,12 +35138,14 @@
 	    });
 	  },
 	  componentDidMount: function componentDidMount() {
+	    this.sessionListener = SessionStore.addListener(this._handleUser);
 	    this.songListener = SongStore.addListener(this._handleChange);
 	    this.annotationListener = AnnotationStore.addListener(this._handleAnnotationChange);
 	    this.commentListener = CommentStore.addListener(this._handleCommentChange);
 	    SongActions.fetchSong(parseInt(this.props.params.id));
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
+	    this.sessionListener.remove();
 	    this.songListener.remove();
 	    this.annotationListener.remove();
 	    this.commentListener.remove();
@@ -35161,6 +35167,11 @@
 	        renderAnnotationBody: false
 	      });
 	    }
+	  },
+	  _handleUser: function _handleUser() {
+	    this.setState({
+	      currentUser: SessionStore.currentUser().id
+	    });
 	  },
 	  _handleCommentChange: function _handleCommentChange() {
 	    this.setState({
@@ -35249,7 +35260,7 @@
 	    idx1 < idx2 ? (_ref = [idx1, idx2], this.start = _ref[0], this.end = _ref[1], _ref) : (_ref2 = [idx2, idx1], this.start = _ref2[0], this.end = _ref2[1], _ref2);
 	
 	    if (this.start - this.end !== 0) {
-	      $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0, this.start) + '<span style="background-color: rgba(75, 0, 130, 0.3);">' + $('pre.highlight-lyrics').html().slice(this.start, this.end) + '</span>' + $('pre.highlight-lyrics').html().slice(this.end));
+	      $('pre.highlight-lyrics').html($('pre.highlight-lyrics').html().slice(0, this.start) + '<span class="highlighted" style="background-color: rgba(75, 0, 130, 0.3);">' + $('pre.highlight-lyrics').html().slice(this.start, this.end) + '</span>' + $('pre.highlight-lyrics').html().slice(this.end));
 	      $('.annotated').removeClass("selected-annotation");
 	      this.setState({ currentAnnotation: null, renderAnnotationBody: false, renderForm: true });
 	    }
@@ -35275,6 +35286,14 @@
 	    var style = {
 	      backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),' + 'linear-gradient(180deg, transparent, black),' + 'url(' + this.state.song.image_url + ')'
 	    };
+	
+	    var form = this.state.currentUser ? React.createElement(AnnotationForm, {
+	      lyrics: this.state.song.lyrics,
+	      songId: this.state.song.id,
+	      userId: SessionStore.currentUser().id,
+	      startIdx: this.start,
+	      endIdx: this.end }) : React.createElement(Prompt, { action: 'Annotate' });
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'showpage' },
@@ -35326,19 +35345,16 @@
 	            )
 	          ),
 	          React.createElement(SongComments, {
-	            comments: this.state.song.comments, songId: this.state.song.id })
+	            comments: this.state.song.comments,
+	            songId: this.state.song.id,
+	            user: this.state.currentUser })
 	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'float' },
 	          this.state.renderAnnotationBody ? React.createElement(AnnotationBody, {
-	            annotation: this.state.currentAnnotation }) : React.createElement('div', null),
-	          this.state.renderForm ? React.createElement(AnnotationForm, {
-	            lyrics: this.state.song.lyrics,
-	            songId: this.state.song.id,
-	            userId: SessionStore.currentUser().id,
-	            startIdx: this.start,
-	            endIdx: this.end }) : React.createElement('div', null)
+	            annotation: this.state.currentAnnotation }) : "",
+	          this.state.renderForm ? form : ""
 	        )
 	      )
 	    );
@@ -36239,6 +36255,8 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
+	var Prompt = __webpack_require__(311);
+	
 	var CommentActions = __webpack_require__(292);
 	
 	var CommentStore = __webpack_require__(290);
@@ -36300,12 +36318,7 @@
 	      { className: 'song-comment-form-and-display' },
 	      React.createElement(
 	        'form',
-	        { onSubmit: this._handleSubmit, className: 'song-comment-form' },
-	        React.createElement(
-	          'div',
-	          { className: 'song-comment-form-title' },
-	          'Leave A Comment'
-	        ),
+	        { className: 'song-comment-form' },
 	        React.createElement(
 	          'div',
 	          { className: 'error-box' },
@@ -36326,13 +36339,14 @@
 	          { className: 'song-comment-input-fields' },
 	          React.createElement('textarea', { onChange: this._bodyChange,
 	            className: 'song-comment-textarea',
-	            placeholder: 'Add A Comment Here...',
+	            placeholder: 'Write A Comment...',
 	            value: this.state.body })
 	        ),
-	        React.createElement('input', {
+	        this.props.user ? React.createElement('input', {
 	          className: 'submit-song-comment',
 	          type: 'submit',
-	          value: 'Add Comment' })
+	          onClick: this._handleSubmit,
+	          value: 'Submit' }) : React.createElement(Prompt, { action: 'Comment' })
 	      ),
 	      React.createElement(
 	        'div',
@@ -36823,6 +36837,64 @@
 	};
 	
 	module.exports = AlbumApiUtil;
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	  _handleSignUp: function _handleSignUp() {
+	    $('button#sign-up-button').click();
+	  },
+	  _handleLogIn: function _handleLogIn() {
+	    $('button#log-in-button').click();
+	  },
+	  render: function render() {
+	    var style = {};
+	    if (this.props.action === "Annotate") {
+	      var offset = $(".highlighted").offset().top;
+	      style = {
+	        position: "absolute",
+	        top: offset
+	      };
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'login-prompt-container' },
+	      React.createElement(
+	        'div',
+	        { className: 'login-prompt', style: style },
+	        React.createElement(
+	          'button',
+	          { className: 'log-in-button', onClick: this._handleLogIn },
+	          'Log In'
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          'or'
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'sign-up-button', onClick: this._handleSignUp },
+	          'Sign Up'
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          'to ',
+	          this.props.action
+	        )
+	      )
+	    );
+	  }
+	});
 
 /***/ }
 /******/ ]);
