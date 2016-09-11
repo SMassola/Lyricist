@@ -35278,8 +35278,6 @@
 	
 	    var idx1 = window.getSelection().anchorOffset;
 	    var idx2 = window.getSelection().focusOffset;
-	    console.log(idx1);
-	    console.log(idx2);
 	    window.getSelection().removeAllRanges();
 	    idx1 < idx2 ? (_ref = [idx1, idx2], this.start = _ref[0], this.end = _ref[1], _ref) : (_ref2 = [idx2, idx1], this.start = _ref2[0], this.end = _ref2[1], _ref2);
 	

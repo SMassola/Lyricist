@@ -171,8 +171,6 @@ const SongShow = React.createClass({
   highlight (e) {
     let idx1 = window.getSelection().anchorOffset;
     let idx2 = window.getSelection().focusOffset;
-    console.log(idx1);
-    console.log(idx2);
     window.getSelection().removeAllRanges();
     idx1 < idx2 ? [this.start, this.end] = [idx1, idx2] : [this.start, this.end] = [idx2, idx1];
 
