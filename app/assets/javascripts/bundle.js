@@ -35036,6 +35036,7 @@
 	var SongStore = new Store(AppDispatcher);
 	
 	var _songs = {};
+	var _latest = void 0;
 	
 	SongStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
@@ -35045,6 +35046,7 @@
 	      break;
 	    case SongConstants.SONG_RECEIVED:
 	      setSong(payload.song);
+	      setLatest(payload.song);
 	      SongStore.__emitChange();
 	      break;
 	  }
@@ -35069,11 +35071,14 @@
 	}
 	
 	SongStore.latestAddition = function () {
-	  return Object.keys(_songs)[-1];
+	  return _latest.id;
 	};
 	
 	function setSong(song) {
 	  _songs[song.id] = song;
+	}
+	function setLatest(song) {
+	  _latest = song;
 	}
 	
 	module.exports = SongStore;
@@ -36554,9 +36559,8 @@
 	  },
 	  _handleRedirect: function _handleRedirect() {
 	    var song = SongStore.latestAddition();
-	    console.log(song);
 	    if (song) {
-	      hashHistory.push('/songs/' + song.id);
+	      hashHistory.push('/songs/' + song);
 	    }
 	  },
 	  _handleErrors: function _handleErrors() {

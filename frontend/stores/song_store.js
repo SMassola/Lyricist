@@ -7,6 +7,7 @@ const UpvoteConstants = require('../constants/upvote_constants');
 const SongStore = new Store(AppDispatcher);
 
 let _songs = {};
+let _latest;
 
 SongStore.__onDispatch = function(payload) {
   switch (payload.actionType) {
@@ -16,6 +17,7 @@ SongStore.__onDispatch = function(payload) {
       break;
     case SongConstants.SONG_RECEIVED:
       setSong(payload.song);
+      setLatest(payload.song);
       SongStore.__emitChange();
       break;
   }
@@ -40,11 +42,14 @@ function resetAllSongs(songs) {
 }
 
 SongStore.latestAddition = function() {
-  return Object.keys(_songs)[-1];
+  return _latest.id;
 };
 
 function setSong(song) {
   _songs[song.id] = song;
+}
+function setLatest(song) {
+  _latest = song;
 }
 
 module.exports = SongStore;

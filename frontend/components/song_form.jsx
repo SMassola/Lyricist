@@ -38,9 +38,8 @@ const SongForm = React.createClass({
 
   _handleRedirect() {
     let song = SongStore.latestAddition();
-    console.log(song);
     if (song) {
-      hashHistory.push(`/songs/${song.id}`);
+      hashHistory.push(`/songs/${song}`);
     }
   },
 
