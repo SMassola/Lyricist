@@ -13,6 +13,7 @@ class Album < ActiveRecord::Base
       self.artist = new_artist
     else
       self.artist.save!
+      self.artist_id = self.artist.id
     end
   end
 end

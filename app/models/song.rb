@@ -28,6 +28,7 @@ class Song < ActiveRecord::Base
       self.album = new_album
     else
       self.album.save!
+      self.album_id = self.album.id
     end
   end
 end

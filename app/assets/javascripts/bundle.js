@@ -36554,6 +36554,7 @@
 	  },
 	  _handleRedirect: function _handleRedirect() {
 	    var song = SongStore.latestAddition();
+	    console.log(song);
 	    if (song) {
 	      hashHistory.push('/songs/' + song.id);
 	    }
