@@ -44,7 +44,7 @@ const LoginForm = React.createClass({
     this.setState({errors: ErrorStore.typeErrors("login_form")});
   },
 
-	_handleSubmit(e) {
+	_handleLogin(e) {
 		e.preventDefault();
     let formData = {};
     ErrorActions.clearErrors();
@@ -99,7 +99,7 @@ const LoginForm = React.createClass({
               value={this.state.password || ""}
               onChange={this._passwordChange}
               className="login-input" />
-            <input onClick={this._handleSubmit} className="login-button" type="submit" value="Log In" />
+            <input onClick={this._handleLogin} className="login-button" type="submit" value="Log In" />
             <input onClick={this._handleGuest} className="login-button" type="submit" value="Log In As Guest" />
 					</div>
 				</form>

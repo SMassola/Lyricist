@@ -62,12 +62,14 @@ const Header = React.createClass({
     return (
       <div>
         <button
+          type="button"
           className="log-links"
           id="log-in-button"
           onClick={this._handleClick.bind(this, true)}>
           Log In
         </button>
         <button
+          type="button"
           className="log-links"
           id="sign-up-button"
           onClick={this._handleClick.bind(this, false)}>

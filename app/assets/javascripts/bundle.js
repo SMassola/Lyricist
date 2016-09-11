@@ -27179,6 +27179,7 @@
 	      React.createElement(
 	        'button',
 	        {
+	          type: 'button',
 	          className: 'log-links',
 	          id: 'log-in-button',
 	          onClick: this._handleClick.bind(this, true) },
@@ -27187,6 +27188,7 @@
 	      React.createElement(
 	        'button',
 	        {
+	          type: 'button',
 	          className: 'log-links',
 	          id: 'sign-up-button',
 	          onClick: this._handleClick.bind(this, false) },
@@ -27388,7 +27390,7 @@
 	  _handleErrors: function _handleErrors() {
 	    this.setState({ errors: ErrorStore.typeErrors("login_form") });
 	  },
-	  _handleSubmit: function _handleSubmit(e) {
+	  _handleLogin: function _handleLogin(e) {
 	    e.preventDefault();
 	    var formData = {};
 	    ErrorActions.clearErrors();
@@ -27456,7 +27458,7 @@
 	            value: this.state.password || "",
 	            onChange: this._passwordChange,
 	            className: 'login-input' }),
-	          React.createElement('input', { onClick: this._handleSubmit, className: 'login-button', type: 'submit', value: 'Log In' }),
+	          React.createElement('input', { onClick: this._handleLogin, className: 'login-button', type: 'submit', value: 'Log In' }),
 	          React.createElement('input', { onClick: this._handleGuest, className: 'login-button', type: 'submit', value: 'Log In As Guest' })
 	        )
 	      )
@@ -36884,7 +36886,7 @@
 	        { className: 'login-prompt', style: style },
 	        React.createElement(
 	          'button',
-	          { className: 'log-in-button', onClick: this._handleLogIn },
+	          { type: 'button', className: 'log-in-button', onClick: this._handleLogIn },
 	          'Log In'
 	        ),
 	        React.createElement(
@@ -36894,7 +36896,7 @@
 	        ),
 	        React.createElement(
 	          'button',
-	          { className: 'sign-up-button', onClick: this._handleSignUp },
+	          { type: 'button', className: 'sign-up-button', onClick: this._handleSignUp },
 	          'Sign Up'
 	        ),
 	        React.createElement(
