@@ -10,16 +10,44 @@ User.create!(
   email: "Guest"
 )
 
-Artist.create!(
-  name: "30 Seconds To Mars"
+User.create!(
+  username: "Ezalor",
+  password: "Password",
+  email: "Ezalor"
+)
+
+User.create!(
+  username: "Banehallow",
+  password: "Password",
+  email: "Banehallow"
+)
+
+User.create!(
+  username: "Rattletrap",
+  password: "Password",
+  email: "Rattletrap"
+)
+
+User.create!(
+  username: "Rizzrack",
+  password: "Password",
+  email: "Rizzrack"
 )
 
 Artist.create!(
-  name: "Kanye West"
+  name: "The Eagles"
 )
 
 Artist.create!(
-  name: "Tori Kelly"
+  name: "Thirty Seconds To Mars"
+)
+
+Artist.create!(
+  name: "Zedd"
+)
+
+Artist.create!(
+  name: "Periphery"
 )
 
 Artist.create!(
@@ -51,18 +79,18 @@ Artist.create!(
 )
 
 Album.create!(
+  name: "Hotel California",
+  artist_id: Artist.find_by_name("The Eagles").id
+)
+
+Album.create!(
   name: "This Is War",
-  artist_id: Artist.find_by_name("30 Seconds To Mars").id
+  artist_id: Artist.find_by_name("Thirty Seconds To Mars").id
 )
 
 Album.create!(
-  name: "Late Registration",
-  artist_id: Artist.find_by_name("Kanye West").id
-)
-
-Album.create!(
-  name: "Unbreakable Smile",
-  artist_id: Artist.find_by_name("Tori Kelly").id
+  name: "True Colors",
+  artist_id: Artist.find_by_name("Zedd").id
 )
 
 Album.create!(
@@ -86,6 +114,11 @@ Album.create!(
 )
 
 Album.create!(
+  name: "Periphery III: Select Difficulty",
+  artist_id: Artist.find_by_name("Periphery").id
+)
+
+Album.create!(
   name: "Absolution",
   artist_id: Artist.find_by_name("Muse").id
 )
@@ -105,6 +138,67 @@ Album.create!(
   artist_id: Artist.find_by_name("Radiohead").id
 )
 
+Song.create!(
+  title: "Hotel California",
+  lyrics:
+"On a dark desert highway, cool wind in my hair
+Warm smell of colitas, rising up through the air
+Up ahead in the distance, I saw a shimmering light
+My head grew heavy and my sight grew dim
+I had to stop for the night
+
+There she stood in the doorway
+I heard the mission bell
+And I was thinking to myself
+'This could be heaven or this could be Hell'
+Then she lit up a candle and she showed me the way
+There were voices down the corridor,
+I thought I heard them say
+
+Welcome to the Hotel California
+Such a lovely place (such a lovely place)
+Such a lovely face
+Plenty of room at the Hotel California
+Any time of year (any time of year) you can find it here
+
+Her mind is Tiffany-twisted, she got the Mercedes Benz
+She got a lot of pretty, pretty boys, that she calls friends
+How they dance in the courtyard, sweet summer sweat
+Some dance to remember, some dance to forget
+
+So I called up the Captain
+Please bring me my wine'
+He said, 'we haven't had that spirit here since nineteen sixty-nine'
+And still those voices are calling from far away
+Wake you up in the middle of the night
+Just to hear them say
+
+Welcome to the Hotel California
+Such a lovely place (such a lovely place)
+Such a lovely face
+They livin' it up at the Hotel California
+What a nice surprise (what a nice surprise), bring your alibis
+
+Mirrors on the ceiling,
+The pink champagne on ice
+And she said, we are all just prisoners here, of our own device
+And in the master's chambers
+They gathered for the feast
+They stab it with their steely knives
+But they just can't kill the beast
+
+Last thing I remember, I was
+Running for the door
+I had to find the passage back to the place I was before
+Relax, said the night man
+We are programmed to receive
+You can check out any time you like
+But you can never leave!",
+  year: 1976,
+  user_id: User.find_by_username("Rizzrack").id,
+  album_id: Album.find_by_name("Hotel California").id,
+  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/h_300,w_300/v1473129106/e8kpvshu0bl9eeyipkby.jpg",
+)
 
 Song.create!(
   title: "This Is War",
@@ -193,165 +287,42 @@ A brave new world",
 )
 
 Song.create!(
-  title: "Gold Digger",
+  title: "True Colors",
   lyrics:
-"She take my money when I'm in need
-Yeah she's a trifling friend indeed
-Oh she's a gold digger way over town
-That digs on me
+"Stars fall at my feet, keep me grounded as I reach
+Higher than I see, is there something there for me?
+Pulling back the reins, letting go again
+I'm not afraid, I'm not
 
-Now I ain't sayin' she a gold digger (when I'm in need)
-But she ain't messin' with no broke niggas
-(She gives me money)
-Now I ain't sayin' she a gold digger (when I'm in need)
-But she ain't messin' with no broke niggas
-Get down girl go head get down (I gotta leave)
-Get down girl go head get down (I gotta leave)
-Get down girl go head get down (I gotta leave)
-Get down girl gone head
+All my life, one page at a time
+I'll show you my, my true colors
+And no-n-no, I won't apologize for the fire in my eyes
+Let me show you my, my true colors, it ain't no rainbow
 
-Cutie the bomb
-Met her at a beauty salon
-With a baby Louis Vuitton
-Under her underarm
-She said I can tell you rock
-I can tell by your charm
-Far as girls you got a flock
-I can tell by your charm and your arm
-But I'm looking for the one
-Have you seen her?
-My psychic told me she have an ass like Serena
-Trina, Jennifer Lopez, four kids
-And I gotta take all they bad ass to show-biz
-OK get your kids but then they got their friends
-I pulled up in the Benz, they all got up in
-We all went to Den and then I had to pay
-If you fucking with this girl then you better be paid
-You know why?
-It take too much to touch her
-From what I heard she got a baby by Busta
-My best friend says she use to fuck with Usher
-I don't care what none of y'all say I still love her
+A promise with a lie is broken by design
+And what I thought I knew has been swallowed by the truth
+It's time to light the flame, right before it rains
+I'm not afraid, I'm not
 
-Now I ain't sayin' she a gold digger (when I'm in need)
-But she ain't messin' with no broke niggas
-(She gives me money)
-Now I ain't sayin' she a gold digger (when I'm in need)
-But she ain't messin' with no broke niggas
-Get down girl go head get down (I gotta leave)
-Get down girl go head get down (I gotta leave)
-Get down girl go head get down (I gotta leave)
-Get down girl gone head
+All my life, one page at a time
+I'll show you my, my true colors
+And no-n-no, I won't apologize for the fire in my eyes
+Let me show you my, my true colors, it ain't no rainbow
 
-18 years, 18 years
-She got one of your kids, got you for 18 years
-I know somebody paying child support for one of his kids
-His baby mamma car and crib is bigger than his
-You will see him on TV any given Sunday
-Win the Superbowl and drive off in a Hyundai
-She was supposed to buy your shorty TYCO with your money
-She went to the doctor got lipo with your money
-She walking around looking like Michael with your money
-Should've got that insured got GEICO for your money, money, money
-If you ain't no punk holla we want prenup
-WE WANT PRENUP! Yeah
-It's something that you need to have
-'Cause when she leave yo ass she gon' leave with half
-18 years, 18 years
-And on her 18th birthday he found out it wasn't his
+Something tells me I know nothing at all
+I've escaped my capture and I have no master
+And somehow it's like I've waited
 
-Now I ain't sayin' she a gold digger (when I'm in need)
-But she ain't messin' with no broke niggas
-(She gives me money)
-Now I ain't sayin' she a gold digger (when I'm in need)
-But she ain't messin' with no broke niggas
-Get down girl go head get down (I gotta leave)
-Get down girl go head get down (I gotta leave)
-Get down girl go head get down (I gotta leave)
-Get down girl gone head
-
-Now I ain't saying you're a gold digger you got needs
-You don't want your dude to smoke but he can't buy weed
-You go out to eat, he can't pay y'all can't leave
-There's dishes in the back, he gotta roll up his sleeves
-But why y'all washing watch him
-He gone make it into a Benz out of that Datsun
-He got that ambition, baby, look in his eyes
-This week he mopping floors, next week it's the fries
-So, stick by his side
-I know this dude's balling but yeah that's nice
-And they gone keep calling and trying
-But you stay right girl
-And when you get on he leave your ass for a white girl
-
-Get down girl go head get down
-Get down girl go head get down
-Get down girl go head get down
-Get down girl go head
-(lemme hear that back)",
-  year: 2005,
-  user_id: User.find_by_username("Guest").id,
-  album_id: Album.find_by_name("Late Registration").id,
-  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/v1470940156/Late_Registration_huze2t.jpg"
-)
-
-Song.create!(
-  title: "Dear No One",
-  lyrics:
-"I like being independent
-Not so much of an investment
-No one to tell me what to do
-I like being by myself
-Don't gotta entertain anybody else
-No one to answer to...
-
-But sometimes, I just want somebody to hold
-Someone to give me the jacket when it's cold
-Got that young love even when we're old
-Yeah sometimes, I want someone to grab my hand
-Pick me up, pull me close, be my man
-I will love you till the end
-
-So if you're out there I swear to be good to you
-But I'm done lookin', for my future someone
-Cause when the time is right
-You'll be here, but for now
-Dear no one, this is your love song
-Ooo-OhOh
-
-I don't really like big crowds
-I tend to shut people out
-I like my space, yeah
-But I'd love to have a soulmate
-And God'll give him to me someday
-And I know it'll be worth the wait, oh
-
-So if you're out there I swear to be good to you
-But I'm done lookin' (But I'm done lookin'), for my future someone
-Cause when the time is right
-You'll be here, but for now
-Dear no one (Dear nobody) this is your love song (Ooo-Oooh)
-
-Sometimes, I just want somebody to hold
-Someone to give me the jacket when it's cold
-Got that young love even when we're old
-Yeah sometimes, I want someone to grab my hand
-Pick me up, pull me close, be my man
-I will love you till the end
-
-So if you're out there I swear to be good to you
-But I'm done lookin' (I'm done lookin'), for my future someone (Ooo-Yeah)
-Cause when the time is right
-You'll be here, but for now
-Dear no one (Dear Nobody) this is your love song (This is your love song)
-Dear no one, no need to be searchin', no
-Dear no one...
-Dear no one...
-Dear No one, this is your love song",
+All my life, one page at a time
+I'll show you my, my true colors
+And no-n-no, I won't apologize for the fire in my eyes
+Let me show you my, my true colors, it ain't no rainbow
+It ain't no rainbow, it ain't no rainbow
+It ain't no rainbow",
   year: 2015,
-  user_id: User.find_by_username("Guest").id,
-  album_id: Album.find_by_name("Unbreakable Smile").id,
-  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/v1470943776/Unbreakable_Smile_avtmsv.png"
+  user_id: User.find_by_username("Ezalor").id,
+  album_id: Album.find_by_name("True Colors").id,
+  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/h_300,w_300/v1473241553/v7pmsjrwreinppllt89y.png"
 )
 
 Song.create!(
@@ -487,6 +458,91 @@ Resistance!",
   user_id: User.find_by_username("Guest").id,
   album_id: Album.find_by_name("The Resistance").id,
   image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/c_scale,h_300,w_300/v1470943775/The_Resistance_zugsht.jpg"
+)
+
+Song.create!(
+  title: "Marigold",
+  lyrics:
+"Latch to this life like a death grip,
+We're satisfied
+With the mundane I'm keeping out of sight,
+But still we are young
+We are young
+
+I'll steer the angels down
+Keep him in the back room, shut the door
+Let go
+
+And now he's there at the grave, cold, dead paralyzed
+Pushing daisies while we still feel the sunshine
+
+We are young
+We are young
+
+Sift through the marigolds to please our damaged souls
+
+This place is haunting me
+Jump through the rope let's make it credible
+When blood is all we see,
+Life is impossible
+
+Death is coming 'round like a hurricane swirling
+We're on the clock and the needle's turning
+The misery's killing me slowly
+Give me a spine to work it out
+
+I'm just another one wandering endlessly on to the grave
+
+The signs of the times are upon us
+So we're pitting for tomorrow
+Sucking on the mother's dead tit
+Of sorrow
+Sorrow
+It's all right
+We learn it all before we go
+Snapped by the neck as we swallow
+Chin up
+I'm tying the rope
+Leaving all hollow
+
+This place is haunting me
+Jump through the rope let's make it credible
+When blood is all we see,
+Life is impossible
+
+Death is coming 'round like a hurricane swirling
+We're on the clock and the needle's turning fast
+The misery's killing me slowly
+Give me a spine to work it out
+No funeral No pyre that's burning
+This body's dust in the wind that's hurling past
+The misery's killing me slowly
+Give me a spine to work it out
+
+I guess I will just leave things the way they are
+
+This place is haunting me
+Jump through the rope let's make it credible
+When blood is all we see
+Life is impossible
+
+(Death is coming 'round like a hurricane swirling
+We're on the clock and the needle's turning
+The misery's killing me slowly
+Give me a spine to work it out)
+
+Death is coming 'round like a hurricane swirling
+We're on the clock and the needle's turning fast
+The misery's killing me slowly
+Give me a spine to work it out
+No funeral No pyre that's burning
+This body's dust in the wind that's hurling past
+The misery's killing me slowly
+Give me a spine to work it out",
+  year: 2016,
+  user_id: User.find_by_username("Banehallow").id,
+  album_id: Album.find_by_name("Periphery III: Select Difficulty").id,
+  image_url: "http://res.cloudinary.com/deeucxgdi/image/upload/c_scale,w_300/v1473612447/periphery-iii-select-difficulty-cover_u9c9ad.jpg"
 )
 
 Song.create!(
@@ -883,39 +939,23 @@ Annotation.create!(
   body: "Anything can happen in war, but no matter what, you have to always keep on fighting and persevere. Wars test people’s character. The stronger survives while the weaker falls, and usually the good guys always fall victim to the bad guys.\n\nNotice the juxtaposition of oxymorons here:\n\ntruth and lie\nlive and die",
   start_idx: 130,
   end_idx: 291,
-  user_id: User.find_by_username("Guest").id,
+  user_id: User.find_by_username("Rizzrack").id,
   song_id: Song.find_by_title("This Is War").id
-)
-
-Annotation.create!(
-  body: "A gold digger is a woman who dates rich men in an attempt to live lavishly or get rich themselves\n\nThe woman Kanye is talking about isn’t exactly that because she doesn’t specifically go after rich men, she just refuses to date men that are poor\n\nIt’s possible that Kanye is mocking the woman by quoting her, to imply that she is actually a gold digger but refuses to admit it. This would be an example of Roman irony\n\nPer MTV, the song was originally “meant to appear on Shawnna’s 2004 debut, Worth Tha Weight. West had tailor-made the now-famous ‘Gold Digger’ hook for the female MC to spit in the first person: ‘I’m not sayin’ I’m a gold digger, but I ain’t messin' with no broke niggas …‘”",
-  start_idx: 125,
-  end_idx: 223,
-  user_id: User.find_by_username("Guest").id,
-  song_id: Song.find_by_title("Gold Digger").id
 )
 
 Annotation.create!(
   body: "Before his rise to fame, Drake was just an average guy living in the suburban part of Toronto. Back then he had a girl that adored him, but his stardom slowly tarnished their relationship as she no longer gives him any attention.\n\nThis girl is most likely his former Canadian flame Nebby whom he has mentioned in songs such as “Look What You’ve Done” and “Best I Ever Had.” Regardless of what she needed, Drake would drop everything when she’d call, especially if it was at night.\n\nDrake stops and starts in the intro, perhaps choking up with sadness at the loss he’s experiencing. Also, in the third line of the chorus, Drake omits the “you used to…” anacrusis, turning the nostalgic, regretful tone into a more demanding one, with an imperative.",
   start_idx: 0,
   end_idx: 184,
-  user_id: User.find_by_username("Guest").id,
+  user_id: User.find_by_username("Rattletrap").id,
   song_id: Song.find_by_title("Hotline Bling").id
-)
-
-Annotation.create!(
-  body: "Even though she likes being independent, she wouldn’t mind having a partner.\n\nTori’s a Christian and directly references God, she even said:\n\n\"There was a lot of Christian music growing up in my house.\"\n\nShe content with the fact that God will give her somebody someday, so for now, she’ll be patient.",
-  start_idx: 905,
-  end_idx: 1021,
-  user_id: User.find_by_username("Guest").id,
-  song_id: Song.find_by_title("Dear No One").id
 )
 
 Annotation.create!(
   body: "That's a really bad stutter!",
   start_idx: 0,
   end_idx: 51,
-  user_id: User.find_by_username("Guest").id,
+  user_id: User.find_by_username("Ezalor").id,
   song_id: Song.find_by_title("Back From The Dead").id
 )
 
@@ -931,7 +971,7 @@ Annotation.create!(
   body: "Once that obsession has fully taken root, we can sometimes lose touch with reality and the things that matter most. We then become empty, emotionless husks, merely shadows of our former selves.",
   start_idx: 239,
   end_idx: 346,
-  user_id: User.find_by_username("Guest").id,
+  user_id: User.find_by_username("Rattletrap").id,
   song_id: Song.find_by_title("Hysteria").id
 )
 
@@ -947,7 +987,7 @@ Annotation.create!(
   body: "A 21 gun salute is primarily used in military ceremonies as a way of honoring those who have fallen. This chorus assures that while there is a time for fighting, there is also a time for surrender and its better to make peace than to continue strife. “Lay down your arms” refers to lowering a weapon.",
   start_idx: 254,
   end_idx: 303,
-  user_id: User.find_by_username("Guest").id,
+  user_id: User.find_by_username("Banehallow").id,
   song_id: Song.find_by_title("21 Guns").id
 )
 
@@ -959,9 +999,46 @@ Annotation.create!(
   song_id: Song.find_by_title("Resistance").id
 )
 
+Annotation.create!(
+  body: "I believe Tiffany-twisted is referring to the jewelry store. Portraying her taste for the finer things.",
+  start_idx: 653,
+  end_idx: 680,
+  user_id: User.find_by_username("Rattletrap").id,
+  song_id: Song.find_by_title("Hotel California").id
+)
+
+Annotation.create!(
+  body: "The rainbow is beautiful and ranges various refractions of bright lights. Tim prefers the dark side instead, revelling in his imperfection.\n\nHe desires to be someone great, represented by fire’s symbolic passion, and the agency an authsomeone when writing a story’s pages.\n\nTim’s done with disguising himself and waiting for life and people to catch up and accept the his identity, flaws and all. Therefore, “True Color” is his manifesto.",
+  start_idx: 169,
+  end_idx: 344,
+  user_id: User.find_by_username("Ezalor").id,
+  song_id: Song.find_by_title("True Colors").id
+)
+
 Comment.create!(
   body: "What an epic song!",
   user_id: User.find_by_username("Guest").id,
   commentable: Song.find_by_title("This Is War"),
   commentable_id: Song.find_by_title("This Is War").id
+)
+
+Comment.create!(
+  body: "Chills",
+  user_id: User.find_by_username("Rizzrack").id,
+  commentable: Song.find_by_title("This Is War"),
+  commentable_id: Song.find_by_title("This Is War").id
+)
+
+Comment.create!(
+  body: "Best guitar solo of all time!",
+  user_id: User.find_by_username("Banehallow").id,
+  commentable: Song.find_by_title("Hotel California"),
+  commentable_id: Song.find_by_title("Hotel California").id
+)
+
+Comment.create!(
+  body: "the screamo in this song is insane",
+  user_id: User.find_by_username("Ezalor").id,
+  commentable: Song.find_by_title("Marigold"),
+  commentable_id: Song.find_by_title("Marigold").id
 )
