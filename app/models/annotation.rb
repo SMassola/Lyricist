@@ -19,7 +19,7 @@ class Annotation < ActiveRecord::Base
   def non_overlapping
     song.annotations.each do |annotation|
       range = (annotation.start_idx..annotation.end_idx)
-      if (range.include?(start_idx) || range.include?(end_idx))
+      if (range.include?(start_idx + 1) || range.include?(end_idx - 1))
         errors.add(:annotations, "cannot overlap")
         return
       elsif (annotation.start_idx > start_idx) && (annotation.end_idx < end_idx)

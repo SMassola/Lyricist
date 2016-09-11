@@ -11,8 +11,8 @@ html {
   overflow-y: scroll;
 }
 
-html, body {
-  height:100%;
+html, body, #root {
+  min-height:100vh;
   font-family: "Roboto";
 }
 
