@@ -55,12 +55,14 @@ const SongShow = React.createClass({
     if (this.state.song.annotations.length && !this.state.currentAnnotation) {
       let annotations = this.state.song.annotations;
       let annotation = annotations[annotations.length - 1];
+
+      $('pre.highlight-lyrics').html(this.state.song.lyrics);
+
       this.setState({
         renderForm: false,
         currentAnnotation: annotation,
         renderAnnotationBody: true
       });
-      $("span#" + annotation.id).addClass("selected-annotation");
     } else {
       this.setState({
         renderForm: false,
@@ -142,12 +144,18 @@ const SongShow = React.createClass({
     let flagIdx = 0;
 
     annotations.forEach((annotation) => {
+      let classes;
+      if (annotation === this.state.currentAnnotation) {
+        classes = "annotated annotation-link selected-annotation";
+      } else {
+        classes = "annotated annotation-link";
+      }
       this.lyricsEls.push(
         lyrics.slice(flagIdx, annotation.start_idx));
       this.lyricsEls.push(
       <span
         id={annotation.id}
-        className="annotated annotation-link"
+        className={classes}
         value={annotation}
         onClick={this.handleAnnotationClick}
         onMouseEnter={this.removeSelection}
@@ -157,7 +165,6 @@ const SongShow = React.createClass({
 
       flagIdx = annotation.end_idx;
     });
-
     this.lyricsEls.push(lyrics.slice(flagIdx));
   },
 

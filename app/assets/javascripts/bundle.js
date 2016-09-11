@@ -35162,12 +35162,14 @@
 	    if (this.state.song.annotations.length && !this.state.currentAnnotation) {
 	      var annotations = this.state.song.annotations;
 	      var annotation = annotations[annotations.length - 1];
+	
+	      $('pre.highlight-lyrics').html(this.state.song.lyrics);
+	
 	      this.setState({
 	        renderForm: false,
 	        currentAnnotation: annotation,
 	        renderAnnotationBody: true
 	      });
-	      $("span#" + annotation.id).addClass("selected-annotation");
 	    } else {
 	      this.setState({
 	        renderForm: false,
@@ -35241,12 +35243,18 @@
 	    var flagIdx = 0;
 	
 	    annotations.forEach(function (annotation) {
+	      var classes = void 0;
+	      if (annotation === _this.state.currentAnnotation) {
+	        classes = "annotated annotation-link selected-annotation";
+	      } else {
+	        classes = "annotated annotation-link";
+	      }
 	      _this.lyricsEls.push(lyrics.slice(flagIdx, annotation.start_idx));
 	      _this.lyricsEls.push(React.createElement(
 	        'span',
 	        {
 	          id: annotation.id,
-	          className: 'annotated annotation-link',
+	          className: classes,
 	          value: annotation,
 	          onClick: _this.handleAnnotationClick,
 	          onMouseEnter: _this.removeSelection,
@@ -35256,7 +35264,6 @@
 	
 	      flagIdx = annotation.end_idx;
 	    });
-	
 	    this.lyricsEls.push(lyrics.slice(flagIdx));
 	  },
 	  highlight: function highlight(e) {
@@ -35695,9 +35702,9 @@
 	    AnnotationActions.deleteAnnotation(this.state.annotation.id);
 	  },
 	  render: function render() {
-	    var offset = $(window).scrollTop();
-	    if (offset < 425) {
-	      offset = 425;
+	    var offset = void 0;
+	    if ($(".selected-annotation").offset()) {
+	      offset = $(".selected-annotation").offset().top;
 	    }
 	
 	    var style = {
@@ -36136,15 +36143,10 @@
 	      start_idx: this.state.start_idx,
 	      end_idx: this.state.end_idx
 	    };
-	    $('pre.highlight-lyrics').html(this.props.lyrics);
 	    AnnotationActions.createAnnotation(AnnotationInput);
 	  },
 	  render: function render() {
-	
-	    var offset = $(window).scrollTop();
-	    if (offset < 425) {
-	      offset = 425;
-	    }
+	    var offset = $(".highlighted").offset().top;
 	    var style = {
 	      top: offset
 	    };

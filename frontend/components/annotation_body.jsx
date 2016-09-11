@@ -47,9 +47,9 @@ const AnnotationBody = React.createClass({
   },
 
   render() {
-    let offset = $(window).scrollTop();
-    if (offset < 425) {
-      offset = 425;
+    let offset;
+    if ($(".selected-annotation").offset()) {
+      offset = $(".selected-annotation").offset().top;
     }
 
     let style = {

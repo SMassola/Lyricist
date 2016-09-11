@@ -49,16 +49,11 @@ const AnnotationForm = React.createClass({
       start_idx: this.state.start_idx,
       end_idx: this.state.end_idx
     };
-    $('pre.highlight-lyrics').html(this.props.lyrics);
     AnnotationActions.createAnnotation(AnnotationInput);
   },
 
   render() {
-
-    let offset = $(window).scrollTop();
-    if (offset < 425) {
-      offset = 425;
-    }
+    let offset = $(".highlighted").offset().top;
     let style = {
       top: offset
     };
