@@ -21,4 +21,13 @@ class Song < ActiveRecord::Base
 
   accepts_nested_attributes_for :album
   has_many :comments, as: :commentable
+
+  def autosave_associated_records_for_album
+    # Find or create the album by name
+    if new_album = Album.find_by_name(album.name)
+      self.album = new_album
+    else
+      self.album.save!
+    end
+  end
 end
