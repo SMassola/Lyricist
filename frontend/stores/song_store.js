@@ -13,9 +13,15 @@ SongStore.__onDispatch = function(payload) {
   switch (payload.actionType) {
     case SongConstants.SONGS_RECEIVED:
       resetAllSongs(payload.songs);
+      clearLatest();
       SongStore.__emitChange();
       break;
     case SongConstants.SONG_RECEIVED:
+      setSong(payload.song);
+      clearLatest();
+      SongStore.__emitChange();
+      break;
+    case SongConstants.SONG_ADDED:
       setSong(payload.song);
       setLatest(payload.song);
       SongStore.__emitChange();
@@ -48,8 +54,13 @@ SongStore.latestAddition = function() {
 function setSong(song) {
   _songs[song.id] = song;
 }
+
 function setLatest(song) {
   _latest = song;
+}
+
+function clearLatest() {
+  _latest = null;
 }
 
 module.exports = SongStore;

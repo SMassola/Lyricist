@@ -34741,6 +34741,7 @@
 	var SongConstants = {
 		SONGS_RECEIVED: "SONGS_RECEIVED",
 		SONG_RECEIVED: "SONG_RECEIVED",
+		SONG_ADDED: "SONG_ADDED",
 		SONGS_SEARCHED: "SONGS_SEARCHED"
 	};
 	
@@ -34788,7 +34789,13 @@
 	    });
 	  },
 	  createSong: function createSong(song) {
-	    SongApiUtil.createSong(song, SongActions.receiveSong, ErrorActions.setErrors.bind(null, 'song_form'));
+	    SongApiUtil.createSong(song, SongActions.addSong, ErrorActions.setErrors.bind(null, 'song_form'));
+	  },
+	  addSong: function addSong(song) {
+	    AppDispatcher.dispatch({
+	      actionType: SongConstants.SONG_ADDED,
+	      song: song
+	    });
 	  }
 	};
 	
@@ -35058,9 +35065,15 @@
 	  switch (payload.actionType) {
 	    case SongConstants.SONGS_RECEIVED:
 	      resetAllSongs(payload.songs);
+	      clearLatest();
 	      SongStore.__emitChange();
 	      break;
 	    case SongConstants.SONG_RECEIVED:
+	      setSong(payload.song);
+	      clearLatest();
+	      SongStore.__emitChange();
+	      break;
+	    case SongConstants.SONG_ADDED:
 	      setSong(payload.song);
 	      setLatest(payload.song);
 	      SongStore.__emitChange();
@@ -35093,8 +35106,13 @@
 	function setSong(song) {
 	  _songs[song.id] = song;
 	}
+	
 	function setLatest(song) {
 	  _latest = song;
+	}
+	
+	function clearLatest() {
+	  _latest = null;
 	}
 	
 	module.exports = SongStore;

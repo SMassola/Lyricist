@@ -41,10 +41,17 @@ const SongActions = {
   createSong(song) {
     SongApiUtil.createSong(
       song,
-      SongActions.receiveSong,
+      SongActions.addSong,
       ErrorActions.setErrors.bind(null, 'song_form')
     );
   },
+
+  addSong(song) {
+    AppDispatcher.dispatch({
+      actionType: SongConstants.SONG_ADDED,
+        song: song
+    });
+  }
 };
 
 
