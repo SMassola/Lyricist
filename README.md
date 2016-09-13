@@ -11,6 +11,14 @@
 Lyricist is a full-stack web application that enables users to annotate song lyrics, comment on songs and annotations,
 add songs to the library and search for songs by lyrics or song title.
 
+![gallery]
+[gallery]: ./app/assets/images/Gallery.png
+Lyricist Gallery
+
+![index]
+[index]: ./app/assets/images/Song_Index.png
+Lyricist Song Index
+
 ## Implementation
 To render song annotations and the current user highlight on lyrics, Lyricist utilizes three overlapping lyrics layers - the ghost-lyrics
 layer, the high-lyrics layer, and the annotation-lyrics layer.
@@ -37,9 +45,12 @@ layer, the high-lyrics layer, and the annotation-lyrics layer.
 The ghost-lyrics layer is a transparent layer that lives overtop of both the highlight-lyrics layer and the annotation-lyrics layer.
 It acts as the user selected layer and remains as is even as annotations are added to the database.
 
-The highlight-lyrics layer shows the current user selection, highlighted in yellow.
-
 The annotation-lyrics layer holds all the annotations that have been added to the song lyrics, highlighted in blue.
+
+![annotation]
+[annotation]: ./app/assets/images/Song_Annotation.png
+
+The highlight-lyrics layer shows the current user selection.
 
 ![add_comment]
 [add_comment]: ./app/assets/images/Annotation_Comments.png
@@ -71,6 +82,30 @@ createAnnotations() {
   this.lyricsEls.push(lyrics.slice(flagIdx));
 }
 ```
+
+Upon log in, users are able to contribute to Lyricist.
+
+![modal]
+[modal]: ./app/assets/images/Modal.png
+Sign Up Modal
+
+![log]
+[log]: ./app/assets/images/Log_Prompt.png
+User Log In Prompt
+
+Users can add songs, add annotations to lyrics, add comments to songs or add comments to annotations.
+
+![Annotation_Ex]
+[Annotation_Ex]: ./app/assets/images/Annotation_Ex.png
+Song Annotation
+
+![Annotation_Comment]
+[Annotation_Comment]: ./app/assets/images/Annotation_Comments.png
+Annotation Comment
+
+![form]
+[form]: ./app/assets/images/Song_Form.png
+Song Form
 
 ## Technologies Used
 Lyricist is built using the following technologies
