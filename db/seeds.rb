@@ -7,31 +7,26 @@ Annotation.delete_all
 User.create!(
   username: "Guest",
   password: "Password",
-  email: "Guest"
 )
 
 User.create!(
   username: "Ezalor",
   password: "Password",
-  email: "Ezalor"
 )
 
 User.create!(
   username: "Banehallow",
   password: "Password",
-  email: "Banehallow"
 )
 
 User.create!(
   username: "Rattletrap",
   password: "Password",
-  email: "Rattletrap"
 )
 
 User.create!(
   username: "Rizzrack",
   password: "Password",
-  email: "Rizzrack"
 )
 
 Artist.create!(

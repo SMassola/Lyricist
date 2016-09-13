@@ -27264,11 +27264,11 @@
 	            this.state.signIn ? React.createElement(
 	              'div',
 	              null,
-	              'Login'
+	              'Log In'
 	            ) : React.createElement(
 	              'div',
 	              null,
-	              'Register'
+	              'Sign Up'
 	            ),
 	            React.createElement(
 	              'button',
@@ -27318,28 +27318,30 @@
 	    right: 0,
 	    bottom: 0,
 	    backgroundColor: 'rgba(255, 255, 255, 0.75)',
-	    zIndex: '5'
+	    zIndex: '5',
+	    display: 'flex',
+	    justifyContent: 'center',
+	    alignItems: 'center'
 	  },
 	  content: {
 	    color: 'black',
-	    position: 'absolute',
-	    transform: 'translate(-150px,-250px)',
-	    width: '300px',
-	    height: '500px',
-	    top: '50%',
-	    left: '50%',
-	    backgroundColor: '#2F2F2F',
-	    border: '0.5px solid black',
-	    background: '#fff',
+	    position: 'relative',
+	    transform: 'translate(0px, 0px)',
+	    width: '350px',
+	    height: '350px',
+	    top: '0%',
+	    left: '0%',
+	    backgroundColor: 'white',
+	    border: 'none',
+	    background: 'white',
 	    overflow: 'auto',
 	    WebkitOverflowScrolling: 'touch',
-	    borderRadius: '5px',
+	    borderRadius: 'none',
 	    outline: 'none',
 	    padding: '0px',
 	    opacity: '0',
 	    transition: 'opacity 1s',
-	    display: 'flex',
-	    flexDirection: 'column'
+	    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
 	  }
 	
 	};
@@ -27367,7 +27369,6 @@
 	    return {
 	      username: null,
 	      password: null,
-	      email: null,
 	      errors: []
 	    };
 	  },
@@ -27446,18 +27447,32 @@
 	        React.createElement(
 	          'div',
 	          { className: 'login-form' },
-	          React.createElement('input', {
-	            type: 'text',
-	            placeholder: 'Username',
-	            value: this.state.username || "",
-	            onChange: this._usernameChange,
-	            className: 'login-input' }),
-	          React.createElement('input', {
-	            type: 'password',
-	            placeholder: 'Password',
-	            value: this.state.password || "",
-	            onChange: this._passwordChange,
-	            className: 'login-input' }),
+	          React.createElement(
+	            'div',
+	            { className: 'log-info-box-container' },
+	            React.createElement('img', {
+	              className: 'glyph',
+	              src: 'http://res.cloudinary.com/deeucxgdi/image/upload/v1473769566/username_logo_twekkr.png' }),
+	            React.createElement('input', {
+	              type: 'text',
+	              placeholder: 'Username',
+	              value: this.state.username || "",
+	              onChange: this._usernameChange,
+	              className: 'login-input' })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'log-info-box-container' },
+	            React.createElement('img', {
+	              className: 'glyph',
+	              src: 'http://res.cloudinary.com/deeucxgdi/image/upload/v1473769577/password_logo_smcbak.png' }),
+	            React.createElement('input', {
+	              type: 'password',
+	              placeholder: 'Password',
+	              value: this.state.password || "",
+	              onChange: this._passwordChange,
+	              className: 'login-input' })
+	          ),
 	          React.createElement('input', { onClick: this._handleLogin, className: 'login-button', type: 'submit', value: 'Log In' }),
 	          React.createElement('input', { onClick: this._handleGuest, className: 'login-button', type: 'submit', value: 'Log In As Guest' })
 	        )
@@ -34516,7 +34531,6 @@
 	    return {
 	      username: "",
 	      password: "",
-	      email: "",
 	      errors: []
 	    };
 	  },
@@ -34541,8 +34555,7 @@
 	    ErrorActions.clearErrors();
 	    var formData = {
 	      username: this.state.username,
-	      password: this.state.password,
-	      email: this.state.email
+	      password: this.state.password
 	    };
 	    SessionActions.signUp(formData);
 	  },
@@ -34569,11 +34582,6 @@
 	      password: e.target.value
 	    });
 	  },
-	  _emailChange: function _emailChange(e) {
-	    this.setState({
-	      email: e.target.value
-	    });
-	  },
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -34588,7 +34596,7 @@
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'signup-errors' },
+	          { className: 'login-errors' },
 	          this.state.errors.map(function (error) {
 	            return React.createElement(
 	              'li',
@@ -34600,24 +34608,32 @@
 	        React.createElement(
 	          'div',
 	          { className: 'login-form' },
-	          React.createElement('input', {
-	            type: 'text',
-	            placeholder: 'Username',
-	            value: this.state.username || "",
-	            onChange: this._usernameChange,
-	            className: 'login-input' }),
-	          React.createElement('input', {
-	            type: 'password',
-	            placeholder: 'Password',
-	            value: this.state.password || "",
-	            onChange: this._passwordChange,
-	            className: 'login-input' }),
-	          React.createElement('input', {
-	            type: 'text',
-	            placeholder: 'Email',
-	            value: this.state.email || "",
-	            onChange: this._emailChange,
-	            className: 'login-input' }),
+	          React.createElement(
+	            'div',
+	            { className: 'log-info-box-container' },
+	            React.createElement('img', {
+	              className: 'glyph',
+	              src: 'http://res.cloudinary.com/deeucxgdi/image/upload/v1473769566/username_logo_twekkr.png' }),
+	            React.createElement('input', {
+	              type: 'text',
+	              placeholder: 'Username',
+	              value: this.state.username || "",
+	              onChange: this._usernameChange,
+	              className: 'login-input' })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'log-info-box-container' },
+	            React.createElement('img', {
+	              className: 'glyph',
+	              src: 'http://res.cloudinary.com/deeucxgdi/image/upload/v1473769577/password_logo_smcbak.png' }),
+	            React.createElement('input', {
+	              type: 'password',
+	              placeholder: 'Password',
+	              value: this.state.password || "",
+	              onChange: this._passwordChange,
+	              className: 'login-input' })
+	          ),
 	          React.createElement('input', { onClick: this._handleSubmit, className: 'login-button', type: 'submit', value: 'Sign Up' }),
 	          React.createElement('input', { onClick: this._handleGuest, className: 'login-button', type: 'submit', value: 'Log In As Guest' })
 	        )

@@ -15,7 +15,6 @@ const LoginForm = React.createClass({
     return {
       username: null,
       password: null,
-			email: null,
       errors: []
     };
   },
@@ -87,18 +86,30 @@ const LoginForm = React.createClass({
               { this.state.errors.map(error => { return <li key={error}>{error}</li>;}) }
             </div>
 					<div className="login-form">
-					  <input
-              type="text"
-              placeholder="Username"
-              value={this.state.username || ""}
-              onChange={this._usernameChange}
-              className="login-input" />
-	          <input
-              type="password"
-              placeholder="Password"
-              value={this.state.password || ""}
-              onChange={this._passwordChange}
-              className="login-input" />
+            <div className="log-info-box-container">
+              <img
+                className="glyph"
+                src="http://res.cloudinary.com/deeucxgdi/image/upload/v1473769566/username_logo_twekkr.png">
+              </img>
+    				  <input
+                type="text"
+                placeholder="Username"
+                value={this.state.username || ""}
+                onChange={this._usernameChange}
+                className="login-input" />
+            </div>
+            <div className="log-info-box-container">
+              <img
+                className="glyph"
+                src="http://res.cloudinary.com/deeucxgdi/image/upload/v1473769577/password_logo_smcbak.png">
+              </img>
+  	          <input
+                type="password"
+                placeholder="Password"
+                value={this.state.password || ""}
+                onChange={this._passwordChange}
+                className="login-input" />
+            </div>
             <input onClick={this._handleLogin} className="login-button" type="submit" value="Log In" />
             <input onClick={this._handleGuest} className="login-button" type="submit" value="Log In As Guest" />
 					</div>

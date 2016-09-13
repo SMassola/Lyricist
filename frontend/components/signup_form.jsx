@@ -12,7 +12,6 @@ const SignupForm = React.createClass({
     return {
       username: "",
       password: "",
-      email: "",
       errors: []
     };
   },
@@ -43,7 +42,6 @@ const SignupForm = React.createClass({
 		let formData = {
 			username: this.state.username,
 			password: this.state.password,
-			email: this.state.email
 		};
       SessionActions.signUp(formData);
 	},
@@ -75,39 +73,39 @@ const SignupForm = React.createClass({
     });
   },
 
-  _emailChange(e) {
-    this.setState({
-      email: e.target.value
-    });
-  },
-
 	render() {
   	return (
       <div className="login-form-container">
 				<form className="login-form-box">
 	        <div className="form-text">Please Sign Up</div>
-            <div className='signup-errors'>
+            <div className='login-errors'>
               {this.state.errors.map(error => { return <li key={error}>{error}</li>;}) }
             </div>
 					<div className="login-form">
-					  <input
-              type="text"
-              placeholder="Username"
-              value={this.state.username || ""}
-              onChange={this._usernameChange}
-              className="login-input" />
-	          <input
-              type="password"
-              placeholder="Password"
-              value={this.state.password || ""}
-              onChange={this._passwordChange}
-              className="login-input" />
-	          <input
-              type="text"
-              placeholder="Email"
-              value={this.state.email || ""}
-              onChange={this._emailChange}
-              className="login-input" />
+            <div className="log-info-box-container">
+              <img
+                className="glyph"
+                src="http://res.cloudinary.com/deeucxgdi/image/upload/v1473769566/username_logo_twekkr.png">
+              </img>
+    				  <input
+                type="text"
+                placeholder="Username"
+                value={this.state.username || ""}
+                onChange={this._usernameChange}
+                className="login-input" />
+            </div>
+            <div className="log-info-box-container">
+              <img
+                className="glyph"
+                src="http://res.cloudinary.com/deeucxgdi/image/upload/v1473769577/password_logo_smcbak.png">
+              </img>
+  	          <input
+                type="password"
+                placeholder="Password"
+                value={this.state.password || ""}
+                onChange={this._passwordChange}
+                className="login-input" />
+            </div>
             <input onClick={this._handleSubmit} className="login-button" type="submit" value="Sign Up" />
             <input onClick={this._handleGuest} className="login-button" type="submit" value="Log In As Guest" />
 					</div>
