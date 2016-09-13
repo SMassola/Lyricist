@@ -81,7 +81,7 @@ const AnnotationComments = React.createClass({
           className="submit-annotation-comment"
           type="submit"
           value="Submit"
-          onClick={this._handleSubmit} /> : <LogPrompt action="Comment" />}
+          onClick={this._handleSubmit} /> : <LogPrompt action="comment" />}
       </form>
       <div className="annotation-comments-container">
         {comments.map((comment) => {

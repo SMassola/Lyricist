@@ -216,7 +216,7 @@ const SongShow = React.createClass({
       songId={this.state.song.id}
       userId={SessionStore.currentUser().id}
       startIdx={this.start}
-      endIdx={this.end} /> : <LogPrompt action="Annotate"/>;
+      endIdx={this.end} /> : <LogPrompt action="annotate"/>;
 
     return (
       <div className="showpage">

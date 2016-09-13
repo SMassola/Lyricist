@@ -1,5 +1,6 @@
 const React = require('react');
 const ReactRouter = require('react-router');
+const LogPrompt = require('./log_prompt');
 
 const SongActions = require('../actions/song_actions.js');
 const ArtistActions = require('../actions/artist_actions.js');
@@ -22,18 +23,25 @@ const SongForm = React.createClass({
       albumName: null,
       artist_id: null,
       errors: [],
-      image: false
+      image: false,
+      currentUser: SessionStore.currentUser().id
     };
   },
 
   componentDidMount() {
+    this.sessionListener = SessionStore.addListener(this._handleUser);
     this.songListener = SongStore.addListener(this._handleRedirect);
     this.errorListener = ErrorStore.addListener(this._handleErrors);
   },
 
   componentWillUnmount() {
+    this.sessionListener.remove();
     this.errorListener.remove();
     this.songListener.remove();
+  },
+
+  _handleUser() {
+    this.setState({currentUser: SessionStore.currentUser().id});
   },
 
   _handleRedirect() {
@@ -161,7 +169,9 @@ const SongForm = React.createClass({
                 className="lyrics-textarea"
                 value={this.state.body}>
               </textarea>
-              <input className="submit-to-lyricist" type="submit" value="Add To Lyricist"/>
+              {this.state.currentUser ?
+                <input className="submit-to-lyricist" type="submit" value="Add To Lyricist"/>
+                :  <LogPrompt action="add a song" /> }
             </div>
           </div>
           <div className="song-form-right">

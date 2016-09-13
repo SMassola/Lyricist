@@ -35348,7 +35348,7 @@
 	      songId: this.state.song.id,
 	      userId: SessionStore.currentUser().id,
 	      startIdx: this.start,
-	      endIdx: this.end }) : React.createElement(LogPrompt, { action: 'Annotate' });
+	      endIdx: this.end }) : React.createElement(LogPrompt, { action: 'annotate' });
 	
 	    return React.createElement(
 	      'div',
@@ -35879,7 +35879,7 @@
 	          className: 'submit-annotation-comment',
 	          type: 'submit',
 	          value: 'Submit',
-	          onClick: this._handleSubmit }) : React.createElement(LogPrompt, { action: 'Comment' })
+	          onClick: this._handleSubmit }) : React.createElement(LogPrompt, { action: 'comment' })
 	      ),
 	      React.createElement(
 	        'div',
@@ -36397,7 +36397,7 @@
 	          className: 'submit-song-comment',
 	          type: 'submit',
 	          onClick: this._handleSubmit,
-	          value: 'Submit' }) : React.createElement(LogPrompt, { action: 'Comment' })
+	          value: 'Submit' }) : React.createElement(LogPrompt, { action: 'comment' })
 	      ),
 	      React.createElement(
 	        'div',
@@ -36556,6 +36556,7 @@
 	
 	var React = __webpack_require__(1);
 	var ReactRouter = __webpack_require__(188);
+	var LogPrompt = __webpack_require__(313);
 	
 	var SongActions = __webpack_require__(278);
 	var ArtistActions = __webpack_require__(308);
@@ -36578,16 +36579,22 @@
 	      albumName: null,
 	      artist_id: null,
 	      errors: [],
-	      image: false
+	      image: false,
+	      currentUser: SessionStore.currentUser().id
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
+	    this.sessionListener = SessionStore.addListener(this._handleUser);
 	    this.songListener = SongStore.addListener(this._handleRedirect);
 	    this.errorListener = ErrorStore.addListener(this._handleErrors);
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
+	    this.sessionListener.remove();
 	    this.errorListener.remove();
 	    this.songListener.remove();
+	  },
+	  _handleUser: function _handleUser() {
+	    this.setState({ currentUser: SessionStore.currentUser().id });
 	  },
 	  _handleRedirect: function _handleRedirect() {
 	    var song = SongStore.latestAddition();
@@ -36758,7 +36765,7 @@
 	              React.createElement('textarea', { onChange: this._lyricsChange,
 	                className: 'lyrics-textarea',
 	                value: this.state.body }),
-	              React.createElement('input', { className: 'submit-to-lyricist', type: 'submit', value: 'Add To Lyricist' })
+	              this.state.currentUser ? React.createElement('input', { className: 'submit-to-lyricist', type: 'submit', value: 'Add To Lyricist' }) : React.createElement(LogPrompt, { action: 'add a song' })
 	            )
 	          ),
 	          React.createElement(
@@ -36909,7 +36916,7 @@
 	  },
 	  render: function render() {
 	    var style = {};
-	    if (this.props.action === "Annotate") {
+	    if (this.props.action === "annotate") {
 	      var offset = $(".highlighted").offset().top;
 	      style = {
 	        position: "absolute",

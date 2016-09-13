@@ -82,7 +82,7 @@ const SongComments = React.createClass({
           className="submit-song-comment"
           type="submit"
           onClick={this._handleSubmit}
-          value="Submit" /> : <LogPrompt action="Comment" />}
+          value="Submit" /> : <LogPrompt action="comment" />}
       </form>
       <div className="song-comments-container">
         {comments.map((comment) => {

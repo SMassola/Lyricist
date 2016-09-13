@@ -12,7 +12,7 @@ module.exports = React.createClass({
 
   render() {
     let style = {};
-    if (this.props.action === "Annotate") {
+    if (this.props.action === "annotate") {
       let offset = $(".highlighted").offset().top;
       style = {
         position: "absolute",
