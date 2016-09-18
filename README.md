@@ -20,8 +20,7 @@ Lyricist Gallery
 Lyricist Song Index
 
 ## Implementation
-To render song annotations and the current user highlight on lyrics, Lyricist utilizes three overlapping lyrics layers - the ghost-lyrics
-layer, the high-lyrics layer, and the annotation-lyrics layer.
+To render song annotations and the current user highlight on lyrics, Lyricist utilizes three overlapping lyrics layers - the ghost-lyrics layer, the highlight-lyrics layer, and the annotation-lyrics layer.
 
 ```javascript
 <pre className="ghost-lyrics"
@@ -51,9 +50,6 @@ The annotation-lyrics layer holds all the annotations that have been added to th
 [annotation]: ./app/assets/images/Song_Annotation.png
 
 The highlight-lyrics layer shows the current user selection.
-
-![add_comment]
-[add_comment]: ./app/assets/images/Annotation_Comments.png
 
 ```javascript
 createAnnotations() {
