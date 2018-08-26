@@ -8,12 +8,17 @@
 
 html {
   background-color: white;
-  overflow-y: scroll;
 }
 
 html, body, #root {
-  min-height:100vh;
+  min-height: 100vh;
   font-family: "Roboto";
+}
+
+#root {
+  [data-reactroot] {
+    min-height: 100vh;
+  }
 }
 
 textarea {

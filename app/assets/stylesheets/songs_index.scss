@@ -9,6 +9,8 @@
   flex-direction: column;
   align-items: center;
   background: #222;
+  min-height: calc(100vh - 75px);
+  overflow-y: auto;
 }
 
 .song-info-container {
